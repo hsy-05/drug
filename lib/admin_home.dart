@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter1/utils/auth_helper.dart';
 import 'package:flutter/material.dart';
 
+import 'HomePage.dart';
+
 //管理者登入畫面
 class AdminHomePage extends StatelessWidget {
   @override
@@ -10,7 +12,7 @@ class AdminHomePage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Admin Home'),
       ),
-      body: SingleChildScrollView(
+      body: new Container(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -39,12 +41,32 @@ class AdminHomePage extends StatelessWidget {
                 }
               },
             ),
-            RaisedButton(
-              child: Text("Log out"),
-              onPressed: () {
-                AuthHelper.logOut();
-              },
-            )
+
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: RaisedButton(
+                    child: Text("Log out"),
+                    onPressed: () {
+                      AuthHelper.logOut();
+                    },
+                  )
+                ),
+                Expanded(
+                  child: RaisedButton(   //還是錯的!
+                    child: Text("Back App"),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => HomePage(),
+                          ));
+                    },
+                  )
+                )
+              ],
+            ),
+
           ],
         ),
       ),

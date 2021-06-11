@@ -1,14 +1,14 @@
 //當按下Home按鈕時，出現的介面
 import 'package:flutter/material.dart';
-import 'helpers/Constants.dart';
+import '../helpers/Constants.dart';
 
-class PagesHome extends StatefulWidget {
-  PagesHome({Key key}) : super(key: key);
+class Profile extends StatefulWidget {
+  Profile({Key key}) : super(key: key);
 
-  _PagesHomeState createState() => _PagesHomeState();
-  }
+  _ProfileState createState() => _ProfileState();
+}
 
-class _PagesHomeState extends State<PagesHome> {
+class _ProfileState extends State<Profile> {
   TextEditingController _pwdController = new TextEditingController();
   TextEditingController _repwdController = new TextEditingController();
   TextEditingController _pnController = new TextEditingController();
@@ -33,17 +33,11 @@ class _PagesHomeState extends State<PagesHome> {
             ),
             Row(
               children: <Widget>[
-                Hero(
-                  tag: "main-logo",
-                  child: SizedBox(
-                    height: 80,
-                    child: appLogo,
-                  ),
-                ),
+
                 Padding(
                   padding: EdgeInsets.only(top: 20.0,left: 50.0),
                   child: Text(
-                    "下次吃藥時間",
+                    "下次吃藥時間4",
                     style: TextStyle(fontSize: 28,letterSpacing: 8.0),
                   ),
                 ),
@@ -56,9 +50,7 @@ class _PagesHomeState extends State<PagesHome> {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Padding(
-                        
-                      ),
+
                     ],
                   ),
                 ],

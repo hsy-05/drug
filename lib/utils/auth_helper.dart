@@ -1,26 +1,53 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';  //
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:device_info/device_info.dart';
 import 'package:package_info/package_info.dart';
 
 class AuthHelper {
   static FirebaseAuth _auth = FirebaseAuth.instance;
+  //
+  // // create user obj based on firebase user
+  // static classUser _userFromFirebaseUser(User user) {
+  //   return user != null ? classUser(uid: user.uid) : null;
+  // }
+  // //
+  // // // auth change user stream
+  // static Stream<classUser> get user {
+  //   return _auth
+  //       .authStateChanges()
+  //       .map((User user) => _userFromFirebaseUser(user));
+  // }
 
-  static signInWithEmail({String email, String password}) async {
-    final res = await _auth.signInWithEmailAndPassword(
-        email: email, password: password);
-    final User user = res.user;
-    return user;
+  ///////////////
+
+  static signInWithEmail({String name, String email, String password}) async {
+    try {
+      final res = await _auth.signInWithEmailAndPassword(
+          email: email, password: password);
+      final User user = res.user;
+      await user.reload();
+      return user;
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
   }
 
-  static signupWithEmail({String email, String password}) async {
-    final res = await _auth.createUserWithEmailAndPassword(
-        email: email, password: password);
-    final User user = res.user;
-    return user;
+  static signupWithEmail({String name, String email, String password}) async {
+    try {
+      final res = await _auth.createUserWithEmailAndPassword(
+          email: email, password: password);
+      final User user = res.user;
+      await FirebaseAuth.instance.currentUser.updateProfile(displayName: name);
+      await user.reload();
+      return user;
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
   }
 
   static signInWithGoogle() async {
@@ -37,6 +64,7 @@ class AuthHelper {
     GoogleSignIn().signOut();
     return _auth.signOut();
   }
+
 }
 
 class UserHelper {
@@ -53,12 +81,14 @@ class UserHelper {
       "created_at": user.metadata.creationTime.millisecondsSinceEpoch,
       "role": "user",
       "build_number": buildNumber,
+      "uid": user.uid,
     };
     final userRef = _db.collection("users").doc(user.uid);
     if ((await userRef.get()).exists) {
       await userRef.update({
         "last_login": user.metadata.lastSignInTime.millisecondsSinceEpoch,
         "build_number": buildNumber,
+        "name": user.displayName, ////
       });
     } else {
       await _db.collection("users").doc(user.uid).set(userData);
@@ -90,7 +120,10 @@ class UserHelper {
         "platform": 'ios',
       };
     }
-    final nowMS = DateTime.now().toUtc().millisecondsSinceEpoch;
+    final nowMS = DateTime
+        .now()
+        .toUtc()
+        .millisecondsSinceEpoch;
     final deviceRef = _db
         .collection("users")
         .doc(user.uid)

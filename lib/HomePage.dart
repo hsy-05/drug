@@ -3,9 +3,14 @@ import 'package:flutter/material.dart';
 import 'helpers/placeholder_widget.dart';
 import 'helpers/Constants.dart';
 import 'package:flutter1/utils/auth_helper.dart';
-import 'PagesHome.dart';
+import 'authHome/home.dart';      //換頁網址
+import 'authHome/set_time.dart';  //換頁網址
+import 'authHome/profile.dart';  //換頁網址
+import 'authHome/record.dart';  //換頁網址
 
 class HomePage extends StatefulWidget {
+  HomePage({Key key}) : super(key: key);
+
   @override
   _HomePageState createState() {
     return _HomePageState();
@@ -14,34 +19,17 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
-  final List<Widget> _children = [
-    PlaceholderWidget(Colors.white),
-    PlaceholderWidget(Colors.deepOrange),
-    PlaceholderWidget(Colors.green),
-    PlaceholderWidget(Colors.lightBlueAccent)
-  ];
+  var _pageController = new PageController(initialPage: 0);
+
+  var pages = <Widget>[
+    Home(),      //main要新增
+    SetTime(),  //main要新增
+    Record(), //main要新增
+    Profile(),  //main要新增
+   ];
 
   @override
   Widget build(BuildContext context) {
-    final PageHomeButton = Padding(
-      padding: EdgeInsets.symmetric(vertical: 16.0),
-      child: SizedBox(
-        width: MediaQuery.of(context).size.width,
-        child: RaisedButton(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(26),
-          ),
-          onPressed: () {
-            Navigator.pushNamed(context, '/pageshome');
-          },
-          padding: EdgeInsets.all(12),
-          elevation: 3,
-          color: Colors.white,
-          child: Text(homePageButtonText),
-        ),
-      ),
-    );
-
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -58,21 +46,29 @@ class _HomePageState extends State<HomePage> {
         title: Text('智慧藥盒', style: TextStyle(fontSize: 25, color: Colors.black)),
         centerTitle: true,
       ),
-      body: _children[_currentIndex], // new
+
+      // body: _children[_currentIndex], // new
+      body: new PageView.builder(
+        onPageChanged: _pageChange,
+        controller: _pageController,
+        itemCount: pages.length,
+        itemBuilder: (BuildContext context, int index) {
+          return pages.elementAt(_currentIndex);
+        },
+      ),
       bottomNavigationBar: BottomNavigationBar(
-        onTap: onTabTapped, // new
-        currentIndex: _currentIndex, // new
-        type: BottomNavigationBarType.fixed,
+          currentIndex: _currentIndex,
+          type: BottomNavigationBarType.fixed,
+          onTap: _onItemTapped, //click event
         items: [
           new BottomNavigationBarItem(
             icon: Icon(Icons.home),
             title: Text('Home'),
 
-
           ),
           new BottomNavigationBarItem(
-            icon: Icon(Icons.mail),
-            title: Text('Messages'),
+            icon: Icon(Icons.access_alarms_rounded),
+            title: Text('Set TIme'),
           ),
 
           new BottomNavigationBarItem(
@@ -88,7 +84,13 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-  void onTabTapped(int index) {
+
+  void _onItemTapped(int index) {
+    //bottomNavigationBar and PageView association
+    _pageController.animateToPage(index,duration: const Duration(milliseconds: 300), curve: Curves.ease);
+  }
+
+  void _pageChange(int index) {
     setState(() {
       _currentIndex = index;
     });

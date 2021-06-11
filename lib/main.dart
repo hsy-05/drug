@@ -3,10 +3,8 @@ import 'helpers/Constants.dart';
 import 'LoginPage.dart';
 import 'HomePage.dart';
 import 'RegisterPage.dart';
-import 'PagesHome.dart';
 import 'package:flutter1/utils/auth_helper.dart';
 import 'package:flutter1/admin_home.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -24,10 +22,11 @@ class MyApp extends StatelessWidget {
       loginPageTag: (context) => LoginPage(),
       homePageTag: (context) => HomePage(),
       RegisterPageTag: (context) => RegisterPage(),
-      PagesHomeTag: (context) => PagesHome(),
+
     };
     return MaterialApp(
-      title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
+      title: '智慧藥盒',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -53,9 +52,12 @@ class MainScreen extends StatelessWidget {
                   final user = userDoc.data();
                   if(user['role'] == 'admin') {
                     return AdminHomePage();
-                  }else{
+                  }else if(user['role'] == 'user') {
                     return HomePage();
                   }
+                else{
+                  return LoginPage();
+                }
                 }else{
                   return Material(
                     child: Center(child: CircularProgressIndicator(),),

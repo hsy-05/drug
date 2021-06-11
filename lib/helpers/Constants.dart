@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 const loginPageTag = 'Login Page';
 const homePageTag = 'Home Page';
 const RegisterPageTag = 'Register Page';
-const PagesHomeTag = 'PagesHome Page';
-
 
 final buttonTextStyle = TextStyle(letterSpacing: 28.0);
 
@@ -18,14 +16,17 @@ const pinCodeText = "帳號";
 const pinCodeHintText = "請輸入手機號";
 const loginButtonText = "Login";
 const RegisterButtonText = "Register";
+const LoginWithGoogle = "Login with Google";
+
 const homePageButtonText = "HomePage";
 const pagesHomeButtonText = "PagesHome";
 
-
+String Name = '';
+String Email = '';
+String Password = '';
 
 // Images
-Image appLogo = Image.asset('assets/images/drug_icon.png');
+Image appLogo = Image.asset('assets/images/drug_icon5.png');
 
 // Sizes
-const bigRadius = 66.0;
-const buttonHeight = 24.0;
+const BottomRadius = 26.0;

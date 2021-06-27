@@ -8,9 +8,14 @@ import 'package:flutter1/admin_home.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/services.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  SystemUiOverlayStyle systemUiOverlayStyle = SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+  );
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
   await Firebase.initializeApp();
   runApp(MyApp());
 }
@@ -18,6 +23,7 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
     final routes = <String, WidgetBuilder>{
       loginPageTag: (context) => LoginPage(),
       homePageTag: (context) => HomePage(),
@@ -25,11 +31,11 @@ class MyApp extends StatelessWidget {
 
     };
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
+      debugShowCheckedModeBanner: false,  //右上角debug取消
       title: '智慧藥盒',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      // theme: ThemeData(
+      //   primarySwatch: Colors.blue,
+      // ),
       home: MainScreen(),
     );
 
@@ -39,6 +45,7 @@ class MyApp extends StatelessWidget {
 class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
     return StreamBuilder<User>(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {

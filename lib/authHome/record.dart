@@ -15,7 +15,7 @@ class _RecordState extends State<Record> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text("Hi"),
+        title: new Text("吃藥紀錄"),
       ),
       body: new ListView(
         children:

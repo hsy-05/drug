@@ -33,12 +33,10 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Theme
-            .of(context)
-            .canvasColor,
+        backgroundColor: Color.fromRGBO(255, 190, 72,1.0 ),
         iconTheme: IconThemeData(color: Colors.grey), //change your color here
         leading: IconButton(
-          icon: Icon(Icons.logout),
+          icon: Icon(Icons.logout, color: Colors.black),
           onPressed: () {
             AuthHelper.logOut();
           },
@@ -59,26 +57,27 @@ class _HomePageState extends State<HomePage> {
       bottomNavigationBar: BottomNavigationBar(
           currentIndex: _currentIndex,
           type: BottomNavigationBarType.fixed,
+        fixedColor: Color.fromRGBO(255, 123, 23, 1.0),
           onTap: _onItemTapped, //click event
         items: [
           new BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            title: Text('Home'),
+            title: Text('主頁'),
 
           ),
           new BottomNavigationBarItem(
             icon: Icon(Icons.access_alarms_rounded),
-            title: Text('Set TIme'),
+            title: Text('吃藥時間'),
           ),
 
           new BottomNavigationBarItem(
             icon: Icon(Icons.source_outlined),
-            title: Text('record'),
+            title: Text('吃藥紀錄'),
           ),
 
           new BottomNavigationBarItem(
               icon: Icon(Icons.person),
-              title: Text('Profile')
+              title: Text('會員資料')
           )
         ],
       ),

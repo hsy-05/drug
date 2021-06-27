@@ -24,7 +24,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     final loginButton = Padding(
-      padding: EdgeInsets.symmetric(vertical: 8.0), //上下邊距
+      padding: EdgeInsets.symmetric(vertical: 15.0), //上下邊距
       child: SizedBox(
         width: MediaQuery //MediaQuery.of(context) 來獲取資料
                 .of(context)
@@ -32,7 +32,23 @@ class _LoginPageState extends State<LoginPage> {
             .width,
         child: RaisedButton(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(BottomRadius), //按鈕邊角弧度
+              borderRadius: BorderRadius.circular(BottomRadius)),
+          padding: EdgeInsets.all(0.0),
+          child: Ink(
+            decoration: buttonbg,
+            child: Container(
+              constraints: BoxConstraints(maxWidth: 280.0, minHeight: 50.0),
+              alignment: Alignment.center,
+              child: Text(
+                loginButtonText,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
           ),
           onPressed: () async {
             if (_formKey.currentState.validate()) {
@@ -49,22 +65,36 @@ class _LoginPageState extends State<LoginPage> {
               }
             }
           },
-          padding: EdgeInsets.all(12),
-          elevation: 5,
-          //按鈕陰影
-          color: Colors.white,
-          child: Text(loginButtonText),
         ),
       ),
     );
 
     final RegisterButton = Padding(
-      padding: EdgeInsets.symmetric(vertical: 16.0),
+      padding: EdgeInsets.symmetric(vertical: 15.0), //上下邊距
       child: SizedBox(
-        width: MediaQuery.of(context).size.width,
+        width: MediaQuery //MediaQuery.of(context) 來獲取資料
+                .of(context)
+            .size
+            .width,
         child: RaisedButton(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(BottomRadius),
+              borderRadius: BorderRadius.circular(BottomRadius)),
+          padding: EdgeInsets.all(0.0),
+          child: Ink(
+            decoration: buttonbg,
+            child: Container(
+              constraints: BoxConstraints(maxWidth: 280.0, minHeight: 50.0),
+              alignment: Alignment.center,
+              child: Text(
+                RegisterButtonText,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
           ),
           onPressed: () async {
             Navigator.push(
@@ -73,10 +103,6 @@ class _LoginPageState extends State<LoginPage> {
                   builder: (_) => RegisterPage(),
                 ));
           },
-          padding: EdgeInsets.all(12),
-          elevation: 5,
-          color: Colors.white,
-          child: Text(RegisterButtonText),
         ),
       ),
     );
@@ -153,66 +179,94 @@ class _LoginPageState extends State<LoginPage> {
         setState(() => Password = value);
       },
     );
+    return new SafeArea(
+      top: false,
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: new Container(
+          child: new Column(
+            children: [
+              new Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height / 3.0,
+                decoration: bg,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 80), ////
+                      child: Hero(
+                        tag: "main-logo", //
 
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Theme.of(context).canvasColor, //
-        // iconTheme: IconThemeData(color: Colors.grey), //change your color here
-      ),
-      body: Center(
-        child: ListView(
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Hero(
-                  tag: "main-logo", //
-                  child: SizedBox(
-                    height: 100,
-                    child: appLogo,
-                  ),
+                        child: SizedBox(
+                          height: 125,
+                          child: appLogo,
+                        ),
+                      ),
+                    )
+                  ],
                 ),
-                Padding(
-                  padding: EdgeInsets.only(bottom: 30.0, left: 25.0),
-                  child: Text(
-                    "智慧藥盒",
-                    style: TextStyle(fontSize: 28, letterSpacing: 8.0),
-                  ),
-                ),
-              ],
-            ),
-            Expanded(
-              flex: 1,
-              child: Stack(
-                children: <Widget>[
-                  Column(
-                      mainAxisAlignment: MainAxisAlignment.center, //
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.only(left: 60, right: 60),
-                          child: Form(
-                            key: _formKey,
-                            autovalidate: false, //是否自動校驗輸入內容
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                email,
-                                const SizedBox(height: 26,),
-                                password,
-                                const SizedBox(height: 50,), //文字框和按鈕間的距離
-                                loginButton,
-                                RegisterButton,
-                                LoginGoogleButton
-                              ],
+                // Spacer(),
+                // Align(
+                //   alignment: Alignment.bottomRight,
+                //   child: Padding(
+                //     padding: const EdgeInsets.only(
+                //         bottom: 32,
+                //         right: 32
+                //     ),
+                //     child: Text('Login',
+                //       style: TextStyle(
+                //           color: Colors.white,
+                //           fontSize: 30
+                //       ),
+                //     ),
+                //   ),
+                // ),
+              ),
+              Expanded(
+                flex: 1,
+                child: Stack(
+                  children: <Widget>[
+                    Column(
+                        mainAxisAlignment: MainAxisAlignment.center, //
+
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                top: 20, left: 60, right: 60),
+                            child: Form(
+                              key: _formKey,
+                              autovalidate: false, //是否自動校驗輸入內容
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  email,
+                                  const SizedBox(
+                                    height: 26,
+                                  ),
+                                  password,
+                                  const SizedBox(
+                                    height: 35,
+                                  ),
+                                  //文字框和按鈕間的距離
+                                  // Row(
+                                  //   crossAxisAlignment: CrossAxisAlignment.start,
+                                  //   children: [
+                                  loginButton,
+                                  RegisterButton,
+                                  //   ],
+                                  // ),
+                                  LoginGoogleButton
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      ]),
-                ],
-              ),
-            )
-          ],
+                        ]),
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

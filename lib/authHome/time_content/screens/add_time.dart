@@ -19,23 +19,26 @@ class AddScreen extends StatelessWidget {
   //設定date time 的畫面
   @override
   Widget build(BuildContext context) {
-    return new Row(
-      children: <Widget>[
-        new Expanded(
-          child: new InkWell(
+    return new Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: <Widget>[
+          new InkWell(
             onTap: (() => _showDatePicker(context)),
             child: new Padding(
                 padding: new EdgeInsets.symmetric(vertical: 8.0),
-                child: new Text(new DateFormat('EEEE, MMMM, d').format(date))),
+                child: new Text(
+                    new DateFormat('yyyy - MM - dd').format(date))), //設定畫面的年月日
           ),
-        ),
-        new InkWell(
-          onTap: (() => _showTimePicker(context)),
-          child: new Padding(
-              padding: new EdgeInsets.symmetric(vertical: 8.0),
-              child: new Text('$time')),
-        ),
-      ],
+          new InkWell(
+            onTap: (() => _showTimePicker(context)),
+            child: new Padding(
+                padding: new EdgeInsets.symmetric(vertical: 8.0),
+                child: new Text(time.format(context))), //設定畫面的時間
+          ),
+        ],
+      ),
     );
   }
 
@@ -54,7 +57,7 @@ class AddScreen extends StatelessWidget {
 
   Future _showTimePicker(BuildContext context) async {
     TimeOfDay timeOfDay =
-    await showTimePicker(context: context, initialTime: time);
+        await showTimePicker(context: context, initialTime: time);
 
     if (timeOfDay != null) {
       onChanged(new DateTime(

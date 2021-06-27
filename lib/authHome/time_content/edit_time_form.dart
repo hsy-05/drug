@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter1/authHome/model/time_firebase.dart';
-import 'screens/edit_time.dart';
+import 'package:flutter/material.dart';
+import 'screens/add_time.dart';
 
 class EditItemForm extends StatefulWidget {
 
@@ -18,6 +19,7 @@ class EditItemForm extends StatefulWidget {
 
 class _EditItemFormState extends State<EditItemForm> {
   final _editItemFormKey = GlobalKey<FormState>();
+  DateTime _dateTime = new DateTime.now();
 
   bool _isProcessing = false;
   TextEditingController _titleController;
@@ -46,12 +48,11 @@ class _EditItemFormState extends State<EditItemForm> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: 24.0),
-                Text(
-                  'Title',
-                  style: TextStyle(
-                    fontSize: 22.0,
-                    letterSpacing: 1,
-                    fontWeight: FontWeight.bold,
+                new ListTile(
+                  leading: new Icon(Icons.today, color: Colors.grey[500]),
+                  title: new AddScreen(
+                    dateTime: _dateTime,
+                    onChanged: (dateTime) => setState(() => _dateTime = dateTime),
                   ),
                 ),
                 SizedBox(height: 8.0),

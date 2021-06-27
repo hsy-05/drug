@@ -19,6 +19,7 @@ class TimeListItem extends StatelessWidget {
             itemBuilder: (context, index) {
               var noteInfo = snapshot.data.docs[index].data();
               String docID = snapshot.data.docs[index].id;
+              String drugname = noteInfo['藥名'];
               String time = noteInfo['set_time'];
 
               return Ink(
@@ -39,9 +40,15 @@ class TimeListItem extends StatelessWidget {
                     ),
                   ),
                   title: Text(
+                    drugname ?? "",
+                    maxLines: 10,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  subtitle: Text(
                     time,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.center,
                   ),
                 ),
               );

@@ -41,11 +41,8 @@ class _RegisterPageState extends State<RegisterPage> {
         ),
         labelText: "名稱",
         hintText: "請輸入名稱",
-        contentPadding: EdgeInsets.fromLTRB(
-            20.0, 15.0, 20.0, 15.0),
-        border: OutlineInputBorder(
-            borderRadius:
-            BorderRadius.circular(20.0)),
+        contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
       ),
       validator: (value) => value.isEmpty ? '記得輸入名稱！' : null,
       onChanged: (value) {
@@ -67,11 +64,8 @@ class _RegisterPageState extends State<RegisterPage> {
         ),
         labelText: "信箱帳號",
         hintText: "請輸入帳號",
-        contentPadding: EdgeInsets.fromLTRB(
-            20.0, 15.0, 20.0, 15.0),
-        border: OutlineInputBorder(
-            borderRadius:
-            BorderRadius.circular(20.0)),
+        contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
       ),
       validator: (value) => value.isEmpty ? '記得填寫信箱！' : null,
       onChanged: (value) {
@@ -92,14 +86,13 @@ class _RegisterPageState extends State<RegisterPage> {
             Icons.lock,
             color: Colors.grey,
           ), // icon is 48px widget.
-        ), // icon is 48px widget.
+        ),
+        // icon is 48px widget.
         labelText: "密碼",
         hintText: "請輸入密碼",
-        contentPadding: EdgeInsets.fromLTRB(
-            20.0, 15.0, 20.0, 15.0), //上右下左
-        border: OutlineInputBorder(
-            borderRadius:
-            BorderRadius.circular(20.0)),
+        contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+        //上右下左
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
       ),
       validator: (value) => value.isEmpty ? '記得填寫密碼！' : null,
       onChanged: (value) {
@@ -110,10 +103,8 @@ class _RegisterPageState extends State<RegisterPage> {
     final comfirmPassword = TextFormField(
       controller: _confirmPasswordController,
       decoration: InputDecoration(
-        contentPadding:
-        EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(32.0)),
+        contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
         labelText: "再次輸入密碼",
         hintText: "請再次輸入密碼",
       ),
@@ -124,150 +115,166 @@ class _RegisterPageState extends State<RegisterPage> {
       },
     );
 
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Theme
-            .of(context)
-            .canvasColor,
-        iconTheme: IconThemeData(
-          color: Colors.grey, //更改appBar顏色
-        ),
-      ),
-      body: Center(
-        child: ListView(
-          shrinkWrap: true,
-          children: <Widget>[
-            SizedBox(
-              height: 16,
-            ),
-            Row(
-              children: <Widget>[
-                Hero(
-                  tag: "main-logo",
-                  child: SizedBox(
-                    height: 100,
-                    child: appLogo,
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(bottom: 30.0, left: 25.0),
-                  child: Text(
-                    "用戶註冊",
-                    style: TextStyle(fontSize: 28, letterSpacing: 8.0),
-                  ),
-                ),
-              ],
-            ),
-            Expanded(
-              flex: 1,
-              child: Stack(
-                children: <Widget>[
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(left: 60, right: 60),
-                        child: Form(
-                          key: _formKey,
-                          autovalidate: false, //是否自動校驗輸入內容
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            name,
-                            SizedBox(height: 32,),
-                            email,
-                            SizedBox(height: 32,),
-                            password,
-                            SizedBox(height: 32,),
-                            comfirmPassword,
-                          ],
+    return new SafeArea(
+      top: false,
+      child: Scaffold(
+        // resizeToAvoidBottomInset: false,
+        body: new Container(
+          child: new Column(
+            children:[
+              new Container(
+                width: MediaQuery.of(context).size.width,
+                height:200,
+                decoration: bg,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 80), ////
+                      child: Hero(
+                        tag: "main-logo", //
+
+                        child: SizedBox(
+                          height: 125,
+                          child: appLogo,
                         ),
                       ),
-                      ),
-                      SizedBox(
-                        height: 32,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 60, left: 60),
-                        child: SizedBox(
-                          width: MediaQuery
-                              .of(context)
-                              .size
-                              .width,
-                          height: 50,
-                          child: RaisedButton(
-                            child: Text("提交", style: buttonTextStyle),
-                            elevation: 3,
-                            color: Colors.white,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(32)),
+                    )
+                  ],
+                ),
+              ),
+              Expanded(
+                flex: 1,
+                child: Stack(
+                  children: <Widget>[
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(left: 60, right: 60),
+                          child: Form(
+                            key: _formKey,
+                            autovalidate: false, //是否自動校驗輸入內容
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                name,
+                                SizedBox(
+                                  height: 32,
+                                ),
+                                email,
+                                SizedBox(
+                                  height: 32,
+                                ),
+                                password,
+                                SizedBox(
+                                  height: 32,
+                                ),
+                                comfirmPassword,
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 32,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 60, left: 60),
+                          child: SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            height: 50,
+                            child: RaisedButton(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(BottomRadius)),
+                              padding: EdgeInsets.all(0.0),
+                              child: Ink(
+                                decoration: buttonbg,
+                                child: Container(
+                                  constraints: BoxConstraints(maxWidth: 280.0, minHeight: 50.0),
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    "提交",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
 
-                            onPressed: () async {
-                              if (_formKey.currentState.validate()) {
+                              onPressed: () async {
+                                if (_formKey.currentState.validate()) {
+                                  try {
+                                    final user =
+                                        await AuthHelper.signInWithEmail(
+                                            name: _nameController.text,
+                                            email: _emailController.text,
+                                            password: _passwordController.text);
+                                    if (user != null) {
+                                      print("註冊成功");
+                                    }
+                                  } catch (e) {
+                                    print(e);
+                                  }
+                                }
+
                                 try {
-                                  final user = await AuthHelper.signInWithEmail(
+                                  final user = await AuthHelper.signupWithEmail(
+                                      name: _nameController.text,
                                       email: _emailController.text,
                                       password: _passwordController.text);
+                                  Entry.userid = _emailController.text;
                                   if (user != null) {
-                                    print("註冊成功");
+                                    showDialog<Null>(
+                                      context: context,
+                                      barrierDismissible: false,
+                                      builder: (BuildContext context) {
+                                        return new AlertDialog(
+                                          title: new Text(
+                                            '註冊成功',
+                                            textAlign: TextAlign.center,
+                                          ),
+                                          content: Text(
+                                            '請登入帳號並修改個人訊息',
+                                            textAlign: TextAlign.center,
+                                          ),
+                                          actions: <Widget>[
+                                            FlatButton(
+                                              child: Text('確定'),
+                                              onPressed: () async {
+                                                //
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          HomePage(), //
+                                                    ));
+                                              },
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    ).then((val) {
+                                      print(val);
+                                    });
                                   }
+                                  ;
                                 } catch (e) {
                                   print(e);
                                 }
-                              }
-
-                              try {
-                                final user = await AuthHelper.signupWithEmail(
-                                    name: _nameController.text,
-                                    email: _emailController.text,
-                                    password: _passwordController.text);
-                                Entry.userid = _emailController.text;
-                                if (user != null) {
-                                  showDialog<Null>(
-                                    context: context,
-                                    barrierDismissible: false,
-                                    builder: (BuildContext context) {
-                                      return new AlertDialog(
-                                        title: new Text(
-                                          '註冊成功',
-                                          textAlign: TextAlign.center,
-                                        ),
-                                        content: Text(
-                                          '請登入帳號並修改個人訊息',
-                                          textAlign: TextAlign.center,
-                                        ),
-                                        actions: <Widget>[
-                                          FlatButton(
-                                            child: Text('確定'),
-                                            onPressed: () async {      //
-                                              Navigator.push(
-                                                  context,
-                                                  new MaterialPageRoute(
-                                                    builder: (context) =>HomePage(), //
-                                                  ));
-                                            },
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  ).then((val) {
-                                    print(val);
-                                  });
-                                };
-                              } catch (e) {
-                                print(e);
-                              }
-                            },
+                              },
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            )
-          ],
+                      ],
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

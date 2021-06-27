@@ -1,7 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter1/utils/auth_helper.dart';
-import 'package:firebase_auth/firebase_auth.dart';  //
-import 'package:flutter1/authHome/model/user.dart';
 
   class Times {
 
@@ -18,11 +15,13 @@ final CollectionReference timeCollection = FirebaseFirestore.instance.collection
 
     static Future<void> addItem({
       String dateTime,
+      String drugText,
     }) async {
       DocumentReference documentReferencer =
       timeCollection.doc(userid).collection('items').doc();
 
       Map<String, dynamic> data = <String, dynamic>{
+        "藥名": drugText,
         'set_time': dateTime,
       };
 
@@ -35,12 +34,14 @@ final CollectionReference timeCollection = FirebaseFirestore.instance.collection
 ////
     static Future<void> updateItem({
       String dateTime,
+      String drugText,
       String docId,
     }) async {
       DocumentReference documentReferencer =
       timeCollection.doc(userid).collection('items').doc(docId);
 
       Map<String, dynamic> data = <String, dynamic>{
+        "藥名": drugText,
         'set_time': dateTime,
       };
 
@@ -52,8 +53,8 @@ final CollectionReference timeCollection = FirebaseFirestore.instance.collection
 
 ////
     static Stream<QuerySnapshot> readItems() {
-      CollectionReference timeItemCollection =
-      timeCollection.doc(userid).collection('items');
+      Query timeItemCollection =
+      timeCollection.doc(userid).collection('items').orderBy('set_time', descending: true); //排序
 
       return timeItemCollection.snapshots();
     }

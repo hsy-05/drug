@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter1/authHome/time_content/list_item.dart';
 import 'package:flutter1/authHome/time_content/add_time_form.dart';
-import 'model/time_firebase.dart';
 
 class SetTime extends StatefulWidget {
   SetTime({Key key}) : super(key: key);
@@ -30,6 +29,7 @@ class _SetState extends State<SetTime> {
         body: SafeArea(     //每個List的顯示
           child: Padding(
             padding: const EdgeInsets.only(
+              top: 20.0,
               left: 16.0,
               right: 16.0,
               bottom: 20.0,

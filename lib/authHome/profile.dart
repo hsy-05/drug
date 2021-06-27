@@ -37,7 +37,7 @@ class _ProfileState extends State<Profile> {
                 Padding(
                   padding: EdgeInsets.only(top: 20.0,left: 50.0),
                   child: Text(
-                    "下次吃藥時間4",
+                    "會員資料顯示",
                     style: TextStyle(fontSize: 28,letterSpacing: 8.0),
                   ),
                 ),

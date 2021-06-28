@@ -14,9 +14,6 @@ class _RecordState extends State<Record> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: new AppBar(
-        title: new Text("吃藥紀錄"),
-      ),
       body: new ListView(
         children:
         strings.map((String string) {

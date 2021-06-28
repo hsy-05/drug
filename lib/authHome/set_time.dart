@@ -12,12 +12,10 @@ class SetTime extends StatefulWidget {
 class _SetState extends State<SetTime> {
   Widget build(BuildContext context) {
       return Scaffold(
-        appBar: AppBar(
-          title: Text('吃藥時間'),
-        ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
+          backgroundColor: Color.fromRGBO(126, 153, 120, 1.0),
           onPressed: () {
             Navigator.of(context).push(
               MaterialPageRoute(

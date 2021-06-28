@@ -33,9 +33,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,  //右上角debug取消
       title: '智慧藥盒',
-      // theme: ThemeData(
-      //   primarySwatch: Colors.blue,
-      // ),
+      theme: new ThemeData(
+        scaffoldBackgroundColor: Color.fromRGBO(241, 237, 225, 1.0),
+      ),
       home: MainScreen(),
     );
 

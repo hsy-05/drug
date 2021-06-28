@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'authHome/model/time_firebase.dart';
 import 'helpers/Constants.dart';
@@ -24,7 +25,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     final loginButton = Padding(
-      padding: EdgeInsets.symmetric(vertical: 15.0), //上下邊距
+      padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 35.0), //上下邊距
       child: SizedBox(
         width: MediaQuery //MediaQuery.of(context) 來獲取資料
                 .of(context)
@@ -70,20 +71,18 @@ class _LoginPageState extends State<LoginPage> {
     );
 
     final RegisterButton = Padding(
-      padding: EdgeInsets.symmetric(vertical: 15.0), //上下邊距
+      padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0), //上下邊距
       child: SizedBox(
         width: MediaQuery //MediaQuery.of(context) 來獲取資料
                 .of(context)
             .size
             .width,
-        child: RaisedButton(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(BottomRadius)),
+        child: CupertinoButton(
           padding: EdgeInsets.all(0.0),
           child: Ink(
-            decoration: buttonbg,
+            // decoration: buttonbg,
             child: Container(
-              constraints: BoxConstraints(maxWidth: 280.0, minHeight: 50.0),
+              constraints: BoxConstraints(maxWidth: 180.0, minHeight: 50.0),
               alignment: Alignment.center,
               child: Text(
                 RegisterButtonText,
@@ -108,13 +107,10 @@ class _LoginPageState extends State<LoginPage> {
     );
 
     final LoginGoogleButton = Padding(
-      padding: EdgeInsets.symmetric(vertical: 16.0),
+      padding: EdgeInsets.symmetric(vertical: 36.0),
       child: SizedBox(
         width: MediaQuery.of(context).size.width,
-        child: RaisedButton(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(BottomRadius),
-          ),
+        child: CupertinoButton(
           onPressed: () async {
             try {
               await AuthHelper.signInWithGoogle();
@@ -122,10 +118,9 @@ class _LoginPageState extends State<LoginPage> {
               print(e);
             }
           },
-          padding: EdgeInsets.all(12),
-          elevation: 5,
-          color: Colors.white,
-          child: Text(LoginWithGoogle),
+          padding: EdgeInsets.all(0.0),
+          child: Text(LoginWithGoogle,style: TextStyle(color: Colors.black,),
+          ),
         ),
       ),
     );
@@ -189,82 +184,54 @@ class _LoginPageState extends State<LoginPage> {
               new Container(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height / 3.0,
-                decoration: bg,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 80), ////
+                      // padding: const EdgeInsets.only(top: 80), ////
                       child: Hero(
                         tag: "main-logo", //
-
                         child: SizedBox(
-                          height: 125,
+                          width: MediaQuery.of(context).size.width,
                           child: appLogo,
                         ),
                       ),
-                    )
-                  ],
-                ),
-                // Spacer(),
-                // Align(
-                //   alignment: Alignment.bottomRight,
-                //   child: Padding(
-                //     padding: const EdgeInsets.only(
-                //         bottom: 32,
-                //         right: 32
-                //     ),
-                //     child: Text('Login',
-                //       style: TextStyle(
-                //           color: Colors.white,
-                //           fontSize: 30
-                //       ),
-                //     ),
-                //   ),
-                // ),
-              ),
-              Expanded(
-                flex: 1,
-                child: Stack(
-                  children: <Widget>[
-                    Column(
-                        mainAxisAlignment: MainAxisAlignment.center, //
 
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                top: 20, left: 60, right: 60),
-                            child: Form(
-                              key: _formKey,
-                              autovalidate: false, //是否自動校驗輸入內容
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  email,
-                                  const SizedBox(
-                                    height: 26,
-                                  ),
-                                  password,
-                                  const SizedBox(
-                                    height: 35,
-                                  ),
-                                  //文字框和按鈕間的距離
-                                  // Row(
-                                  //   crossAxisAlignment: CrossAxisAlignment.start,
-                                  //   children: [
-                                  loginButton,
-                                  RegisterButton,
-                                  //   ],
-                                  // ),
-                                  LoginGoogleButton
-                                ],
-                              ),
+              ),
+
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center, //
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              top: 70, left: 60, right: 60),
+                          child: Form(
+                            key: _formKey,
+                            autovalidate: false, //是否自動校驗輸入內容
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                email,
+                                const SizedBox(
+                                  height: 26,
+                                ),
+                                password,
+                                const SizedBox(
+                                  height: 35,
+                                ),
+                                loginButton,
+                              ],
                             ),
                           ),
-                        ]),
-                  ],
-                ),
-              )
+                        ),
+                      ],
+                    ),
+
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Expanded(child:RegisterButton ,),
+                        Expanded(child: LoginGoogleButton),
+                      ],
+                    ),
+
             ],
           ),
         ),

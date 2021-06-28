@@ -17,13 +17,6 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Theme.of(context).canvasColor,
-        iconTheme: IconThemeData(
-          color: Colors.grey, //change your color here
-        ),
-      ),
       body: Center(
         child: ListView(
           shrinkWrap: true,

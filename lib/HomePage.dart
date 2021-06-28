@@ -20,6 +20,13 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
   var _pageController = new PageController(initialPage: 0);
+  String _title;
+
+  @override
+  initState(){
+    _title = '智慧藥盒';
+  }
+
 
   var pages = <Widget>[
     Home(),      //main要新增
@@ -33,7 +40,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Color.fromRGBO(255, 190, 72,1.0 ),
+        backgroundColor: Color.fromRGBO(126, 153, 120, 1.0),
         iconTheme: IconThemeData(color: Colors.grey), //change your color here
         leading: IconButton(
           icon: Icon(Icons.logout, color: Colors.black),
@@ -41,11 +48,12 @@ class _HomePageState extends State<HomePage> {
             AuthHelper.logOut();
           },
         ),
-        title: Text('智慧藥盒', style: TextStyle(fontSize: 25, color: Colors.black)),
+
+        title: Text(_title, style: TextStyle(fontSize: 25, color: Colors.black)),
         centerTitle: true,
       ),
 
-      // body: _children[_currentIndex], // new
+      // body: pages[_currentIndex], // new
       body: new PageView.builder(
         onPageChanged: _pageChange,
         controller: _pageController,
@@ -57,7 +65,7 @@ class _HomePageState extends State<HomePage> {
       bottomNavigationBar: BottomNavigationBar(
           currentIndex: _currentIndex,
           type: BottomNavigationBarType.fixed,
-        fixedColor: Color.fromRGBO(255, 123, 23, 1.0),
+        fixedColor: Color.fromRGBO(126, 153, 120, 1.0),
           onTap: _onItemTapped, //click event
         items: [
           new BottomNavigationBarItem(
@@ -77,7 +85,7 @@ class _HomePageState extends State<HomePage> {
 
           new BottomNavigationBarItem(
               icon: Icon(Icons.person),
-              title: Text('會員資料')
+              title: Text('會員資料'),
           )
         ],
       ),
@@ -92,6 +100,16 @@ class _HomePageState extends State<HomePage> {
   void _pageChange(int index) {
     setState(() {
       _currentIndex = index;
+      switch(index) {
+        case 0: { _title = '智慧藥盒'; }
+        break;
+        case 1: { _title = '吃藥時間'; }
+        break;
+        case 2: { _title = '吃藥紀錄'; }
+        break;
+        case 3: { _title = '會員資料'; }
+        break;
+      }
     });
   }
 }

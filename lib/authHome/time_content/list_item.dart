@@ -11,7 +11,7 @@ class TimeListItem extends StatelessWidget {
       stream: Entry.readItems(),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          return Text('Something went wrong');  //若連不上firestore會顯示
+          return Text('Something went wrong'); //若連不上firestore會顯示
         } else if (snapshot.hasData || snapshot.data != null) {
           return ListView.separated(
             separatorBuilder: (context, index) => SizedBox(height: 16.0),
@@ -23,32 +23,42 @@ class TimeListItem extends StatelessWidget {
               String time = noteInfo['set_time'];
 
               return Ink(
-                decoration: BoxDecoration(   //list的眶
-                  color: Colors.grey.withOpacity(0.1),
+                decoration: BoxDecoration(
+                  //list的眶
+                  color: Colors.white,
                   borderRadius: BorderRadius.circular(8.0),
                 ),
-                child: ListTile(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                  onTap: () => Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => EditScreen(
-                        currentTitle: time,
-                        documentId: docID,
+                child: SizedBox(
+                  height: 100,
+                  child: ListTile(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    onTap: () => Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => EditScreen(
+                          currentTitle: time,
+                          documentId: docID,
+                        ),
                       ),
                     ),
-                  ),
-                  title: Text(
-                    drugname ?? "",
-                    maxLines: 10,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  subtitle: Text(
-                    time,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.center,
+                    title: Text(
+                      drugname ?? "",
+                      style: TextStyle(
+                        fontSize: 24,
+                      ),
+                    ),
+                    subtitle: Padding(
+                      padding: const EdgeInsets.only(top: 20),
+                      child: Text(
+                        time,
+                        style: TextStyle(
+                          color: Colors.black,
+                        ),
+                        // overflow: TextOverflow.ellipsis,
+                        // textAlign: TextAlign.right,
+                      ),
+                    ),
                   ),
                 ),
               );
@@ -57,10 +67,9 @@ class TimeListItem extends StatelessWidget {
         }
 
         return Center(
-          child: CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
-          )
-        );
+            child: CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+        ));
       },
     );
   }

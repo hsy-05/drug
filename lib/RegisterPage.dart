@@ -125,23 +125,16 @@ class _RegisterPageState extends State<RegisterPage> {
               new Container(
                 width: MediaQuery.of(context).size.width,
                 height:200,
-                decoration: bg,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 80), ////
+                // decoration: bg,
+                      // padding: const EdgeInsets.only(top: 80), ////
                       child: Hero(
                         tag: "main-logo", //
 
                         child: SizedBox(
-                          height: 125,
+                          width: MediaQuery.of(context).size.width,
                           child: appLogo,
                         ),
                       ),
-                    )
-                  ],
-                ),
               ),
               Expanded(
                 flex: 1,

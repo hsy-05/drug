@@ -44,9 +44,9 @@ class _LoginPageState extends State<LoginPage> {
                 loginButtonText,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Colors.black,
+                  color: Colors.white,
                   fontSize: 24,
-                  fontWeight: FontWeight.bold,
+                  // fontWeight: FontWeight.bold,
                 ),
               ),
             ),

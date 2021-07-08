@@ -1,7 +1,5 @@
 //登入後Home顯示的介面
 import 'package:flutter/material.dart';
-import 'helpers/placeholder_widget.dart';
-import 'helpers/Constants.dart';
 import 'package:flutter1/utils/auth_helper.dart';
 import 'authHome/home.dart';      //換頁網址
 import 'authHome/set_time.dart';  //換頁網址
@@ -40,7 +38,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Color.fromRGBO(126, 153, 120, 1.0),
+        backgroundColor:Color.fromRGBO(210, 180, 140, 1.0),
         iconTheme: IconThemeData(color: Colors.grey), //change your color here
         leading: IconButton(
           icon: Icon(Icons.logout, color: Colors.black),
@@ -49,7 +47,7 @@ class _HomePageState extends State<HomePage> {
           },
         ),
 
-        title: Text(_title, style: TextStyle(fontSize: 25, color: Colors.black)),
+        title: Text(_title, style: TextStyle(fontSize: 25, color: Colors.white)),
         centerTitle: true,
       ),
 
@@ -65,7 +63,7 @@ class _HomePageState extends State<HomePage> {
       bottomNavigationBar: BottomNavigationBar(
           currentIndex: _currentIndex,
           type: BottomNavigationBarType.fixed,
-        fixedColor: Color.fromRGBO(126, 153, 120, 1.0),
+        fixedColor: Color.fromRGBO(204, 119, 34, 1.0),
           onTap: _onItemTapped, //click event
         items: [
           new BottomNavigationBarItem(

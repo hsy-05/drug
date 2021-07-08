@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'authHome/model/time_firebase.dart';
+// import 'authHome/model/time_firebase.dart';
 import 'helpers/Constants.dart';
 import 'package:flutter1/utils/auth_helper.dart';
 import 'RegisterPage.dart';
@@ -60,7 +60,7 @@ class _LoginPageState extends State<LoginPage> {
                 if (user != null) {
                   print("登入成功");
                 }
-                Entry.userid = _emailController.text;
+                // Entry.userid = _emailController.text;
               } catch (e) {
                 print(e);
               }
@@ -80,7 +80,6 @@ class _LoginPageState extends State<LoginPage> {
         child: CupertinoButton(
           padding: EdgeInsets.all(0.0),
           child: Ink(
-            // decoration: buttonbg,
             child: Container(
               constraints: BoxConstraints(maxWidth: 180.0, minHeight: 50.0),
               alignment: Alignment.center,
@@ -88,9 +87,8 @@ class _LoginPageState extends State<LoginPage> {
                 RegisterButtonText,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
+                  color: Colors.black54,
+                  fontSize: 18,
                 ),
               ),
             ),
@@ -119,7 +117,7 @@ class _LoginPageState extends State<LoginPage> {
             }
           },
           padding: EdgeInsets.all(0.0),
-          child: Text(LoginWithGoogle,style: TextStyle(color: Colors.black,),
+          child: Text(LoginWithGoogle,style: TextStyle(color: Colors.black54, ),
           ),
         ),
       ),
@@ -143,9 +141,9 @@ class _LoginPageState extends State<LoginPage> {
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
       ),
       validator: (value) => value.isEmpty ? '信箱不可為空' : null,
-      onChanged: (value) {
-        setState(() => Email = value);
-      },
+      // onChanged: (value) {
+      //   setState(() => Email = value);
+      // },
     );
 
     final password = TextFormField(
@@ -170,9 +168,9 @@ class _LoginPageState extends State<LoginPage> {
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
       ),
       validator: (value) => value.isEmpty ? '密碼不可為空' : null,
-      onChanged: (value) {
-        setState(() => Password = value);
-      },
+      // onChanged: (value) {
+      //   setState(() => Password = value);
+      // },
     );
     return new SafeArea(
       top: false,

@@ -1,16 +1,29 @@
-// class classUser {
+// import 'package:cloud_firestore/cloud_firestore.dart';
 //
-//   final String uid;
+// class UserInformation {
+//   String documentID;
+//   String email;
+//   String name;
+//   String password;
 //
-//   classUser({ this.uid });
+//   bool isAdmin;
 //
-// }
+//   UserInformation({
+//     this.documentID,
+//     this.email,
+//     this.isAdmin,
+//     this.name,
+//     this.password,
+//   });
 //
-// class UserData {
+//   factory UserInformation.fromFirestore(DocumentSnapshot doc) {
+//     Map<String, dynamic> Function() data = doc.data;
 //
-//   final String uid;
-//   final DateTime dateTime;
-//
-//   UserData({ this.uid, this.dateTime });
-//
+//     return UserInformation(
+//       documentID: doc.id,
+//       email: data()['email'] ?? '',
+//       name: data()['name'] ?? '',
+//       isAdmin: data()['isAdmin'] ?? false,
+//     );
+//   }
 // }

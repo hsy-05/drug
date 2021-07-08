@@ -2,26 +2,24 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';  //
+import 'package:flutter1/authHome/model/time_firebase.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:device_info/device_info.dart';
 import 'package:package_info/package_info.dart';
 
-class AuthHelper {
+abstract class AuthHelper {
   static FirebaseAuth _auth = FirebaseAuth.instance;
-  //
-  // // create user obj based on firebase user
-  // static classUser _userFromFirebaseUser(User user) {
-  //   return user != null ? classUser(uid: user.uid) : null;
-  // }
-  // //
-  // // // auth change user stream
-  // static Stream<classUser> get user {
-  //   return _auth
-  //       .authStateChanges()
-  //       .map((User user) => _userFromFirebaseUser(user));
-  // }
 
-  ///////////////
+  @override
+  static changePassword(String newPassword) async {
+    User user = await FirebaseAuth.instance.currentUser;
+    user.updatePassword(newPassword).then((_) {
+      print("Succesfull changed password");
+    }).catchError((error) {
+      print("Password can't be changed" + error.toString());
+    });
+    return null;
+  }
 
   static signInWithEmail({String name, String email, String password}) async {
     try {
@@ -30,6 +28,7 @@ class AuthHelper {
       final User user = res.user;
       await user.reload();
       return user;
+
     } catch (e) {
       print(e.toString());
       return null;
@@ -83,6 +82,7 @@ class UserHelper {
       "build_number": buildNumber,
       "uid": user.uid,
     };
+    Entry.userid = user.uid;
     final userRef = _db.collection("users").doc(user.uid);
     if ((await userRef.get()).exists) {
       await userRef.update({
@@ -144,4 +144,9 @@ class UserHelper {
       });
     }
   }
+}
+abstract class BaseAuth {
+
+  Future<void> changePassword(String password);
+
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'HomePage.dart';
-import 'authHome/model/time_firebase.dart';
+// import 'authHome/model/time_firebase.dart';
 import 'helpers/Constants.dart';
 import 'package:flutter1/utils/auth_helper.dart';
 
@@ -45,9 +45,9 @@ class _RegisterPageState extends State<RegisterPage> {
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
       ),
       validator: (value) => value.isEmpty ? '記得輸入名稱！' : null,
-      onChanged: (value) {
-        setState(() => Name = value);
-      },
+      // onChanged: (value) {
+      //   setState(() => Name = value);
+      // },
     );
 
     final email = TextFormField(
@@ -68,9 +68,9 @@ class _RegisterPageState extends State<RegisterPage> {
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
       ),
       validator: (value) => value.isEmpty ? '記得填寫信箱！' : null,
-      onChanged: (value) {
-        setState(() => Email = value);
-      },
+      // onChanged: (value) {
+      //   setState(() => Email = value);
+      // },
     );
 
     final password = TextFormField(
@@ -94,24 +94,30 @@ class _RegisterPageState extends State<RegisterPage> {
         //上右下左
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
       ),
-      validator: (value) => value.isEmpty ? '記得填寫密碼！' : null,
-      onChanged: (value) {
-        setState(() => Password = value);
-      },
+      validator: (value) => value.length > 6 ? '記得填寫密碼！' : null,
     );
 
     final comfirmPassword = TextFormField(
       controller: _confirmPasswordController,
       decoration: InputDecoration(
         contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
         labelText: "再次輸入密碼",
         hintText: "請再次輸入密碼",
       ),
       obscureText: true,
-      validator: (value) => value.isEmpty ? '請再填寫一次密碼！' : null,
-      onChanged: (value) {
-        setState(() => Password = value);
+      // validator: (value) => value.isEmpty ? '請再填寫一次密碼！' : null,
+
+      validator: (String value) {
+        if (value.isEmpty) {
+          return '請填寫再次密碼！';
+        }
+
+        if (_passwordController.text != _confirmPasswordController.text) {
+          return "密碼不符合";
+        }
+
+        return null;
       },
     );
 
@@ -119,153 +125,151 @@ class _RegisterPageState extends State<RegisterPage> {
       top: false,
       child: Scaffold(
         // resizeToAvoidBottomInset: false,
-        body: new Container(
+        body: SingleChildScrollView(
           child: new Column(
-            children:[
+            children: [
               new Container(
                 width: MediaQuery.of(context).size.width,
-                height:200,
+                height: MediaQuery.of(context).size.height / 3.0,
                 // decoration: bg,
-                      // padding: const EdgeInsets.only(top: 80), ////
-                      child: Hero(
-                        tag: "main-logo", //
+                // padding: const EdgeInsets.only(top: 80), ////
+                child: Hero(
+                  tag: "main-logo", //
 
-                        child: SizedBox(
-                          width: MediaQuery.of(context).size.width,
-                          child: appLogo,
-                        ),
-                      ),
-              ),
-              Expanded(
-                flex: 1,
-                child: Stack(
-                  children: <Widget>[
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.only(left: 60, right: 60),
-                          child: Form(
-                            key: _formKey,
-                            autovalidate: false, //是否自動校驗輸入內容
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                name,
-                                SizedBox(
-                                  height: 32,
-                                ),
-                                email,
-                                SizedBox(
-                                  height: 32,
-                                ),
-                                password,
-                                SizedBox(
-                                  height: 32,
-                                ),
-                                comfirmPassword,
-                              ],
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 32,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 60, left: 60),
-                          child: SizedBox(
-                            width: MediaQuery.of(context).size.width,
-                            height: 50,
-                            child: RaisedButton(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(BottomRadius)),
-                              padding: EdgeInsets.all(0.0),
-                              child: Ink(
-                                decoration: buttonbg,
-                                child: Container(
-                                  constraints: BoxConstraints(maxWidth: 280.0, minHeight: 50.0),
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    "提交",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                              ),
-
-                              onPressed: () async {
-                                if (_formKey.currentState.validate()) {
-                                  try {
-                                    final user =
-                                        await AuthHelper.signInWithEmail(
-                                            name: _nameController.text,
-                                            email: _emailController.text,
-                                            password: _passwordController.text);
-                                    if (user != null) {
-                                      print("註冊成功");
-                                    }
-                                  } catch (e) {
-                                    print(e);
-                                  }
-                                }
-
-                                try {
-                                  final user = await AuthHelper.signupWithEmail(
-                                      name: _nameController.text,
-                                      email: _emailController.text,
-                                      password: _passwordController.text);
-                                  Entry.userid = _emailController.text;
-                                  if (user != null) {
-                                    showDialog<Null>(
-                                      context: context,
-                                      barrierDismissible: false,
-                                      builder: (BuildContext context) {
-                                        return new AlertDialog(
-                                          title: new Text(
-                                            '註冊成功',
-                                            textAlign: TextAlign.center,
-                                          ),
-                                          content: Text(
-                                            '請登入帳號並修改個人訊息',
-                                            textAlign: TextAlign.center,
-                                          ),
-                                          actions: <Widget>[
-                                            FlatButton(
-                                              child: Text('確定'),
-                                              onPressed: () async {
-                                                //
-                                                Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          HomePage(), //
-                                                    ));
-                                              },
-                                            ),
-                                          ],
-                                        );
-                                      },
-                                    ).then((val) {
-                                      print(val);
-                                    });
-                                  }
-                                  ;
-                                } catch (e) {
-                                  print(e);
-                                }
-                              },
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    child: appLogo,
+                  ),
                 ),
-              )
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(left: 60, right: 60),
+                    child: Form(
+                      key: _formKey,
+                      autovalidate: false, //是否自動校驗輸入內容
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          SizedBox(height: 5),
+                          name,
+                          SizedBox(height: 32),
+                          email,
+                          SizedBox(height: 32),
+                          password,
+                          SizedBox(height: 32),
+                          comfirmPassword,
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 32),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 60, left: 60),
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      height: 50,
+                      child: RaisedButton(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(BottomRadius)),
+                        padding: EdgeInsets.all(0.0),
+                        child: Ink(
+                          decoration: buttonbg,
+                          child: Container(
+                            constraints: BoxConstraints(
+                                maxWidth: 280.0, minHeight: 50.0),
+                            alignment: Alignment.center,
+                            child: Text(
+                              "提交",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                        onPressed: () async {
+                          if (_emailController.text.isEmpty ||
+                              _passwordController.text.isEmpty) {
+                            print("Email and password cannot be empty");
+                            return;
+                          }
+                          if (_confirmPasswordController.text.isEmpty ||
+                              _passwordController.text !=
+                                  _confirmPasswordController.text) {
+                            print("confirm password does not match");
+                            return;
+                          }
+                          if (_formKey.currentState.validate()) {
+                            try {
+                              final user = await AuthHelper.signInWithEmail(
+                                  name: _nameController.text,
+                                  email: _emailController.text,
+                                  password: _passwordController.text);
+                              if (user != null) {
+                                print("註冊成功");
+                              }
+                            } catch (e) {
+                              print(e);
+                            }
+                          }
+
+                          try {
+                            final user = await AuthHelper.signupWithEmail(
+                                name: _nameController.text,
+                                email: _emailController.text,
+                                password: _passwordController.text);
+                            // Entry.userid = _emailController.text;
+                            if (user != null) {
+                              showDialog<Null>(
+                                context: context,
+                                barrierDismissible: false,
+                                builder: (BuildContext context) {
+                                  return new AlertDialog(
+                                    title: new Text(
+                                      '註冊成功',
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    content: Text(
+                                      '請登入帳號並修改個人訊息',
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    actions: <Widget>[
+                                      FlatButton(
+                                        child: Text('確定'),
+                                        onPressed: () async {
+                                          //
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    HomePage(), //
+                                              ));
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                },
+                              ).then((val) {
+                                print(val);
+                              });
+                            }
+                          } catch (e) {
+                            print(e);
+                          }
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              //     ],
+              //   ),
+              // )
             ],
           ),
         ),

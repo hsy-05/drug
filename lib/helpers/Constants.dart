@@ -17,11 +17,11 @@ const pinCodeText = "帳號";
 const pinCodeHintText = "請輸入手機號";
 const loginButtonText = "登 入";
 const RegisterButtonText = "註 冊";
-const LoginWithGoogle = "使 用 Google 帳 戶 登 入"; //Login with Google
+const LoginWithGoogle = "Google 帳 戶 登 入"; //Login with Google
 
-String Name = '';
-String Email = '';
-String Password = '';
+// String Name = '';
+// String Email = '';
+// String Password = '';
 
 // Images
 Image appLogo = Image.asset('assets/images/01.jpg');
@@ -49,7 +49,7 @@ const buttonbg = BoxDecoration(
     // gradient: LinearGradient(
       color:
         // Color.fromRGBO(253, 200, 86 , 1.0),
-        Color.fromRGBO(126, 153, 120, 1.0)
+        Color.fromRGBO(210, 180, 140, 1.0)
       ,
     //   begin: Alignment.centerLeft,
     //   end: Alignment.centerRight,

@@ -94,7 +94,18 @@ class _RegisterPageState extends State<RegisterPage> {
         //上右下左
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
       ),
-      validator: (value) => value.length > 6 ? '記得填寫密碼！' : null,
+
+      validator: (String value) {
+        if (value.isEmpty) {
+          return '記得填寫密碼！';
+        }
+
+        if (value.length < 6) {
+          return "密碼需大於6位數";
+        }
+
+        return null;
+      },
     );
 
     final comfirmPassword = TextFormField(
@@ -193,73 +204,76 @@ class _RegisterPageState extends State<RegisterPage> {
                           ),
                         ),
                         onPressed: () async {
-                          if (_emailController.text.isEmpty ||
-                              _passwordController.text.isEmpty) {
-                            print("Email and password cannot be empty");
-                            return;
-                          }
-                          if (_confirmPasswordController.text.isEmpty ||
-                              _passwordController.text !=
-                                  _confirmPasswordController.text) {
-                            print("confirm password does not match");
-                            return;
-                          }
+                          // if (_confirmPasswordController.text.isEmpty ||
+                          //     _passwordController.text !=
+                          //         _confirmPasswordController.text) {
+                          //   print("confirm password does not match");
+                          //   return;
+                          // }
                           if (_formKey.currentState.validate()) {
                             try {
-                              final user = await AuthHelper.signInWithEmail(
+                              final user = await AuthHelper.signupWithEmail(
                                   name: _nameController.text,
                                   email: _emailController.text,
                                   password: _passwordController.text);
                               if (user != null) {
                                 print("註冊成功");
+                                Navigator.pop(context);
                               }
                             } catch (e) {
                               print(e);
                             }
-                          }
 
-                          try {
-                            final user = await AuthHelper.signupWithEmail(
-                                name: _nameController.text,
-                                email: _emailController.text,
-                                password: _passwordController.text);
-                            // Entry.userid = _emailController.text;
-                            if (user != null) {
-                              showDialog<Null>(
-                                context: context,
-                                barrierDismissible: false,
-                                builder: (BuildContext context) {
-                                  return new AlertDialog(
-                                    title: new Text(
-                                      '註冊成功',
-                                      textAlign: TextAlign.center,
-                                    ),
-                                    content: Text(
-                                      '請登入帳號並修改個人訊息',
-                                      textAlign: TextAlign.center,
-                                    ),
-                                    actions: <Widget>[
-                                      FlatButton(
-                                        child: Text('確定'),
-                                        onPressed: () async {
-                                          //
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    HomePage(), //
-                                              ));
-                                        },
-                                      ),
-                                    ],
-                                  );
-                                },
-                              ).then((val) {
-                                print(val);
-                              });
-                            }
-                          } catch (e) {
-                            print(e);
+////715
+//                             try {
+//                               final user = await AuthHelper.signInWithEmail(
+//                                   name: _nameController.text,
+//                                   email: _emailController.text,
+//                                   password: _passwordController.text);
+//                               // Entry.userid = _emailController.text;
+//                               if (user != null) {
+//                                 showDialog<Null>(
+//                                   context: context,
+//                                   barrierDismissible: false,
+//                                   builder: (BuildContext context) {
+//                                     return new AlertDialog(
+//                                       title: new Text(
+//                                         '註冊成功',
+//                                         textAlign: TextAlign.center,
+//                                       ),
+//                                       content: Text(
+//                                         '請登入帳號並修改個人訊息',
+//                                         textAlign: TextAlign.center,
+//                                       ),
+//                                       actions: <Widget>[
+//                                         FlatButton(
+//                                           child: Text('確定'),
+//                                           onPressed: () async {
+//                                             //
+//                                             // Navigator.push(
+//                                             //     context,
+//                                             //     MaterialPageRoute(
+//                                             //       builder: (context) =>
+//                                             //           HomePage(), //
+//                                             //     ));
+//                                             // Navigator.pushAndRemoveUntil(
+//                                             //     context,
+//                                             //     MaterialPageRoute(
+//                                             //         builder: (context) =>
+//                                             //             HomePage()),
+//                                             //         (_) => false);
+//                                           },
+//                                         ),
+//                                       ],
+//                                     );
+//                                   },
+//                                 ).then((val) {
+//                                   print(val);
+//                                 });
+//                               }
+//                             } catch (e) {
+//                               print(e);
+//                             }
                           }
                         },
                       ),

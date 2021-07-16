@@ -32,6 +32,7 @@ class AddScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   new Icon(Icons.today, size:22),
+                  new Text("開始日期", style: TextStyle(fontSize: 18)),
                   SizedBox(width: 20),
                   new Text(new DateFormat('yyyy - MM - dd').format(date), style: TextStyle(fontSize: 18),),
                   //設定畫面的年月日
@@ -46,6 +47,7 @@ class AddScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   new Icon(Icons.access_alarms_rounded, size:22),
+                  new Text("新增服藥時間", style: TextStyle(fontSize: 18)),
                   SizedBox(width: 20),
                   new Text(time.format(context), style: TextStyle(fontSize: 18),), //設定畫面的時間
                 ]),

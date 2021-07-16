@@ -67,7 +67,10 @@ class MainScreen extends StatelessWidget {
                 }
                 }else{
                   return Material(
-                    child: Center(child: CircularProgressIndicator(),),
+                    child: Center(child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(Color.fromRGBO(204, 119, 34, 1.0),),
+                    )
+                    ),
                   );
                 }
               },

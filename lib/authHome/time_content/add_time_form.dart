@@ -1,11 +1,13 @@
 import 'package:flutter1/authHome/model/time_firebase.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter1/authHome/time_content/screens/search.dart';
 import 'screens/add_time.dart';
 
 class SettingsForm extends StatefulWidget {
   final Times timeToAdd;
+  final String text;
 
-  const SettingsForm({Key key, this.timeToAdd}) : super(key: key);
+  const SettingsForm({Key key, this.timeToAdd, this.text}) : super(key: key);
 
   @override
   _SettingsFormState createState() {
@@ -19,7 +21,8 @@ class SettingsForm extends StatefulWidget {
 
 class _SettingsFormState extends State<SettingsForm> {
   final _addItemFormKey = GlobalKey<FormState>();
-  final TextEditingController _drugTextController = TextEditingController();
+
+  // final TextEditingController _drugTextController = TextEditingController();
 
   DateTime _dateTime = new DateTime.now();
 
@@ -33,84 +36,98 @@ class _SettingsFormState extends State<SettingsForm> {
           onPressed: () async {
             await Entry.addItem(
               dateTime: _dateTime.toString(),
-              drugText: _drugTextController.text,
+              drugText:text,
             );
             Navigator.of(context).pop();
             // Navigator.of(context).pop(new Times(dateTime: _dateTime)); //_note
           },
-          child: new Text('SAVE',
-              style: Theme.of(context)
+          child: new Text('新增',
+              style: Theme
+                  .of(context)
                   .textTheme
                   .subhead
-                  .copyWith(color: Colors.white)),
+                  .copyWith(color: Colors.white, fontSize: 20.0)),
         ),
       ],
     );
   }
-
+  String text;
   @override
   Widget build(BuildContext context) {
+
     return new Scaffold(
       appBar: _createAppBar(context),
-      body: new Column(
-        mainAxisAlignment: MainAxisAlignment.start, //
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              children: [
-                new Form(
-                  key: _addItemFormKey,
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(height: 30.0), //
-                        Text(
-                          '藥品名稱',
-                          style: TextStyle(
-                            fontSize: 24.0,
-                            letterSpacing: 1,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(height: 8.0),
+      body: new Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            new Form(
+              key: _addItemFormKey,
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 15.0), //
+                    Text(
+                      '藥品名稱',
+                      style: TextStyle(
+                        fontSize: 24.0,
+                        letterSpacing: 1,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 15.0),
+                    RaisedButton(
+                      child: Text(
+                        "新增藥品名稱",
+                        style: TextStyle(fontSize: 20),
+                      ),
+                      color: Color.fromRGBO(210, 180, 140, 1.0),
+                      onPressed: () {
+                        _returnValueOfDrugText(context);
+                      },
+                    ),
+                    Text(
+                      text ?? "",
+                      style: TextStyle(fontSize: 24),
+                    ),
 
-                        TextFormField(
-                          controller: _drugTextController,
-                          // focusNode: widget.titleFocusNode,
-                          decoration: InputDecoration(
-                            // labelText: "藥品名稱",
-                            hintText: '新增藥品名稱',
-                          ),
-                          keyboardType: TextInputType.text,
-                          textInputAction: TextInputAction.next,
-                        ),
+                    SizedBox(height: 35.0),
 
-                        SizedBox(height: 40.0),
-                        Text(
-                          '服藥時間提醒',
-                          style: TextStyle(
-                            fontSize: 24.0,
-                            letterSpacing: 1,
-                            fontWeight: FontWeight.bold,  
-                          ),
-                        ),
-                      ]),
-                ),
-                SizedBox(height: 24.0),
-                new ListTile(
-                  title: new AddScreen(
-                    dateTime: _dateTime,
-                    onChanged: (dateTime) =>
-                        setState(() => _dateTime = dateTime),
-                  ),
-                ),
-              ],
+                  ]),
             ),
-          ),
-        ],
+            Text(
+              '服藥時間提醒',
+              style: TextStyle(
+                fontSize: 24.0,
+                letterSpacing: 1,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 24.0),
+            new ListTile(
+              title: new AddScreen(
+                dateTime: _dateTime,
+                onChanged: (dateTime) =>
+                    setState(() => _dateTime = dateTime),
+              ),
+            ),
+          ],
+        ),
       ),
     );
+  }
+
+  void _returnValueOfDrugText(BuildContext context) async {
+    final result = await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => SearchText(),
+        ));
+
+    setState(() {
+      text = result;
+    });
   }
 }

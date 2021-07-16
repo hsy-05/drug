@@ -60,7 +60,7 @@ class _ProfileState extends State<Profile> {
     // );
 
     final newPW = TextFormField(
-      autofocus: true,
+      autofocus: false,
       controller: _newPWController,
       decoration: InputDecoration(
           labelText: "請輸入新密碼",
@@ -82,7 +82,7 @@ class _ProfileState extends State<Profile> {
     );
 
     final confirmPW = TextFormField(
-      autofocus: true,
+      autofocus: false,
       controller: _confirmPWController,
       decoration: InputDecoration(
           labelText: "確認新密碼",

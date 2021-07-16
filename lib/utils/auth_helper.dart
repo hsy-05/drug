@@ -59,9 +59,9 @@ abstract class AuthHelper {
     return res.user;
   }
 
-  static logOut() {
+  static logOut() async {
     GoogleSignIn().signOut();
-    return _auth.signOut();
+    await _auth.signOut();
   }
 
 }

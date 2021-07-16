@@ -68,8 +68,9 @@ class TimeListItem extends StatelessWidget {
 
         return Center(
             child: CircularProgressIndicator(
-          valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
-        ));
+          valueColor: AlwaysStoppedAnimation<Color>(Color.fromRGBO(204, 119, 34, 1.0),),
+        )
+        );
       },
     );
   }

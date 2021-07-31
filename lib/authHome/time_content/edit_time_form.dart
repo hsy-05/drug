@@ -49,7 +49,7 @@ class _EditItemFormState extends State<EditItemForm> {
               children: [
                 SizedBox(height: 24.0),
                 new ListTile(
-                  leading: new Icon(Icons.today, color: Colors.grey[500]),
+                  // leading: new Icon(Icons.today, color: Colors.grey[500]),
                   title: new AddScreen(
                     dateTime: _dateTime,
                     onChanged: (dateTime) => setState(() => _dateTime = dateTime),

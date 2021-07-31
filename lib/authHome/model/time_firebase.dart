@@ -14,7 +14,7 @@ final CollectionReference timeCollection = FirebaseFirestore.instance.collection
     static String userid;
 
     static Future<void> addItem({
-      String dateTime,
+      DateTime dateTime,
       String drugText,
     }) async {
       DocumentReference documentReferencer =
@@ -33,7 +33,7 @@ final CollectionReference timeCollection = FirebaseFirestore.instance.collection
 
 ////
     static Future<void> updateItem({
-      String dateTime,
+      DateTime dateTime,
       String drugText,
       String docId,
     }) async {

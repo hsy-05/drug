@@ -20,7 +20,7 @@ class _SetState extends State<SetTime> {
           onPressed: () {
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => SettingsForm(),
+                builder: (context) => AddForm(),
               ),
             );
           },

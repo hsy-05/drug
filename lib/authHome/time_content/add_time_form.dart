@@ -3,30 +3,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter1/authHome/time_content/screens/search.dart';
 import 'screens/add_time.dart';
 
-class SettingsForm extends StatefulWidget {
+class AddForm extends StatefulWidget {
   final Times timeToAdd;
   final String text;
 
-  const SettingsForm({Key key, this.timeToAdd, this.text}) : super(key: key);
+  const AddForm({Key key, this.timeToAdd, this.text}) : super(key: key);
 
   @override
-  _SettingsFormState createState() {
+  _AddFormState createState() {
     if (timeToAdd != null) {
-      return new _SettingsFormState(timeToAdd.dateTime); //weighEntryToEdit.note
+      return new _AddFormState(timeToAdd.dateTime); //weighEntryToEdit.note
     } else {
-      return new _SettingsFormState(new DateTime.now());
+      return new _AddFormState(new DateTime.now());
     }
   }
 }
 
-class _SettingsFormState extends State<SettingsForm> {
+class _AddFormState extends State<AddForm> {
   final _addItemFormKey = GlobalKey<FormState>();
-
-  // final TextEditingController _drugTextController = TextEditingController();
 
   DateTime _dateTime = new DateTime.now();
 
-  _SettingsFormState(this._dateTime);
+  _AddFormState(this._dateTime);
 
   Widget _createAppBar(BuildContext context) {
     return new AppBar(
@@ -35,15 +33,14 @@ class _SettingsFormState extends State<SettingsForm> {
         new FlatButton(
           onPressed: () async {
             await Entry.addItem(
-              dateTime: _dateTime.toString(),
-              drugText:text,
+              dateTime: _dateTime,
+              drugText: text,
             );
             Navigator.of(context).pop();
             // Navigator.of(context).pop(new Times(dateTime: _dateTime)); //_note
           },
           child: new Text('新增',
-              style: Theme
-                  .of(context)
+              style: Theme.of(context)
                   .textTheme
                   .subhead
                   .copyWith(color: Colors.white, fontSize: 20.0)),
@@ -51,17 +48,25 @@ class _SettingsFormState extends State<SettingsForm> {
       ],
     );
   }
+
   String text;
+
   @override
   Widget build(BuildContext context) {
-
     return new Scaffold(
       appBar: _createAppBar(context),
       body: new Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
+        padding: const EdgeInsets.all(15),
+        child: ListView(
+          children: ListTile.divideTiles(context: context, tiles: [
+            new ListTile(
+              horizontalTitleGap: 0,
+              contentPadding: EdgeInsets.only(left: 0.0, right: 0.0),
+              title: new AddScreen(
+                dateTime: _dateTime,
+                onChanged: (dateTime) => setState(() => _dateTime = dateTime),
+              ),
+            ),
             new Form(
               key: _addItemFormKey,
               child: Column(
@@ -69,51 +74,29 @@ class _SettingsFormState extends State<SettingsForm> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(height: 15.0), //
-                    Text(
-                      '藥品名稱',
-                      style: TextStyle(
-                        fontSize: 24.0,
-                        letterSpacing: 1,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(height: 15.0),
-                    RaisedButton(
-                      child: Text(
+
+                    ListTile(
+                      title: Text(
                         "新增藥品名稱",
                         style: TextStyle(fontSize: 20),
                       ),
-                      color: Color.fromRGBO(210, 180, 140, 1.0),
-                      onPressed: () {
+                      onTap: () {
                         _returnValueOfDrugText(context);
                       },
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Text(
+                            text ?? "",
+                            style: TextStyle(fontSize: 20),
+                          ),
+                        ],
+                      ),
                     ),
-                    Text(
-                      text ?? "",
-                      style: TextStyle(fontSize: 24),
-                    ),
-
                     SizedBox(height: 35.0),
-
                   ]),
             ),
-            Text(
-              '服藥時間提醒',
-              style: TextStyle(
-                fontSize: 24.0,
-                letterSpacing: 1,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 24.0),
-            new ListTile(
-              title: new AddScreen(
-                dateTime: _dateTime,
-                onChanged: (dateTime) =>
-                    setState(() => _dateTime = dateTime),
-              ),
-            ),
-          ],
+          ]).toList(),
         ),
       ),
     );

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter1/authHome/time_content/screens/edit_time.dart';
 import '../model/time_firebase.dart';
+import 'package:intl/intl.dart';
 
 //每個ListItem的設計
 class TimeListItem extends StatelessWidget {
@@ -20,7 +21,8 @@ class TimeListItem extends StatelessWidget {
               var noteInfo = snapshot.data.docs[index].data();
               String docID = snapshot.data.docs[index].id;
               String drugname = noteInfo['藥名'];
-              String time = noteInfo['set_time'];
+              DateTime time =  noteInfo['set_time'].toDate();
+              // String dateString = DateFormat('yyyy - MM - dd hh:mm').format(time);
 
               return Ink(
                 decoration: BoxDecoration(
@@ -37,7 +39,7 @@ class TimeListItem extends StatelessWidget {
                     onTap: () => Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => EditScreen(
-                          currentTitle: time,
+                          currentTitle: DateFormat('yyyy年 MM月 dd日').add_jm().format(time), // DateFormat('yyyy年 MM月 dd日 hh:mm').format(time),//
                           documentId: docID,
                         ),
                       ),
@@ -51,7 +53,7 @@ class TimeListItem extends StatelessWidget {
                     subtitle: Padding(
                       padding: const EdgeInsets.only(top: 20),
                       child: Text(
-                        time,
+                       DateFormat('yyyy年 MM月 dd日').add_jm().format(time),
                         style: TextStyle(
                           color: Colors.black,
                         ),

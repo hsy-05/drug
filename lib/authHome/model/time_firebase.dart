@@ -23,8 +23,8 @@ final CollectionReference timeCollection = FirebaseFirestore.instance.collection
       timeCollection.doc(userid).collection('items').doc();
 
       Map<String, dynamic> data = <String, dynamic>{
-        "藥名": drugText,
-        'set_time': fromDateTime,
+        "藥品名稱": drugText,
+        'fromDate': fromDateTime,
         'toDate' : toDateTime,
       };
 
@@ -46,7 +46,7 @@ final CollectionReference timeCollection = FirebaseFirestore.instance.collection
 
       Map<String, dynamic> data = <String, dynamic>{
         "藥名": drugText,
-        'set_time': dateTime,
+        'fromDate': dateTime,
         'toDate' : dateTime2,
       };
 
@@ -59,7 +59,7 @@ final CollectionReference timeCollection = FirebaseFirestore.instance.collection
 ////
     static Stream<QuerySnapshot> readItems() {
       Query timeItemCollection =
-      timeCollection.doc(userid).collection('items').orderBy('set_time', descending: true); //排序
+      timeCollection.doc(userid).collection('items').orderBy('fromDate', descending: true); //排序
 
       return timeItemCollection.snapshots();
     }
@@ -81,7 +81,7 @@ final CollectionReference timeCollection = FirebaseFirestore.instance.collection
 ////
 //      Future<void> updateUserData(String dateTime) async {
 //       return await timeCollection.doc(uid).set({
-//          'set_time': dateTime,
+//          'fromDate': dateTime,
 //        });
 //      }
 //

@@ -20,8 +20,8 @@ class TimeListItem extends StatelessWidget {
             itemBuilder: (context, index) {
               var noteInfo = snapshot.data.docs[index].data();
               String docID = snapshot.data.docs[index].id;
-              String drugname = noteInfo['藥名'];
-              DateTime time =  noteInfo['set_time'].toDate();
+              String drugname = noteInfo['藥品名稱'];
+              DateTime time =  noteInfo['fromDate'].toDate();
               // String dateString = DateFormat('yyyy - MM - dd hh:mm').format(time);
 
               return Ink(

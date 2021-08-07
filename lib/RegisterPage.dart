@@ -154,8 +154,15 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
               ),
               Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
+                  IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: const Icon(Icons.arrow_back_rounded),
+                  ),
                   Padding(
                     padding: const EdgeInsets.only(left: 60, right: 60),
                     child: Form(

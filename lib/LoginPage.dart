@@ -87,7 +87,7 @@ class _LoginPageState extends State<LoginPage> {
                 RegisterButtonText,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Colors.black54,
+                  color: Colors.black87,
                   fontSize: 18,
                 ),
               ),
@@ -117,7 +117,7 @@ class _LoginPageState extends State<LoginPage> {
             }
           },
           padding: EdgeInsets.all(0.0),
-          child: Text(LoginWithGoogle,style: TextStyle(color: Colors.black54, ),
+          child: Text(LoginWithGoogle,style: TextStyle(color: Colors.black87, ),
           ),
         ),
       ),

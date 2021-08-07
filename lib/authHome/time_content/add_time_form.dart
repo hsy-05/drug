@@ -12,19 +12,20 @@ class AddForm extends StatefulWidget {
   @override
   _AddFormState createState() {
     if (timeToAdd != null) {
-      return new _AddFormState(timeToAdd.dateTime); //weighEntryToEdit.note
+      return new _AddFormState(timeToAdd.fromDateTime, timeToAdd.toDateTime); //weighEntryToEdit.note
     } else {
-      return new _AddFormState(new DateTime.now());
+      return new _AddFormState(new DateTime.now(), new DateTime.now());
     }
   }
 }
 
 class _AddFormState extends State<AddForm> {
-  final _addItemFormKey = GlobalKey<FormState>();
+  // final _addItemFormKey = GlobalKey<FormState>();
 
-  DateTime _dateTime = new DateTime.now();
+  DateTime _fromDateTime = new DateTime.now();
+  DateTime _toDateTime = new DateTime.now();
 
-  _AddFormState(this._dateTime);
+  _AddFormState(this._fromDateTime, this._toDateTime);
 
   Widget _createAppBar(BuildContext context) {
     return new AppBar(
@@ -33,7 +34,8 @@ class _AddFormState extends State<AddForm> {
         new FlatButton(
           onPressed: () async {
             await Entry.addItem(
-              dateTime: _dateTime,
+              fromDateTime: _fromDateTime,
+              toDateTime: _toDateTime,
               drugText: text,
             );
             Navigator.of(context).pop();
@@ -63,38 +65,40 @@ class _AddFormState extends State<AddForm> {
               horizontalTitleGap: 0,
               contentPadding: EdgeInsets.only(left: 0.0, right: 0.0),
               title: new AddScreen(
-                dateTime: _dateTime,
-                onChanged: (dateTime) => setState(() => _dateTime = dateTime),
+                fromDateTime: _fromDateTime,
+                toDateTime: _toDateTime,
+                onFromChanged: (fromDateTime) => setState(() => _fromDateTime = fromDateTime),
+                onToChanged: (toDateTime) => setState(() => _toDateTime = toDateTime),
               ),
             ),
-            new Form(
-              key: _addItemFormKey,
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: 15.0), //
-
-                    ListTile(
-                      title: Text(
-                        "新增藥品名稱",
-                        style: TextStyle(fontSize: 20),
-                      ),
-                      onTap: () {
-                        _returnValueOfDrugText(context);
-                      },
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          Text(
-                            text ?? "",
-                            style: TextStyle(fontSize: 20),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 35.0),
-                  ]),
+          // new Form(
+          //     key: _addItemFormKey,
+            ListTile(
+              horizontalTitleGap: 10,
+              minLeadingWidth: 0,
+              leading: new Icon(Icons.search),
+              title: Text(
+                text ?? "新增藥品名稱",
+                style: TextStyle(fontSize: 18),
+              ),
+              onTap: () {
+                _returnValueOfDrugText(context);
+              },
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Text(
+                    "",
+                    style: TextStyle(fontSize: 20),
+                  ),
+                ],
+              ),
+            ),
+            ListTile(
+              title: Text(
+                "服藥模式",
+                style: TextStyle(fontSize: 18),
+              ),
             ),
           ]).toList(),
         ),

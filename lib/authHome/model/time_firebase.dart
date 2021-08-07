@@ -2,9 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
   class Times {
 
-    DateTime dateTime;
+    DateTime fromDateTime;
+    DateTime toDateTime;
 
-    Times({ this.dateTime});
+    Times({ this.fromDateTime, this.toDateTime});
 
   }
 
@@ -14,7 +15,8 @@ final CollectionReference timeCollection = FirebaseFirestore.instance.collection
     static String userid;
 
     static Future<void> addItem({
-      DateTime dateTime,
+      DateTime fromDateTime,
+      DateTime toDateTime,
       String drugText,
     }) async {
       DocumentReference documentReferencer =
@@ -22,7 +24,8 @@ final CollectionReference timeCollection = FirebaseFirestore.instance.collection
 
       Map<String, dynamic> data = <String, dynamic>{
         "藥名": drugText,
-        'set_time': dateTime,
+        'set_time': fromDateTime,
+        'toDate' : toDateTime,
       };
 
       await documentReferencer
@@ -34,6 +37,7 @@ final CollectionReference timeCollection = FirebaseFirestore.instance.collection
 ////
     static Future<void> updateItem({
       DateTime dateTime,
+      DateTime dateTime2,
       String drugText,
       String docId,
     }) async {
@@ -43,6 +47,7 @@ final CollectionReference timeCollection = FirebaseFirestore.instance.collection
       Map<String, dynamic> data = <String, dynamic>{
         "藥名": drugText,
         'set_time': dateTime,
+        'toDate' : dateTime2,
       };
 
       await documentReferencer

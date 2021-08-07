@@ -19,7 +19,9 @@ class EditItemForm extends StatefulWidget {
 
 class _EditItemFormState extends State<EditItemForm> {
   final _editItemFormKey = GlobalKey<FormState>();
-  DateTime _dateTime = new DateTime.now();
+
+  DateTime _fromDateTime = new DateTime.now();
+  DateTime _toDateTime = new DateTime.now();
 
   bool _isProcessing = false;
   TextEditingController _titleController;
@@ -51,8 +53,10 @@ class _EditItemFormState extends State<EditItemForm> {
                 new ListTile(
                   // leading: new Icon(Icons.today, color: Colors.grey[500]),
                   title: new AddScreen(
-                    dateTime: _dateTime,
-                    onChanged: (dateTime) => setState(() => _dateTime = dateTime),
+                    fromDateTime: _fromDateTime,
+                    toDateTime: _toDateTime,
+                    onFromChanged: (fromDateTime) => setState(() => _fromDateTime = fromDateTime),
+                    onToChanged: (toDateTime) => setState(() => _toDateTime = toDateTime),
                   ),
                 ),
                 SizedBox(height: 8.0),

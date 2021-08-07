@@ -116,8 +116,8 @@ class SearchTextState extends State<SearchText> {
               query: itemRef,
               itemBuilder: (BuildContext context, DataSnapshot snapshot,
                   Animation<double> animation, int index) {
-                return Remedios[index].use.contains(filter) ||
-                        Remedios[index].CSname.contains(filter)
+                return Remedios[index].use.contains(filter.toString()) ||
+                        Remedios[index].CSname.contains(filter.toString())
                     ? ListTile(
                         //顯示全部
                         leading: filter.isEmpty
@@ -125,10 +125,10 @@ class SearchTextState extends State<SearchText> {
                             : Icon(Icons.add_circle_outline),
                         title: filter.isEmpty
                             ? Container()
-                            : Text(Remedios[index].CSname),
+                            : Text(Remedios[index].CSname.toString()),
                         subtitle: filter.isEmpty
                             ? Container()
-                            : Text(Remedios[index].use),
+                            : Text(Remedios[index].use.toString()),
                         onTap: () {
                           setState(() {
                             _drugTextController.text = Remedios[index].CSname;

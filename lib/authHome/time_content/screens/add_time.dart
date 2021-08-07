@@ -134,9 +134,30 @@ class AddScreen extends StatelessWidget {
   }
 
   Future _showTimePicker(BuildContext context) async {
-    TimeOfDay timeOfDay =
-        await showTimePicker(context: context, initialTime: time);
-
+    TimeOfDay timeOfDay = await showTimePicker(
+        context: context,
+        initialTime: time,
+        builder: (context, child) {
+          return Theme(
+            data: Theme.of(context).copyWith(
+              colorScheme: ColorScheme.light(
+                primary: Color.fromRGBO(227, 137, 2, 1.0),
+                // header background color
+                onPrimary: Colors.black,
+                // header text color
+                onSurface: Colors.black, // body text color
+              ),
+              textButtonTheme: TextButtonThemeData(
+                style: TextButton.styleFrom(
+                  primary:
+                  Color.fromRGBO(204, 119, 34, 1.0), // button text color
+                ),
+              ),
+            ),
+            child: child,
+          );
+        },
+    );
     if (timeOfDay != null) {
       onFromChanged(new DateTime(
           fromDate.year, fromDate.month, fromDate.day, timeOfDay.hour, timeOfDay.minute));

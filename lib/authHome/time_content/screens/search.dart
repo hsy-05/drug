@@ -124,7 +124,7 @@ class SearchTextState extends State<SearchText> {
                             ? const Icon(null)
                             : Icon(Icons.add_circle_outline),
                         title: filter.isEmpty
-                            ? Container()
+                            ? Text("")
                             : Text(Remedios[index].CSname.toString()),
                         subtitle: filter.isEmpty
                             ? Container()

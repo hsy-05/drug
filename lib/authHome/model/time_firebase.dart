@@ -2,10 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
   class Times {
 
+    String id;
     DateTime fromDateTime;
     DateTime toDateTime;
+    int active;
+    String text;
 
-    Times({ this.fromDateTime, this.toDateTime});
+    Times({ this.fromDateTime, this.toDateTime, this.active, this.text});
 
   }
 
@@ -15,17 +18,22 @@ final CollectionReference timeCollection = FirebaseFirestore.instance.collection
     static String userid;
 
     static Future<void> addItem({
+      String drugText,
       DateTime fromDateTime,
       DateTime toDateTime,
-      String drugText,
+      int active,
+      int notificationId,
     }) async {
       DocumentReference documentReferencer =
       timeCollection.doc(userid).collection('items').doc();
 
       Map<String, dynamic> data = <String, dynamic>{
-        "藥品名稱": drugText,
+        'drugName': drugText,
         'fromDate': fromDateTime,
         'toDate' : toDateTime,
+        'docID': documentReferencer.id,
+        'active': active,
+        'notificationId': notificationId,
       };
 
       await documentReferencer
@@ -45,7 +53,7 @@ final CollectionReference timeCollection = FirebaseFirestore.instance.collection
       timeCollection.doc(userid).collection('items').doc(docId);
 
       Map<String, dynamic> data = <String, dynamic>{
-        "藥名": drugText,
+        "drugName": drugText,
         'fromDate': dateTime,
         'toDate' : dateTime2,
       };
@@ -77,6 +85,13 @@ final CollectionReference timeCollection = FirebaseFirestore.instance.collection
           .whenComplete(() => print('Note item deleted from the database'))
           .catchError((e) => print(e));
     }
+    ////
+
+
+    // static Future<DocumentSnapshot> getAlarmDetails(String docID) async {
+    //   return await timeCollection.doc(userid).collection('items').doc(docID).get();
+    // }
+
   }
 ////
 //      Future<void> updateUserData(String dateTime) async {

@@ -31,6 +31,7 @@ class _EditScreenState extends State<EditScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
+          backgroundColor: Color.fromRGBO(210, 180, 140, 1.0),
           elevation: 0,
           actions: [
             _isDeleting

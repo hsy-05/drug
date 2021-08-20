@@ -39,6 +39,8 @@ dependencies:
   numberpicker: ^2.1.1
   flutter_countdown_timer: ^4.1.0
   fluttertoast: ^8.0.7
+  flutter_local_notifications: ^5.0.0+1
+  timezone: ^0.7.0
 #  json_annotation: ^4.0.1
 #  provider: ^5.0.0
 

@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter1/utils/auth_helper.dart';
+import 'helpers/auth_helper.dart';
 import 'package:flutter/material.dart';
 
 import 'HomePage.dart';

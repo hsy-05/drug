@@ -1,10 +1,10 @@
 //登入後Home顯示的介面
 import 'package:flutter/material.dart';
-import 'package:flutter1/utils/auth_helper.dart';
-import 'authHome/home.dart';      //換頁網址
-import 'authHome/set_time.dart';  //換頁網址
-import 'authHome/profile.dart';  //換頁網址
-import 'authHome/record.dart';  //換頁網址
+import 'helpers/auth_helper.dart';
+import 'authHome/home.dart';
+import 'authHome/set_time.dart';
+import 'authHome/profile.dart';
+import 'authHome/record.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key}) : super(key: key);

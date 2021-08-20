@@ -3,12 +3,14 @@ import 'helpers/Constants.dart';
 import 'LoginPage.dart';
 import 'HomePage.dart';
 import 'RegisterPage.dart';
-import 'package:flutter1/utils/auth_helper.dart';
+import 'helpers/auth_helper.dart';
 import 'package:flutter1/admin_home.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
+
+import 'package:timezone/data/latest.dart' as tz;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,6 +19,7 @@ void main() async {
   );
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
   await Firebase.initializeApp();
+  tz.initializeTimeZones();
   runApp(MyApp());
 }
 

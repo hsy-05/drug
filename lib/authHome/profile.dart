@@ -2,7 +2,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter1/utils/auth_helper.dart';
+import '../helpers/auth_helper.dart';
 
 class Profile extends StatefulWidget {
   Profile({Key key, this.auth}) : super(key: key);

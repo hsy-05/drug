@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 // import 'authHome/model/time_firebase.dart';
 import 'helpers/Constants.dart';
-import 'package:flutter1/utils/auth_helper.dart';
+import 'helpers/auth_helper.dart';
 import 'RegisterPage.dart';
 
 class LoginPage extends StatefulWidget {

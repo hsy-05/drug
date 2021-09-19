@@ -1,5 +1,6 @@
 //登入後Home顯示的介面
 import 'package:flutter/material.dart';
+import 'authHome/set_time2.dart';
 import 'helpers/auth_helper.dart';
 import 'authHome/home.dart';
 import 'authHome/set_time.dart';

@@ -78,6 +78,7 @@ class _LoginPageState extends State<LoginPage> {
             .size
             .width,
         child: CupertinoButton(
+
           padding: EdgeInsets.all(0.0),
           child: Ink(
             child: Container(

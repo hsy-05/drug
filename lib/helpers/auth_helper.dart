@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';  //
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter1/authHome/model/time_firebase.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:device_info/device_info.dart';
@@ -11,6 +12,7 @@ abstract class AuthHelper {
   static FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
+
   static changePassword(String newPassword) async {
     User user = await FirebaseAuth.instance.currentUser;
     user.updatePassword(newPassword).then((_) {
@@ -27,8 +29,8 @@ abstract class AuthHelper {
           email: email, password: password);
       final User user = res.user;
       await user.reload();
-      return user;
 
+      return user;
     } catch (e) {
       print(e.toString());
       return null;
@@ -42,6 +44,13 @@ abstract class AuthHelper {
       final User user = res.user;
       await FirebaseAuth.instance.currentUser.updateProfile(displayName: name);
       await user.reload();
+
+      // usersRef.push().set({
+      //   'username': user,
+      //   'uid': user.uid,
+      //
+      // });
+
       return user;
     } catch (e) {
       print(e.toString());
@@ -68,6 +77,7 @@ abstract class AuthHelper {
 
 class UserHelper {
   static FirebaseFirestore _db = FirebaseFirestore.instance;
+  static DatabaseReference usersRef = FirebaseDatabase.instance.reference().child("users");
 
   static saveUser(User user) async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
@@ -84,14 +94,23 @@ class UserHelper {
     };
     Entry.userid = user.uid;
     final userRef = _db.collection("users").doc(user.uid);
-    if ((await userRef.get()).exists) {
+    if ((await userRef.get()).exists)   {
       await userRef.update({
         "last_login": user.metadata.lastSignInTime.millisecondsSinceEpoch,
         "build_number": buildNumber,
         "name": user.displayName, ////
       });
+
+      await usersRef.reference().child(user.uid).update({
+        'username': user.displayName,
+        'uid': user.uid,
+      });
     } else {
       await _db.collection("users").doc(user.uid).set(userData);
+      await usersRef.reference().child(user.uid).set({
+        'username': user.displayName,
+        'uid': user.uid,
+      });
     }
     await _saveDevice(user);
   }

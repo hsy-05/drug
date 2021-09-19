@@ -1,15 +1,50 @@
 import 'package:flutter/material.dart';
 
 class MedicineMode extends StatefulWidget {
-
   @override
   MedicineModeState createState() => MedicineModeState();
 }
 
 class MedicineModeState extends State<MedicineMode> {
-  int selectedRadio = 0;
+  int radiovalue;
+  bool selectedRadio0, selectedRadio1, selectedRadio2;
   // TimeOfDay time;
   TimeOfDay _time = new TimeOfDay.now();
+  TimeOfDay _time1 = new TimeOfDay.now();
+  TimeOfDay _time2 = new TimeOfDay.now();
+
+
+  @override
+  void initState() {
+    super.initState();
+    radiovalue = 0;
+    selectedRadio0 = true;
+    selectedRadio1 = false;
+    selectedRadio2 = false;
+  }
+
+  void radiofunc(val) {
+    if (val == 0) {
+      selectedRadio0 = true;
+      selectedRadio1 = false;
+      selectedRadio2 = false;
+
+      print("1個設定時間");
+    } else if (val == 1) {
+      selectedRadio0 = true;
+      selectedRadio1 = true;
+      selectedRadio2 = false;
+      print("2個設定時間");
+    } else if(val == 2){
+      selectedRadio0 = true;
+      selectedRadio1 = true;
+      selectedRadio2 = true;
+      print("3個設定時間");
+    }
+    setState(() {
+      radiovalue = val;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,50 +74,72 @@ class MedicineModeState extends State<MedicineMode> {
             ),
             RadioListTile(
               value: 0,
-              onChanged: (value) {
-                setState(() {
-                  this.selectedRadio = value;
-                });
-              },
-              groupValue: this.selectedRadio,
+              onChanged: radiofunc,
+              groupValue: radiovalue,
               title: Text("一天1次"),
-              selected: this.selectedRadio == 0,
+              // selected: this.selectedRadio0 == 0,
             ),
             RadioListTile(
               value: 1,
-              onChanged: (value) {
-                setState(() {
-                  this.selectedRadio = value;
-                });
-              },
-              groupValue: this.selectedRadio,
+              onChanged: radiofunc,
+              groupValue: radiovalue,
               title: Text("一天2次"),
-              selected: this.selectedRadio == 1,
+              // selected: this.selectedRadio1 == 1,
             ),
             RadioListTile(
               value: 2,
-              onChanged: (value) {
-                setState(() {
-                  this.selectedRadio = value;
-                });
-              },
-              groupValue: this.selectedRadio,
+              onChanged: radiofunc,
+              groupValue: radiovalue,
               title: Text("一天3次"),
-              selected: this.selectedRadio == 2,
+              // selected: this.selectedRadio2 == 2,
             ),
 
 
-            new ListTile(
-              horizontalTitleGap: 10,
-              minLeadingWidth: 0,
-              onTap: (() => _showTimePicker(context)),
-              leading: new Icon(Icons.access_alarms_rounded, size: 22),
-              title: Text("新增服藥時間", style: TextStyle(fontSize: 18)),
-              trailing: Text(
-                _time.format(context),
-                style: TextStyle(fontSize: 18),
-              ), //設定畫面的時間
+            Visibility(
+              visible: selectedRadio0,
+              child: new ListTile(
+                horizontalTitleGap: 10,
+                minLeadingWidth: 0,
+                onTap: (() => _showTimePicker(context)),
+                leading: new Icon(Icons.access_alarms_rounded, size: 22),
+                title: Text("新增服藥時間", style: TextStyle(fontSize: 18)),
+                trailing: Text(
+                  _time.format(context),
+                  style: TextStyle(fontSize: 18),
+                ), //設定畫面的時間
+              ),
             ),
+
+            Visibility(
+              visible: selectedRadio1,
+              child: new ListTile(
+                horizontalTitleGap: 10,
+                minLeadingWidth: 0,
+                onTap: (() => _showTimePicker1(context)),
+                leading: new Icon(Icons.access_alarms_rounded, size: 22),
+                title: Text("新增服藥時間", style: TextStyle(fontSize: 18)),
+                trailing: Text(
+                  _time1.format(context),
+                  style: TextStyle(fontSize: 18),
+                ), //設定畫面的時間
+              ),
+            ),
+
+            Visibility(
+              visible: selectedRadio2,
+              child: new ListTile(
+                horizontalTitleGap: 10,
+                minLeadingWidth: 0,
+                onTap: (() => _showTimePicker2(context)),
+                leading: new Icon(Icons.access_alarms_rounded, size: 22),
+                title: Text("新增服藥時間", style: TextStyle(fontSize: 18)),
+                trailing: Text(
+                  _time2.format(context),
+                  style: TextStyle(fontSize: 18),
+                ), //設定畫面的時間
+              ),
+            ),
+
           ],
         ),
       ),
@@ -105,8 +162,7 @@ class MedicineModeState extends State<MedicineMode> {
             ),
             textButtonTheme: TextButtonThemeData(
               style: TextButton.styleFrom(
-                primary:
-                Color.fromRGBO(204, 119, 34, 1.0), // button text color
+                primary: Color.fromRGBO(204, 119, 34, 1.0), // button text color
               ),
             ),
           ),
@@ -119,6 +175,68 @@ class MedicineModeState extends State<MedicineMode> {
         _time = timeOfDay;
         // time = timeOfDay;
         // return time;
+      });
+    }
+  }
+
+  Future _showTimePicker1(BuildContext context) async {
+    TimeOfDay timeOfDay = await showTimePicker(
+      context: context,
+      initialTime: _time1,
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: ColorScheme.light(
+              primary: Color.fromRGBO(227, 137, 2, 1.0),
+              // header background color
+              onPrimary: Colors.black,
+              // header text color
+              onSurface: Colors.black, // body text color
+            ),
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                primary: Color.fromRGBO(204, 119, 34, 1.0), // button text color
+              ),
+            ),
+          ),
+          child: child,
+        );
+      },
+    );
+    if (timeOfDay != null) {
+      setState(() {
+        _time1 = timeOfDay;
+      });
+    }
+  }
+
+  Future _showTimePicker2(BuildContext context) async {
+    TimeOfDay timeOfDay = await showTimePicker(
+      context: context,
+      initialTime: _time2,
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: ColorScheme.light(
+              primary: Color.fromRGBO(227, 137, 2, 1.0),
+              // header background color
+              onPrimary: Colors.black,
+              // header text color
+              onSurface: Colors.black, // body text color
+            ),
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                primary: Color.fromRGBO(204, 119, 34, 1.0), // button text color
+              ),
+            ),
+          ),
+          child: child,
+        );
+      },
+    );
+    if (timeOfDay != null) {
+      setState(() {
+        _time2 = timeOfDay;
       });
     }
   }

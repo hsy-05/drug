@@ -20,7 +20,7 @@ class AdminHomePage extends StatelessWidget {
               stream:
                   FirebaseFirestore.instance.collection("users").snapshots(),
               builder: (BuildContext context,
-                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                  snapshot) {
                 if (snapshot.hasData && snapshot.data != null) {
                   final docs = snapshot.data.docs;
                   return ListView.builder(

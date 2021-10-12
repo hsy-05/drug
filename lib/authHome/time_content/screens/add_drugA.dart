@@ -1,14 +1,10 @@
 import 'dart:math';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter1/authHome/model/time_entry.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter1/authHome/model/time_firebase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter1/authHome/time_content/screens/search.dart';
 import 'package:flutter1/authHome/time_content/screens/med_mode.dart';
-
-import '../../set_time.dart';
 
 class AddDrugA extends StatefulWidget {
 
@@ -29,7 +25,7 @@ class _AddDrugAState extends State<AddDrugA> {
   @override
   void initState() {
     super.initState();
-    drugA = FirebaseDatabase.instance.reference().child("device1").child(StaticInfo.userid).child("drugA");
+    drugA = FirebaseDatabase.instance.reference().child("drugA");
   }
 
 
@@ -235,21 +231,14 @@ class _AddDrugAState extends State<AddDrugA> {
 
     int notificationId = Random().nextInt(1000);
 
-    var different = _toDateTime.difference(_fromDateTime).inDays;
-
-    print("計算天數");
-    print(different); // 19362
-
     Map<String, dynamic> toJson = {
 
         "fromDate": _fromDateTime.toString(), //.millisecondsSinceEpoch   //DateFormat('yyyy -MM -dd').format(_fromDateTime)
         "toDate": _toDateTime.toString(),
-        "startDate": DateFormat('yyyy/M/d').format(_fromDateTime),
-        "endDate": DateFormat('yyyy/M/d').format(_toDateTime),
         "active": active,
         "drugText": drugText,
         "notificationId": notificationId,
-        "time": DateFormat('h:mm:ss').format(_fromDateTime),
+        "time": DateFormat().add_jm().format(_fromDateTime),
 
     };
     drugA.reference().push().set(toJson);

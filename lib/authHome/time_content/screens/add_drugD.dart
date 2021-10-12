@@ -25,7 +25,7 @@ class _AddDrugDState extends State<AddDrugD> {
   @override
   void initState() {
     super.initState();
-    drugD = FirebaseDatabase.instance.reference().child("device1").child("drugD");
+    drugD = FirebaseDatabase.instance.reference().child("drugD");
   }
 
 

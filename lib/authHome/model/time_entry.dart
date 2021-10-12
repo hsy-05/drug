@@ -1,20 +1,8 @@
 import 'dart:math';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 // realtime
-final DatabaseReference timeCollection = FirebaseDatabase.instance.reference();
-
-class StaticInfo{
-  static String userid;
-
-  static Stream<Event> readItems() {
-    Query timeItemCollection =
-    timeCollection.child("device1").child(userid);
-    return timeItemCollection.onValue;
-  }
-}
 
 class DrugARealtime {
   String key;

@@ -60,6 +60,7 @@ class _ProfileState extends State<Profile> {
     // );
 
     final newPW = TextFormField(
+      cursorColor: Colors.black,
       autofocus: false,
       controller: _newPWController,
       decoration: InputDecoration(
@@ -82,6 +83,7 @@ class _ProfileState extends State<Profile> {
     );
 
     final confirmPW = TextFormField(
+      cursorColor: Colors.black,
       autofocus: false,
       controller: _confirmPWController,
       decoration: InputDecoration(
@@ -112,117 +114,117 @@ class _ProfileState extends State<Profile> {
 
     return new Scaffold(
         body: SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: 3.0),
-            Text(
-              '會員帳號',
-              style: TextStyle(
-                backgroundColor: Color.fromRGBO(210, 180, 140, 1.0),
-                fontSize: 20.0,
-                letterSpacing: 1,
-              ),
-            ),
-            SizedBox(height: 20.0),
-            Row(
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(
-                  child: Text(
-                    '信箱：',
-                    style: TextStyle(
-                      fontSize: 18.0,
-                      letterSpacing: 1,
-                    ),
+                SizedBox(height: 3.0),
+                Text(
+                  '會員帳號',
+                  style: TextStyle(
+                    backgroundColor: Color.fromRGBO(210, 180, 140, 1.0),
+                    fontSize: 20.0,
+                    letterSpacing: 1,
                   ),
                 ),
-                SizedBox(
-                  child: Text(
-                    _user?.email ?? '',
-                    style: TextStyle(
-                      fontSize: 18.0,
-                      letterSpacing: 1,
+                SizedBox(height: 20.0),
+                Row(
+                  children: [
+                    SizedBox(
+                      child: Text(
+                        '信箱：',
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          letterSpacing: 1,
+                        ),
+                      ),
                     ),
-                  ),
+                    SizedBox(
+                      child: Text(
+                        _user?.email ?? '',
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          letterSpacing: 1,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                new Form(
+                  key: _formKey,
+                  autovalidate: false, //是否自動校驗輸入內容
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        SizedBox(height: 10.0),
+                        Row(
+                          children: [
+                            SizedBox(
+                              child: Text(
+                                '姓名：',
+                                style: TextStyle(
+                                  fontSize: 18.0,
+                                  letterSpacing: 1,
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              child: Text(
+                                _user?.displayName ?? '',
+                                style: TextStyle(
+                                  fontSize: 18.0,
+                                  letterSpacing: 1,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+
+                        SizedBox(height: 20.0),
+                        //
+                        Text(
+                          '修改密碼',
+                          style: TextStyle(
+                            backgroundColor: Color.fromRGBO(210, 180, 140, 1.0),
+                            fontSize: 20.0,
+                            letterSpacing: 1,
+                          ),
+                        ),
+                        SizedBox(height: 10.0),
+                        newPW,
+                        SizedBox(height: 10.0),
+                        confirmPW,
+                        SizedBox(height: 18.0),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 250),
+                          child: RaisedButton(
+                            child: Text(
+                              "修改",
+                              style: TextStyle(fontSize: 20),
+                            ),
+                            color: Color.fromRGBO(210, 180, 140, 1.0),
+                            onPressed: () async {
+                              if (_formKey.currentState.validate()) {
+                                try {
+                                  print("NewPassword=========>" + _confirmsword);
+                                  AuthHelper.changePassword(_confirmsword);
+                                  AuthHelper.changePassword(_confirmsword);
+                                  print("更改成功");
+                                } catch (e) {
+                                  print(e);
+                                }
+                              }
+                            },
+                          ),
+                        ),
+                      ]),
                 ),
               ],
             ),
-            new Form(
-              key: _formKey,
-              autovalidate: false, //是否自動校驗輸入內容
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    SizedBox(height: 10.0),
-                    Row(
-                      children: [
-                        SizedBox(
-                          child: Text(
-                            '姓名：',
-                            style: TextStyle(
-                              fontSize: 18.0,
-                              letterSpacing: 1,
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          child: Text(
-                            _user?.displayName ?? '',
-                            style: TextStyle(
-                              fontSize: 18.0,
-                              letterSpacing: 1,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-
-                    SizedBox(height: 20.0),
-                    //
-                    Text(
-                      '修改密碼',
-                      style: TextStyle(
-                        backgroundColor: Color.fromRGBO(210, 180, 140, 1.0),
-                        fontSize: 20.0,
-                        letterSpacing: 1,
-                      ),
-                    ),
-                    SizedBox(height: 10.0),
-                    newPW,
-                    SizedBox(height: 10.0),
-                    confirmPW,
-                    SizedBox(height: 18.0),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 250),
-                      child: RaisedButton(
-                        child: Text(
-                          "修改",
-                          style: TextStyle(fontSize: 20),
-                        ),
-                        color: Color.fromRGBO(210, 180, 140, 1.0),
-                        onPressed: () async {
-                          if (_formKey.currentState.validate()) {
-                            try {
-                              print("NewPassword=========>" + _confirmsword);
-                              AuthHelper.changePassword(_confirmsword);
-                              AuthHelper.changePassword(_confirmsword);
-                              print("更改成功");
-                            } catch (e) {
-                              print(e);
-                            }
-                          }
-                        },
-                      ),
-                    ),
-                  ]),
-            ),
-          ],
-        ),
-      ),
-    ));
+          ),
+        ));
   }
 }

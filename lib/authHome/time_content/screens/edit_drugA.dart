@@ -1,45 +1,57 @@
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter1/authHome/model/time_firebase.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter1/authHome/time_content/screens/med_mode.dart';
-import 'package:flutter1/authHome/time_content/screens/edit_time.dart';
-import 'package:flutter1/authHome/time_content/screens/add_time.dart';
+import 'package:flutter1/authHome/model/time_entry.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter1/authHome/time_content/screens/search.dart';
 
 class EditDrugA extends StatefulWidget {
-  final String currentTitle;
-  final String documentId;
-
-  const EditDrugA({
-    this.currentTitle,
-    this.documentId,
-  });
+  EditDrugA({Key key}) : super(key: key);
 
   @override
   _EditDrugAState createState() => _EditDrugAState();
 }
 
+
 class _EditDrugAState extends State<EditDrugA> {
-  final _editItemFormKey = GlobalKey<FormState>();
+  List<Item> Remedios = List();
+  DatabaseReference itemRef;
 
-  DateTime _fromDateTime = new DateTime.now();
-  DateTime _toDateTime = new DateTime.now();
-
-  bool _isProcessing = false;
   bool _isDeleting = false;
 
-  TextEditingController _titleController;
+  Map<dynamic, dynamic> drugText;
 
-  DatabaseReference drugAdb =
-      FirebaseDatabase.instance.reference().child("drugA");
+  DatabaseReference drugAdb = FirebaseDatabase.instance
+      .reference()
+      .child("device1")
+      .child(StaticInfo.userid)
+      .child("drugA");
+
+
+  Future<Null> readData() async {
+    await FirebaseDatabase.instance.reference().child("device1")
+        .child(StaticInfo.userid)
+        .child("drugA").once().then((DataSnapshot snapshot) {
+      drugText = snapshot.value;
+      print("名稱：");
+      print(drugText);
+    });
+  }
 
   @override
   void initState() {
-    _titleController = TextEditingController(
-      text: widget.currentTitle,
-    );
-
     super.initState();
+    final FirebaseDatabase database = FirebaseDatabase.instance;
+    itemRef = database.reference().child('drugInfo');
+    itemRef.onChildAdded.listen(_onEntryAdded);
+    readData();
+  }
+
+  _onEntryAdded(Event event) {
+    if (!mounted) return; ////
+    setState(() {
+      Remedios.add(Item.fromSnapshot(event.snapshot));
+    });
   }
 
   Widget _createAppBar(BuildContext context) {
@@ -65,7 +77,7 @@ class _EditDrugAState extends State<EditDrugA> {
                 icon: Icon(
                   Icons.delete,
                   color: Colors.redAccent,
-                  size: 32,
+                  size: 36,
                 ),
                 onPressed: () async {
                   setState(() {
@@ -87,53 +99,63 @@ class _EditDrugAState extends State<EditDrugA> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
+    return Scaffold(
       appBar: _createAppBar(context),
       body: new Padding(
         padding: const EdgeInsets.all(15),
-        child: ListView(
-          children: ListTile.divideTiles(context: context, tiles: [
-            new ListTile(
-              horizontalTitleGap: 0,
-              contentPadding: EdgeInsets.only(left: 0.0, right: 0.0),
-              // title: new EditScreen(
-              //   fromDateTime: _fromDateTime,
-              //   toDateTime: _toDateTime,
-              //   onFromChanged: (fromDateTime) => setState(() => _fromDateTime = fromDateTime),
-              //   onToChanged: (toDateTime) => setState(() => _toDateTime = toDateTime),
-              // ),
-            ),
-            // new Form(
-            //     key: _addItemFormKey,
-            ListTile(
-              horizontalTitleGap: 10,
-              minLeadingWidth: 0,
-              leading: new Icon(Icons.search),
-              title: Text(
-                "藥品名稱",
-                style: TextStyle(fontSize: 18),
+              child: StreamBuilder(
+                stream: StaticInfo.readItems(),
+                builder: (context, AsyncSnapshot<Event> snapshot) {
+                  if (snapshot.hasError) {
+                    return Text('Something went wrong');
+                  } else if (snapshot.hasData || snapshot.data != null) {
+                    return FirebaseAnimatedList(
+                      query: drugAdb,
+                      itemBuilder: (BuildContext context, DataSnapshot snapshot,
+                          Animation<double> animation, int index) {
+                        String drugName = snapshot.value['drugText'];
+                        return Ink(
+                          child: Column(
+                            children: [
+                              new Text(
+                                "藥品名稱：",
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  fontSize: 20,
+                                ),
+                              ),
+                              new Text(
+                                drugName,
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  fontSize: 20,
+                                ),
+                              ),
+                              new Text(
+                                "適應症：",
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  fontSize: 20,
+                                ),
+                              ),
+
+                            ],
+                          ),
+                        );
+                      },
+                    );
+                  }
+
+                  return Center(
+                      child: CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                          Color.fromRGBO(204, 119, 34, 1.0),
+                        ),
+                      ));
+                },
               ),
-              trailing: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Text(
-                    "",
-                    style: TextStyle(fontSize: 20),
-                  ),
-                ],
-              ),
-            ),
-            ListTile(
-              title: Text(
-                "服藥模式",
-                style: TextStyle(fontSize: 18),
-              ),
-              onTap: () {
-                // _returnValueOfTakedrugText(context);
-              },
-            ),
-          ]).toList(),
-        ),
+
+
       ),
     );
   }

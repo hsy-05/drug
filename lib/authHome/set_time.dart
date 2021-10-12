@@ -1,5 +1,6 @@
 //當按下Home按鈕時，出現的介面
-import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter1/authHome/time_content/edit_time_form.dart';
@@ -28,11 +29,12 @@ class SetTime extends StatefulWidget {
   _SetState createState() => _SetState();
 }
 
-final mainReference = FirebaseDatabase.instance.reference();
+DatabaseReference mainReference = FirebaseDatabase.instance.reference();
 DatabaseReference drugAdb;
 DatabaseReference drugBdb;
 DatabaseReference drugCdb;
 DatabaseReference drugDdb;
+String userid = FirebaseAuth.instance.currentUser.uid;
 
 class _SetState extends State<SetTime> {
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
@@ -46,10 +48,12 @@ class _SetState extends State<SetTime> {
     var initSetttings = new InitializationSettings(android: android, iOS: iOS);
     flutterLocalNotificationsPlugin.initialize(initSetttings,
         onSelectNotification: onSelectNotification);
-    drugAdb = FirebaseDatabase.instance.reference().child("drugA");
-    drugBdb = FirebaseDatabase.instance.reference().child("drugB");
-    drugCdb = FirebaseDatabase.instance.reference().child("drugC");
-    drugDdb = FirebaseDatabase.instance.reference().child("drugD");
+
+    mainReference = FirebaseDatabase.instance.reference().child("device1").child(userid);
+    drugAdb = mainReference.child("drugA");
+    drugBdb = mainReference.child("drugB");
+    drugCdb = mainReference.child("drugC");
+    drugDdb = mainReference.child("drugD");
   }
 
   Future<void> cancelNotification(int notifId) async {
@@ -67,13 +71,19 @@ class _SetState extends State<SetTime> {
     mainReference.onChildChanged.listen(_onEntryEdited);
   }
 
+  @override       //當 State 對象的關係發生變化時，這個方法總會被呼叫。
+  void didChangeDependencies() {
+    userid = FirebaseAuth.instance.currentUser.uid;
+    super.didChangeDependencies();
+
+  }
+
   List<DrugARealtime> drugASaves = new List();
   List<DrugBRealtime> drugBSaves = new List();
   List<DrugCRealtime> drugCSaves = new List();
   List<DrugBRealtime> drugDSaves = new List();
 
   Widget build(BuildContext context) {
-
     final drugA = Ink(
       color: Color.fromRGBO(210, 180, 140, 1.0),
       child: Column(
@@ -83,27 +93,26 @@ class _SetState extends State<SetTime> {
             child: Padding(
               padding: const EdgeInsets.all(10.0),
               child: StreamBuilder(
-                stream: FirebaseDatabase.instance
-                    .reference()
-                    .child('drugA')
-                    .onValue,
+                stream: StaticInfo.readItems(),
                 builder: (context, AsyncSnapshot<Event> snapshot) {
                   if (snapshot.hasError) {
-                    return Text('Something went wrong'); //若連不上firestore會顯示
+                    return Text('Something went wrong'); //若連不上realtime會顯示
                   }
-                  if (snapshot.hasData && snapshot.data.snapshot.value != null) {
+                 else if (snapshot.hasData &&
+                      snapshot.data.snapshot.value != null) {
                     return FirebaseAnimatedList(
                       query: drugAdb,
                       itemBuilder: (BuildContext context, DataSnapshot snapshot,
                           Animation<double> animation, int index) {
                         String drugName = snapshot.value['drugText'];
+                        print("藥品名稱："+drugName);
                         DateTime fromDate =
-                        (DateTime.parse(snapshot.value['fromDate']));
+                            (DateTime.parse(snapshot.value['fromDate']));
                         DateTime toDate =
-                        (DateTime.parse(snapshot.value['toDate']));
+                            (DateTime.parse(snapshot.value['toDate']));
                         int notificationId = snapshot.value['notificationId'];
                         displayNotification(
-                            notificationId, drugName, "以過半小時尚未取藥", fromDate);
+                            notificationId, drugName, "已過半小時尚未取藥", fromDate);
 
                         return new InkWell(
                           onTap: () => Navigator.of(context).push(
@@ -165,7 +174,7 @@ class _SetState extends State<SetTime> {
                         );
                       },
                     );
-                  }else{
+                  } else {
                     return new InkWell(
                       splashColor: Colors.white24,
                       onTap: () => _openAddADialog(),
@@ -190,24 +199,24 @@ class _SetState extends State<SetTime> {
             child: Padding(
               padding: const EdgeInsets.all(10.0),
               child: StreamBuilder(
-                stream: FirebaseDatabase.instance
-                    .reference()
+                stream: mainReference
                     .child('drugB')
                     .onValue,
                 builder: (context, AsyncSnapshot<Event> snapshot) {
                   if (snapshot.hasError) {
                     return Text('Something went wrong'); //若連不上firestore會顯示
                   }
-                  if (snapshot.hasData && snapshot.data.snapshot.value != null) {
+                  if (snapshot.hasData &&
+                      snapshot.data.snapshot.value != null) {
                     return FirebaseAnimatedList(
                       query: drugBdb,
                       itemBuilder: (BuildContext context, DataSnapshot snapshot,
                           Animation<double> animation, int index) {
                         String drugName = snapshot.value['drugText'];
                         DateTime fromDate =
-                        (DateTime.parse(snapshot.value['fromDate']));
+                            (DateTime.parse(snapshot.value['fromDate']));
                         DateTime toDate =
-                        (DateTime.parse(snapshot.value['toDate']));
+                            (DateTime.parse(snapshot.value['toDate']));
                         int notificationId = snapshot.value['notificationId'];
                         displayNotification(
                             notificationId, drugName, "以過半小時尚未取藥", fromDate);
@@ -272,7 +281,7 @@ class _SetState extends State<SetTime> {
                         );
                       },
                     );
-                  }else{
+                  } else {
                     return new InkWell(
                       splashColor: Colors.white24,
                       onTap: () => _openAddBDialog(),
@@ -297,24 +306,24 @@ class _SetState extends State<SetTime> {
             child: Padding(
               padding: const EdgeInsets.all(10.0),
               child: StreamBuilder(
-                stream: FirebaseDatabase.instance
-                    .reference()
+                stream: mainReference
                     .child('drugC')
                     .onValue,
                 builder: (context, AsyncSnapshot<Event> snapshot) {
                   if (snapshot.hasError) {
                     return Text('Something went wrong'); //若連不上firestore會顯示
                   }
-                  if (snapshot.hasData && snapshot.data.snapshot.value != null) {
+                  if (snapshot.hasData &&
+                      snapshot.data.snapshot.value != null) {
                     return FirebaseAnimatedList(
                       query: drugCdb,
                       itemBuilder: (BuildContext context, DataSnapshot snapshot,
                           Animation<double> animation, int index) {
                         String drugName = snapshot.value['drugText'];
                         DateTime fromDate =
-                        (DateTime.parse(snapshot.value['fromDate']));
+                            (DateTime.parse(snapshot.value['fromDate']));
                         DateTime toDate =
-                        (DateTime.parse(snapshot.value['toDate']));
+                            (DateTime.parse(snapshot.value['toDate']));
                         int notificationId = snapshot.value['notificationId'];
                         displayNotification(
                             notificationId, drugName, "以過半小時尚未取藥", fromDate);
@@ -379,7 +388,7 @@ class _SetState extends State<SetTime> {
                         );
                       },
                     );
-                  }else{
+                  } else {
                     return new InkWell(
                       splashColor: Colors.white24,
                       onTap: () => _openAddCDialog(),
@@ -404,24 +413,24 @@ class _SetState extends State<SetTime> {
             child: Padding(
               padding: const EdgeInsets.all(10.0),
               child: StreamBuilder(
-                stream: FirebaseDatabase.instance
-                    .reference()
+                stream: mainReference
                     .child('drugD')
                     .onValue,
                 builder: (context, AsyncSnapshot<Event> snapshot) {
                   if (snapshot.hasError) {
                     return Text('Something went wrong'); //若連不上firestore會顯示
                   }
-                  if (snapshot.hasData && snapshot.data.snapshot.value != null) {
+                  if (snapshot.hasData &&
+                      snapshot.data.snapshot.value != null) {
                     return FirebaseAnimatedList(
                       query: drugCdb,
                       itemBuilder: (BuildContext context, DataSnapshot snapshot,
                           Animation<double> animation, int index) {
                         String drugName = snapshot.value['drugText'];
                         DateTime fromDate =
-                        (DateTime.parse(snapshot.value['fromDate']));
+                            (DateTime.parse(snapshot.value['fromDate']));
                         DateTime toDate =
-                        (DateTime.parse(snapshot.value['toDate']));
+                            (DateTime.parse(snapshot.value['toDate']));
                         int notificationId = snapshot.value['notificationId'];
                         displayNotification(
                             notificationId, drugName, "以過半小時尚未取藥", fromDate);
@@ -486,7 +495,7 @@ class _SetState extends State<SetTime> {
                         );
                       },
                     );
-                  }else{
+                  } else {
                     return new InkWell(
                       splashColor: Colors.white24,
                       onTap: () => _openAddCDialog(),
@@ -502,7 +511,6 @@ class _SetState extends State<SetTime> {
       ),
     );
 
-
     return Scaffold(
       // floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       // floatingActionButton: FloatingActionButton(
@@ -513,18 +521,13 @@ class _SetState extends State<SetTime> {
       body: SafeArea(
         //每個List的顯示
         child: Padding(
-          padding: const EdgeInsets.only(
-            top: 20.0,
-            left: 16.0,
-            right: 16.0,
-            bottom: 20.0,
-          ),
+          padding: EdgeInsets.all(10.0),
           child: GridView(
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
-              mainAxisSpacing: 8,
-              crossAxisSpacing: 10,
-              childAspectRatio: 0.7,
+              mainAxisSpacing: 10,
+              crossAxisSpacing: 8,
+              childAspectRatio: 0.65,
             ),
             children: [
               drugA,
@@ -575,7 +578,9 @@ class _SetState extends State<SetTime> {
   }
 
   _onEntryAdded(Event event) {
+    if (!mounted) return; ////
     setState(() {
+      userid = FirebaseAuth.instance.currentUser.uid;
       drugASaves.add(new DrugARealtime.fromSnapshot(event.snapshot));
       drugASaves
           .sort((we1, we2) => we1.fromDateTime.compareTo(we2.fromDateTime));
@@ -591,23 +596,25 @@ class _SetState extends State<SetTime> {
   }
 
   _onEntryEdited(Event event) {
+    if (!mounted) return; ////
     var oldAValue =
-    drugASaves.singleWhere((entry) => entry.key == event.snapshot.key);
+        drugASaves.singleWhere((entry) => entry.key == event.snapshot.key);
     var oldBValue =
-    drugBSaves.singleWhere((entry) => entry.key == event.snapshot.key);
+        drugBSaves.singleWhere((entry) => entry.key == event.snapshot.key);
     setState(() {
+      userid = FirebaseAuth.instance.currentUser.uid;
       drugASaves[drugASaves.indexOf(oldAValue)] =
-      new DrugARealtime.fromSnapshot(event.snapshot);
+          new DrugARealtime.fromSnapshot(event.snapshot);
       drugASaves
           .sort((we1, we2) => we1.fromDateTime.compareTo(we2.fromDateTime));
 
       drugBSaves[drugBSaves.indexOf(oldBValue)] =
-      new DrugBRealtime.fromSnapshot(event.snapshot);
+          new DrugBRealtime.fromSnapshot(event.snapshot);
       drugBSaves
           .sort((we1, we2) => we1.fromDateTime.compareTo(we2.fromDateTime));
 
       drugCSaves[drugBSaves.indexOf(oldBValue)] =
-      new DrugCRealtime.fromSnapshot(event.snapshot);
+          new DrugCRealtime.fromSnapshot(event.snapshot);
       drugCSaves
           .sort((we1, we2) => we1.fromDateTime.compareTo(we2.fromDateTime));
     });
@@ -632,7 +639,7 @@ class _SetState extends State<SetTime> {
     flutterLocalNotificationsPlugin.zonedSchedule(notificationId, title, body,
         tz.TZDateTime.from(dateTime, tz.local), platFormDetails,
         uiLocalNotificationDateInterpretation:
-        UILocalNotificationDateInterpretation.absoluteTime,
+            UILocalNotificationDateInterpretation.absoluteTime,
         androidAllowWhileIdle: true);
   }
 }

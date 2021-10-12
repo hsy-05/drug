@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';  //
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter1/authHome/model/time_entry.dart';
 import 'package:flutter1/authHome/model/time_firebase.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:device_info/device_info.dart';
@@ -92,7 +93,7 @@ class UserHelper {
       "build_number": buildNumber,
       "uid": user.uid,
     };
-    Entry.userid = user.uid;
+    StaticInfo.userid = user.uid;
     final userRef = _db.collection("users").doc(user.uid);
     if ((await userRef.get()).exists)   {
       await userRef.update({

@@ -29,6 +29,7 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     final name = TextFormField(
+      cursorColor: Colors.grey,
       autofocus: false,
       controller: _nameController,
       decoration: InputDecoration(
@@ -40,6 +41,11 @@ class _RegisterPageState extends State<RegisterPage> {
           ), // icon is 48px widget.
         ),
         labelText: "名稱",
+        labelStyle: TextStyle(color: Colors.black54),
+        focusedBorder: OutlineInputBorder(
+            borderSide: const BorderSide(color:Colors.grey)),
+        enabledBorder: OutlineInputBorder(
+            borderSide: const BorderSide(color:Colors.grey)),
         hintText: "請輸入名稱",
         contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
@@ -51,6 +57,7 @@ class _RegisterPageState extends State<RegisterPage> {
     );
 
     final email = TextFormField(
+      cursorColor: Colors.grey,
       keyboardType: TextInputType.emailAddress,
       autofocus: false,
       controller: _emailController,
@@ -63,6 +70,11 @@ class _RegisterPageState extends State<RegisterPage> {
           ), // icon is 48px widget.
         ),
         labelText: "信箱帳號",
+        labelStyle: TextStyle(color: Colors.black54),
+        focusedBorder: OutlineInputBorder(
+            borderSide: const BorderSide(color:Colors.grey)),
+        enabledBorder: OutlineInputBorder(
+            borderSide: const BorderSide(color:Colors.grey)),
         hintText: "請輸入帳號",
         contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
@@ -74,6 +86,7 @@ class _RegisterPageState extends State<RegisterPage> {
     );
 
     final password = TextFormField(
+      cursorColor: Colors.grey,
       autofocus: false,
       controller: _passwordController,
       obscureText: true,
@@ -89,6 +102,11 @@ class _RegisterPageState extends State<RegisterPage> {
         ),
         // icon is 48px widget.
         labelText: "密碼",
+        labelStyle: TextStyle(color: Colors.black54),
+        focusedBorder: OutlineInputBorder(
+            borderSide: const BorderSide(color:Colors.grey)),
+        enabledBorder: OutlineInputBorder(
+            borderSide: const BorderSide(color:Colors.grey)),
         hintText: "請輸入密碼",
         contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         //上右下左
@@ -109,11 +127,17 @@ class _RegisterPageState extends State<RegisterPage> {
     );
 
     final comfirmPassword = TextFormField(
+      cursorColor: Colors.grey,
       controller: _confirmPasswordController,
       decoration: InputDecoration(
         contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
         labelText: "再次輸入密碼",
+        labelStyle: TextStyle(color: Colors.black54),
+        focusedBorder: OutlineInputBorder(
+            borderSide: const BorderSide(color:Colors.grey)),
+        enabledBorder: OutlineInputBorder(
+            borderSide: const BorderSide(color:Colors.grey)),
         hintText: "請再次輸入密碼",
       ),
       obscureText: true,
@@ -203,9 +227,9 @@ class _RegisterPageState extends State<RegisterPage> {
                               "提交",
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                color: Colors.black,
+                                color: Colors.white,
                                 fontSize: 24,
-                                fontWeight: FontWeight.bold,
+                                fontWeight: FontWeight.normal,
                               ),
                             ),
                           ),

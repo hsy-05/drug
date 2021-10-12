@@ -26,128 +26,63 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          CountdownTimer(
-            textStyle: TextStyle(
-              fontSize: 30,
-              color: Colors.red,
+  Widget centreSection() {
+    return Container(
+      height: 600,
+      child: GridView(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          mainAxisSpacing: 10,
+          crossAxisSpacing: 8,
+          childAspectRatio: 0.65,
+        ),
+        children: [
+          Container(
+            color: Color.fromRGBO(210, 180, 140, 1.0),
+            child: Center(
+              child: const Text("下次吃藥時間",
+                style: TextStyle(fontSize: 18),
+              ),
             ),
-            onEnd: onEnd,
-            endTime: endTime,
           ),
-          CountdownTimer(
-            controller: controller,
-            widgetBuilder: (_, CurrentRemainingTime time) {
-              if (time == null) {
-                return Text('Game over');
-              }
-              return Text(
-                  'days: [ ${time.days} ], hours: [ ${time.hours} ], min: [ ${time.min} ], sec: [ ${time.sec} ]');
-            },
-          ),
-          CountdownTimer(
-            controller: controller,
-            widgetBuilder: (BuildContext context, CurrentRemainingTime time) {
-              if (time == null) {
-                return Text('Game over');
-              }
-              List<Widget> list = [];
-              if (time.days != null) {
-                list.add(Row(
-                  children: <Widget>[
-                    Icon(Icons.sentiment_dissatisfied),
-                    Text(time.days.toString()),
-                  ],
-                ));
-              }
-              if (time.hours != null) {
-                list.add(Row(
-                  children: <Widget>[
-                    Icon(Icons.sentiment_satisfied),
-                    Text(time.hours.toString()),
-                  ],
-                ));
-              }
-              if (time.min != null) {
-                list.add(Row(
-                  children: <Widget>[
-                    Icon(Icons.sentiment_very_dissatisfied),
-                    Text(time.min.toString()),
-                  ],
-                ));
-              }
-              if (time.sec != null) {
-                list.add(Row(
-                  children: <Widget>[
-                    Icon(Icons.sentiment_very_satisfied),
-                    Text(time.sec.toString()),
-                  ],
-                ));
-              }
-              if (time.milliseconds != null) {
-                list.add(Row(
-                  children: <Widget>[
-                    Icon(Icons.sentiment_very_satisfied),
-                    AnimatedBuilder(
-                      animation: time.milliseconds,
-                      builder: (context, child) {
-                        return Text(
-                            "${(time.milliseconds.value * 1000).toInt()}");
-                      },
-                    )
-                  ],
-                ));
-              }
 
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: list,
-              );
-            },
+          Container(
+            color: Color.fromRGBO(210, 180, 140, 1.0),
+            child: Center(
+              child: const Text("下次吃藥時間",
+                style: TextStyle(fontSize: 18),
+              ),
+            ),
+          ),
+
+          Container(
+            color: Color.fromRGBO(210, 180, 140, 1.0),
+            child: Center(
+              child: const Text("下次吃藥時間",
+                style: TextStyle(fontSize: 18),
+              ),
+            ),
+          ),
+
+          Container(
+            color: Color.fromRGBO(210, 180, 140, 1.0),
+            child: Center(
+              child: const Text("下次吃藥時間",
+                style: TextStyle(fontSize: 18),
+              ),
+            ),
           ),
         ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.stop),
-        onPressed: () {
-          onEnd();
-          if (controller.isRunning) {
-            controller.disposeTimer();
-          } else {
-            controller.start();
-          }
-        },
       ),
     );
   }
 
   @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
-
-  Widget buildItem(String title, Widget page) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-          return page;
-        }));
-      },
-      child: Container(
-        margin: const EdgeInsets.all(5),
-        color: Colors.blue,
-        width: double.infinity,
-        alignment: Alignment.center,
-        height: 100,
-        child: Text(title, style: TextStyle(fontSize: 36),),
-      ),
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+          padding: EdgeInsets.all(10.0),
+          child: centreSection()),
     );
   }
-
 }
-

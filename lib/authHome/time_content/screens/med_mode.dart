@@ -56,7 +56,7 @@ class MedicineModeState extends State<MedicineMode> {
             child: new Text('完成',
                 style: Theme.of(context)
                     .textTheme
-                    .subhead
+                    .subtitle1
                     .copyWith(color: Colors.white, fontSize: 20.0)),
             onPressed: () {
               _sendDataBack(context);
@@ -242,8 +242,13 @@ class MedicineModeState extends State<MedicineMode> {
   }
 
   void _sendDataBack(BuildContext context) {
-    TimeOfDay timeBack = _time;
-    Navigator.pop(context, timeBack);
+    List<dynamic> list = new List<dynamic>();
+    list.add(_time);
+    list.add(_time1);
+    list.add(_time2);
+    print("時間");
+    print(list);
+    Navigator.pop(context, list);
   }
 }
-// }
+

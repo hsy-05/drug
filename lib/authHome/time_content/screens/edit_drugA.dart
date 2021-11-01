@@ -23,13 +23,13 @@ class _EditDrugAState extends State<EditDrugA> {
 
   DatabaseReference drugAdb = FirebaseDatabase.instance
       .reference()
-      .child("device1")
+      .child("device")
       .child(StaticInfo.userid)
       .child("drugA");
 
 
   Future<Null> readData() async {
-    await FirebaseDatabase.instance.reference().child("device1")
+    await FirebaseDatabase.instance.reference().child("device")
         .child(StaticInfo.userid)
         .child("drugA").once().then((DataSnapshot snapshot) {
       drugText = snapshot.value;

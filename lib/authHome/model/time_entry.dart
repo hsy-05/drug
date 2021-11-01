@@ -9,9 +9,25 @@ final DatabaseReference timeCollection = FirebaseDatabase.instance.reference();
 class StaticInfo{
   static String userid;
 
+
   static Stream<Event> readItems() {
     Query timeItemCollection =
-    timeCollection.child("device1").child(userid);
+    timeCollection.child("device").child(userid).child("drugA");
+    return timeItemCollection.onValue;
+  }
+  static Stream<Event> readItems1() {
+    Query timeItemCollection =
+    timeCollection.child("device").child(userid).child("drugB");
+    return timeItemCollection.onValue;
+  }
+  static Stream<Event> readItems2() {
+    Query timeItemCollection =
+    timeCollection.child("device").child(userid).child("drugC");
+    return timeItemCollection.onValue;
+  }
+  static Stream<Event> readItems3() {
+    Query timeItemCollection =
+    timeCollection.child("device").child(userid).child("drugD");
     return timeItemCollection.onValue;
   }
 }

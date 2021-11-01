@@ -1,8 +1,11 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter1/authHome/model/time_entry.dart';
 import 'HomePage.dart';
 // import 'authHome/model/time_firebase.dart';
 import 'helpers/Constants.dart';
 import 'helpers/auth_helper.dart';
+import 'helpers/device_input.dart';
 
 //註冊畫面
 class RegisterPage extends StatefulWidget {
@@ -16,6 +19,9 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController _passwordController;
   TextEditingController _confirmPasswordController;
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  String inputData;
+
+  DatabaseReference deviceID;
 
   @override
   void initState() {
@@ -24,6 +30,7 @@ class _RegisterPageState extends State<RegisterPage> {
     _emailController = TextEditingController(text: "");
     _passwordController = TextEditingController(text: "");
     _confirmPasswordController = TextEditingController(text: "");
+    deviceID = FirebaseDatabase.instance.reference().child("users");
   }
 
   @override
@@ -132,6 +139,13 @@ class _RegisterPageState extends State<RegisterPage> {
       decoration: InputDecoration(
         contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
+        prefixIcon: Padding(
+          padding: EdgeInsets.only(left: 5.0),
+          child: Icon(
+            Icons.lock,
+            color: Colors.grey,
+          ), // icon is 48px widget.
+        ),
         labelText: "再次輸入密碼",
         labelStyle: TextStyle(color: Colors.black54),
         focusedBorder: OutlineInputBorder(
@@ -249,6 +263,9 @@ class _RegisterPageState extends State<RegisterPage> {
                                   password: _passwordController.text);
                               if (user != null) {
                                 print("註冊成功");
+                                inputData  = await inputDeviceID(context);
+                                print("裝置ID：$inputData ");
+                                await saveDeviceID();
                                 Navigator.pop(context);
                               }
                             } catch (e) {
@@ -321,4 +338,10 @@ class _RegisterPageState extends State<RegisterPage> {
       ),
     );
   }
+   saveDeviceID() async{
+    deviceID.reference().child(StaticInfo.userid).update({
+      "deviceID": inputData,
+    });
+  }
+
 }

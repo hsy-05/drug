@@ -79,7 +79,7 @@ class SearchTextState extends State<SearchText> {
             child: new Text('完成',
                 style: Theme.of(context)
                     .textTheme
-                    .subhead
+                    .subtitle1
                     .copyWith(color: Colors.white, fontSize: 20.0)),
             onPressed: () {
               _sendDataBack(context);

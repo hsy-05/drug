@@ -19,7 +19,7 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController _passwordController;
   TextEditingController _confirmPasswordController;
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  String deviceid;
+  String inputData;
 
   DatabaseReference deviceID;
 
@@ -263,8 +263,8 @@ class _RegisterPageState extends State<RegisterPage> {
                                   password: _passwordController.text);
                               if (user != null) {
                                 print("註冊成功");
-                                GetDeviceID.getDeviceID  = await inputDeviceID(context);
-                                print("裝置ID：$GetDeviceID.getDeviceID ");
+                                inputData  = await inputDeviceID(context);
+                                print("裝置ID：$inputData ");
                                 await saveDeviceID();
                                 Navigator.pop(context);
                               }
@@ -340,7 +340,7 @@ class _RegisterPageState extends State<RegisterPage> {
   }
    saveDeviceID() async{
     deviceID.reference().child(StaticInfo.userid).update({
-      "device_id": GetDeviceID.getDeviceID = deviceid,
+      "deviceID": inputData,
     });
   }
 

@@ -1,9 +1,6 @@
 //登入後Home顯示的介面
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter1/authHome/model/time_entry.dart';
-import 'package:flutter1/helpers/device_input.dart';
-//import 'authHome/set_time2.dart';
+import 'authHome/set_time2.dart';
 import 'helpers/auth_helper.dart';
 import 'authHome/home.dart';
 import 'authHome/set_time.dart';
@@ -20,26 +17,22 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _currentIndex = 1;
-  var _pageController = new PageController(initialPage: 1);
+  int _currentIndex = 0;
+  var _pageController = new PageController(initialPage: 0);
   String _title;
-  String d;
-  DatabaseReference databaseReference = FirebaseDatabase.instance.reference();
 
   @override
   initState(){
     _title = '智慧藥盒';
-     getd();
-     print(" GetDeviceID().getd()");
-     print(d);
   }
 
 
   var pages = <Widget>[
-    SetTime(),
-    Home(),
-    Record(),
-  ];
+    Home(),      //main要新增
+    SetTime(),  //main要新增
+    Record(), //main要新增
+    Profile(),  //main要新增
+   ];
 
   @override
   Widget build(BuildContext context) {
@@ -54,19 +47,7 @@ class _HomePageState extends State<HomePage> {
             AuthHelper.logOut();
           },
         ),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Profile(),
-                  ));
-              Profile();
-            },
-            icon: Icon(Icons.person, color: Colors.black),
-          ),
-        ],
+
         title: Text(_title, style: TextStyle(fontSize: 25, color: Colors.white)),
         centerTitle: true,
       ),
@@ -81,23 +62,19 @@ class _HomePageState extends State<HomePage> {
         },
       ),
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        type: BottomNavigationBarType.fixed,
+          currentIndex: _currentIndex,
+          type: BottomNavigationBarType.fixed,
         fixedColor: Color.fromRGBO(204, 119, 34, 1.0),
-        onTap: _onItemTapped, //click event
+          onTap: _onItemTapped, //click event
         items: [
+          new BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            title: Text('主頁'),
+
+          ),
           new BottomNavigationBarItem(
             icon: Icon(Icons.access_alarms_rounded),
             title: Text('吃藥時間'),
-          ),
-
-          new BottomNavigationBarItem(
-            icon: Icon(Icons.home, size: 36,),
-            title: Text('主頁',
-              style: TextStyle(
-                fontSize: 13.0,
-              ),),
-
           ),
 
           new BottomNavigationBarItem(
@@ -105,10 +82,10 @@ class _HomePageState extends State<HomePage> {
             title: Text('吃藥紀錄'),
           ),
 
-          // new BottomNavigationBarItem(
-          //     icon: Icon(Icons.person),
-          //     title: Text('會員資料'),
-          // )
+          new BottomNavigationBarItem(
+              icon: Icon(Icons.person),
+              title: Text('會員資料'),
+          )
         ],
       ),
     );
@@ -123,21 +100,15 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       _currentIndex = index;
       switch(index) {
-        case 0: { _title = '吃藥時間'; }
+        case 0: { _title = '智慧藥盒'; }
         break;
-        case 1: { _title = '智慧藥盒'; }
+        case 1: { _title = '吃藥時間'; }
         break;
         case 2: { _title = '吃藥紀錄'; }
         break;
+        case 3: { _title = '會員資料'; }
+        break;
       }
     });
-  }
-
-  Future<String> getd() async {
-    DataSnapshot snapshot = await databaseReference
-        .child('users').child(StaticInfo.userid)
-        .once();
-    d = snapshot.value['device_id'];
-    return d;
   }
 }

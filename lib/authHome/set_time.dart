@@ -15,7 +15,6 @@ import 'package:flutter1/authHome/time_content/screens/edit_drugB.dart';
 import 'package:flutter1/authHome/time_content/screens/edit_drugC.dart';
 import 'package:flutter1/authHome/time_content/screens/edit_drugD.dart';
 import 'package:flutter1/authHome/time_content/screens/edit_time.dart';
-import 'package:flutter1/helpers/device_input.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter1/authHome/model/time_firebase.dart';
@@ -52,7 +51,7 @@ class _SetState extends State<SetTime> {
     flutterLocalNotificationsPlugin.initialize(initSetttings,
         onSelectNotification: onSelectNotification);
 
-    mainReference = FirebaseDatabase.instance.reference().child("device").child(GetDeviceID.getDeviceID);
+    mainReference = FirebaseDatabase.instance.reference().child("device").child(userid);
     drugAdb = mainReference.child("drugA");
     drugBdb = mainReference.child("drugB");
     drugCdb = mainReference.child("drugC");
@@ -79,15 +78,7 @@ class _SetState extends State<SetTime> {
 
   Widget build(BuildContext context) {
     final drugA = Ink(
-
-      decoration: new BoxDecoration(
-        //背景
-        color: Color.fromRGBO(210, 180, 140, 1.0),
-        //设置四周圆角 角度
-        borderRadius: BorderRadius.all(Radius.circular(25.0)),
-        //设置四周边框
-        border: new Border.all(width: 1,  color: Color.fromRGBO(210, 180, 140, 1.0)),
-      ),
+      color: Color.fromRGBO(210, 180, 140, 1.0),
       child: Column(
         // mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -95,7 +86,7 @@ class _SetState extends State<SetTime> {
             child: Padding(
               padding: const EdgeInsets.all(10.0),
               child: StreamBuilder(
-                stream: StaticInfo.readItemsA(),
+                stream: StaticInfo.readItems(),
                 builder: (context, AsyncSnapshot<Event> snapshot) {
                   if (snapshot.hasError) {
                     return Text('Something went wrong'); //若連不上realtime會顯示
@@ -215,15 +206,7 @@ class _SetState extends State<SetTime> {
     );
 
     final drugB = Ink(
-
-      decoration: new BoxDecoration(
-        //背景
-        color: Color.fromRGBO(210, 180, 140, 1.0),
-        //设置四周圆角 角度
-        borderRadius: BorderRadius.all(Radius.circular(25.0)),
-        //设置四周边框
-        border: new Border.all(width: 1,  color: Color.fromRGBO(210, 180, 140, 1.0)),
-      ),
+      color: Color.fromRGBO(210, 180, 140, 1.0),
       child: Column(
         // mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -231,7 +214,7 @@ class _SetState extends State<SetTime> {
             child: Padding(
               padding: const EdgeInsets.all(10.0),
               child: StreamBuilder(
-                stream: StaticInfo.readItemsB(),
+                stream: StaticInfo.readItems1(),
                 builder: (context, AsyncSnapshot<Event> snapshot) {
                   if (snapshot.hasError) {
                     return Text('Something went wrong'); //若連不上firestore會顯示
@@ -328,15 +311,7 @@ class _SetState extends State<SetTime> {
     );
 
     final drugC = Ink(
-
-      decoration: new BoxDecoration(
-        //背景
-        color: Color.fromRGBO(210, 180, 140, 1.0),
-        //设置四周圆角 角度
-        borderRadius: BorderRadius.all(Radius.circular(25.0)),
-        //设置四周边框
-        border: new Border.all(width: 1,  color: Color.fromRGBO(210, 180, 140, 1.0)),
-      ),
+      color: Color.fromRGBO(210, 180, 140, 1.0),
       child: Column(
         // mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -344,7 +319,7 @@ class _SetState extends State<SetTime> {
             child: Padding(
               padding: const EdgeInsets.all(10.0),
               child: StreamBuilder(
-                stream: StaticInfo.readItemsC(),
+                stream: StaticInfo.readItems2(),
                 builder: (context, AsyncSnapshot<Event> snapshot) {
                   if (snapshot.hasError) {
                     return Text('Something went wrong'); //若連不上firestore會顯示
@@ -441,15 +416,7 @@ class _SetState extends State<SetTime> {
     );
 
     final drugD = Ink(
-
-      decoration: new BoxDecoration(
-        //背景
-        color: Color.fromRGBO(210, 180, 140, 1.0),
-        //设置四周圆角 角度
-        borderRadius: BorderRadius.all(Radius.circular(25.0)),
-        //设置四周边框
-        border: new Border.all(width: 1,  color: Color.fromRGBO(210, 180, 140, 1.0)),
-      ),
+      color: Color.fromRGBO(210, 180, 140, 1.0),
       child: Column(
         // mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -457,7 +424,7 @@ class _SetState extends State<SetTime> {
             child: Padding(
               padding: const EdgeInsets.all(10.0),
               child: StreamBuilder(
-                stream: StaticInfo.readItemsD(),
+                stream: StaticInfo.readItems3(),
                 builder: (context, AsyncSnapshot<Event> snapshot) {
                   if (snapshot.hasError) {
                     return Text('Something went wrong'); //若連不上firestore會顯示
@@ -561,6 +528,7 @@ class _SetState extends State<SetTime> {
       //   onPressed: _openAddEntryDialog,
       // ),
       body: SafeArea(
+        //每個List的顯示
         child: Padding(
           padding: EdgeInsets.all(10.0),
           child: GridView(

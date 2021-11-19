@@ -1,7 +1,6 @@
 import 'dart:math';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter1/authHome/model/time_entry.dart';
-import 'package:flutter1/helpers/device_input.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter1/authHome/model/time_firebase.dart';
 import 'package:flutter/material.dart';
@@ -24,22 +23,14 @@ class _AddDrugDState extends State<AddDrugD> {
   TimeOfDay time1 = new TimeOfDay.now();
   TimeOfDay time2 = new TimeOfDay.now();
 
-  final databaseReference = FirebaseDatabase.instance.reference();
   DatabaseReference drugD;
 
   @override
   void initState() {
     super.initState();
-    print("GetDeviceID.getDeviceID：：");
-    print(GetDeviceID.getDeviceID);
-    drugD = FirebaseDatabase.instance.reference().child("device").child(GetDeviceID.getDeviceID).child("drugD");
+    drugD = FirebaseDatabase.instance.reference().child("device").child(StaticInfo.userid).child("drugD");
   }
 
-
-  // _AddDrugDState() {
-  //   databaseReference.onChildAdded.listen(_onEntryAdded);
-  //   // databaseReference.onChildChanged.listen(_onEntryEdited);
-  // }
 
   Widget _createAppBar(BuildContext context) {
     return new AppBar(

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter1/authHome/model/time_entry.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter1/authHome/time_content/screens/search.dart';
+import 'package:flutter1/helpers/device_input.dart';
 
 class EditDrugC extends StatefulWidget {
   EditDrugC({Key key}) : super(key: key);
@@ -24,13 +25,13 @@ class _EditDrugCState extends State<EditDrugC> {
   DatabaseReference drugCdb = FirebaseDatabase.instance
       .reference()
       .child("device")
-      .child(StaticInfo.userid)
+      .child(GetDeviceID.getDeviceID)
       .child("drugC");
 
 
   Future<Null> readData() async {
     await FirebaseDatabase.instance.reference().child("device")
-        .child(StaticInfo.userid)
+        .child(GetDeviceID.getDeviceID)
         .child("drugC").once().then((DataSnapshot snapshot) {
       drugText = snapshot.value;
       print("名稱：");
@@ -104,7 +105,7 @@ class _EditDrugCState extends State<EditDrugC> {
       body: new Padding(
         padding: const EdgeInsets.all(15),
         child: StreamBuilder(
-          stream: StaticInfo.readItems(),
+          stream: StaticInfo.readItemsC(),
           builder: (context, AsyncSnapshot<Event> snapshot) {
             if (snapshot.hasError) {
               return Text('Something went wrong');

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter1/authHome/model/time_entry.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter1/authHome/time_content/screens/search.dart';
+import 'package:flutter1/helpers/device_input.dart';
 
 class EditDrugA extends StatefulWidget {
   EditDrugA({Key key}) : super(key: key);
@@ -24,13 +25,13 @@ class _EditDrugAState extends State<EditDrugA> {
   DatabaseReference drugAdb = FirebaseDatabase.instance
       .reference()
       .child("device")
-      .child(StaticInfo.userid)
+      .child(GetDeviceID.getDeviceID)
       .child("drugA");
 
 
   Future<Null> readData() async {
     await FirebaseDatabase.instance.reference().child("device")
-        .child(StaticInfo.userid)
+        .child(GetDeviceID.getDeviceID)
         .child("drugA").once().then((DataSnapshot snapshot) {
       drugText = snapshot.value;
       print("名稱：");
@@ -104,7 +105,7 @@ class _EditDrugAState extends State<EditDrugA> {
       body: new Padding(
         padding: const EdgeInsets.all(15),
               child: StreamBuilder(
-                stream: StaticInfo.readItems(),
+                stream: StaticInfo.readItemsA(),
                 builder: (context, AsyncSnapshot<Event> snapshot) {
                   if (snapshot.hasError) {
                     return Text('Something went wrong');
@@ -167,4 +168,7 @@ class _EditDrugAState extends State<EditDrugA> {
 //         builder: (context) => MedicineMode(),
 //       ));
 // }
+
+
+
 }

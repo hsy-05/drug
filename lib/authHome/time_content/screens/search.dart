@@ -53,15 +53,15 @@ class SearchTextState extends State<SearchText> {
     });
   }
 
-  void handleSubmit() {
-    final FormState form = formKey.currentState;
-
-    if (form.validate()) {
-      form.save();
-      form.reset();
-      itemRef.push().set(item.toJson());
-    }
-  }
+  // void handleSubmit() {
+  //   final FormState form = formKey.currentState;
+  //
+  //   if (form.validate()) {
+  //     form.save();
+  //     form.reset();
+  //     itemRef.push().set(item.toJson());
+  //   }
+  // }
 
   @override
   void dispose() {

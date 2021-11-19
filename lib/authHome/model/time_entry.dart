@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter1/helpers/device_input.dart';
 
 // realtime
 final DatabaseReference timeCollection = FirebaseDatabase.instance.reference();
@@ -9,25 +10,30 @@ final DatabaseReference timeCollection = FirebaseDatabase.instance.reference();
 class StaticInfo{
   static String userid;
 
+  static Stream<Event> readUserVal() {
+    Query timeItemCollection =
+    timeCollection.child("users").reference().child(userid);
+    return timeItemCollection.onValue;
+  }
 
-  static Stream<Event> readItems() {
+  static Stream<Event> readItemsA() {
     Query timeItemCollection =
-    timeCollection.child("device").child(userid).child("drugA");
+    timeCollection.child("device").child(GetDeviceID.getDeviceID).child("drugA");
     return timeItemCollection.onValue;
   }
-  static Stream<Event> readItems1() {
+  static Stream<Event> readItemsB() {
     Query timeItemCollection =
-    timeCollection.child("device").child(userid).child("drugB");
+    timeCollection.child("device").child(GetDeviceID.getDeviceID).child("drugB");
     return timeItemCollection.onValue;
   }
-  static Stream<Event> readItems2() {
+  static Stream<Event> readItemsC() {
     Query timeItemCollection =
-    timeCollection.child("device").child(userid).child("drugC");
+    timeCollection.child("device").child(GetDeviceID.getDeviceID).child("drugC");
     return timeItemCollection.onValue;
   }
-  static Stream<Event> readItems3() {
+  static Stream<Event> readItemsD() {
     Query timeItemCollection =
-    timeCollection.child("device").child(userid).child("drugD");
+    timeCollection.child("device").child(GetDeviceID.getDeviceID).child("drugD");
     return timeItemCollection.onValue;
   }
 }

@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter1/authHome/model/time_entry.dart';
+import 'package:flutter1/helpers/device_input.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter1/authHome/model/time_firebase.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +29,7 @@ class _AddDrugBState extends State<AddDrugB> {
   @override
   void initState() {
     super.initState();
-    drugB = FirebaseDatabase.instance.reference().child("device").child(StaticInfo.userid).child("drugB");
+    drugB = FirebaseDatabase.instance.reference().child("device").child(GetDeviceID.getDeviceID).child("drugB");
   }
 
 

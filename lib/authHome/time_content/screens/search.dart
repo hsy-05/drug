@@ -11,8 +11,8 @@ class SearchText extends StatefulWidget {
 }
 
 class SearchTextState extends State<SearchText> {
-  List<Item> Remedios = List();
-  Item item;
+  List<DrugItem> Remedios = List();
+  DrugItem item;
   DatabaseReference itemRef;
   TextEditingController _drugTextController = new TextEditingController();
   String filter;
@@ -22,7 +22,7 @@ class SearchTextState extends State<SearchText> {
   @override
   void initState() {
     super.initState();
-    item = Item("", "");
+    item = DrugItem("", "");
     final FirebaseDatabase database = FirebaseDatabase
         .instance; //Rather then just writing FirebaseDatabase(), get the instance.
     itemRef = database.reference().child('drugInfo');
@@ -39,7 +39,7 @@ class SearchTextState extends State<SearchText> {
   _onEntryAdded(Event event) {
     if (!mounted) return; ////
     setState(() {
-      Remedios.add(Item.fromSnapshot(event.snapshot));
+      Remedios.add(DrugItem.fromSnapshot(event.snapshot));
     });
   }
 
@@ -49,7 +49,7 @@ class SearchTextState extends State<SearchText> {
     });
     if (!mounted) return; ////
     setState(() {
-      Remedios[Remedios.indexOf(old)] = Item.fromSnapshot(event.snapshot);
+      Remedios[Remedios.indexOf(old)] = DrugItem.fromSnapshot(event.snapshot);
     });
   }
 
@@ -151,14 +151,14 @@ class SearchTextState extends State<SearchText> {
   }
 }
 
-class Item {
+class DrugItem {   //藥品資料庫
   String key;
   String CSname;
   String use;
 
-  Item(this.CSname, this.use);
+  DrugItem(this.CSname, this.use);
 
-  Item.fromSnapshot(DataSnapshot snapshot)
+  DrugItem.fromSnapshot(DataSnapshot snapshot)
       : key = snapshot.key,
         CSname = snapshot.value["中文品名"],
         use = snapshot.value["適應症"];

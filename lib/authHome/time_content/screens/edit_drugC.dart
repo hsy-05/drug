@@ -15,7 +15,7 @@ class EditDrugC extends StatefulWidget {
 
 
 class _EditDrugCState extends State<EditDrugC> {
-  List<Item> Remedios = List();
+  List<DrugItem> Remedios = List();
   DatabaseReference itemRef;
 
   bool _isDeleting = false;
@@ -51,7 +51,7 @@ class _EditDrugCState extends State<EditDrugC> {
   _onEntryAdded(Event event) {
     if (!mounted) return; ////
     setState(() {
-      Remedios.add(Item.fromSnapshot(event.snapshot));
+      Remedios.add(DrugItem.fromSnapshot(event.snapshot));
     });
   }
 

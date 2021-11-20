@@ -62,11 +62,12 @@ class GetDeviceID{
   static String getDeviceID;
 
   Future<String> getd() async {
-    DataSnapshot snapshot = await databaseReference
+    await databaseReference
         .child('users').child(StaticInfo.userid)
-        .once();
-    getDeviceID = snapshot.value['device_id'];
-    return getDeviceID;
+        .once().then((DataSnapshot snapshot) {
+      getDeviceID = snapshot.value['device_id'];
+      return getDeviceID;
+    });
   }
 }
 

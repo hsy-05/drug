@@ -28,7 +28,7 @@ class _LoginPageState extends State<LoginPage> {
       padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 35.0), //上下邊距
       child: SizedBox(
         width: MediaQuery //MediaQuery.of(context) 來獲取資料
-                .of(context)
+            .of(context)
             .size
             .width,
         child: RaisedButton(
@@ -74,7 +74,7 @@ class _LoginPageState extends State<LoginPage> {
       padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0), //上下邊距
       child: SizedBox(
         width: MediaQuery //MediaQuery.of(context) 來獲取資料
-                .of(context)
+            .of(context)
             .size
             .width,
         child: CupertinoButton(
@@ -125,6 +125,7 @@ class _LoginPageState extends State<LoginPage> {
     );
 
     final email = TextFormField(
+      cursorColor: Colors.grey,
       keyboardType: TextInputType.emailAddress,
       autofocus: false,
       controller: _emailController,
@@ -137,7 +138,13 @@ class _LoginPageState extends State<LoginPage> {
           ), // icon is 48px widget.
         ),
         labelText: "信箱帳號",
+        labelStyle: TextStyle(color: Colors.black54),
+        focusedBorder: OutlineInputBorder(
+            borderSide: const BorderSide(color:Colors.grey)),
+        enabledBorder: OutlineInputBorder(
+            borderSide: const BorderSide(color:Colors.grey)),
         hintText: "請輸入帳號",
+        hintStyle: TextStyle(color: Colors.grey),
         contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
       ),
@@ -148,6 +155,7 @@ class _LoginPageState extends State<LoginPage> {
     );
 
     final password = TextFormField(
+      cursorColor: Colors.grey,
       autofocus: false,
       controller: _passwordController,
       obscureText: true,
@@ -163,7 +171,13 @@ class _LoginPageState extends State<LoginPage> {
         ),
         // icon is 48px widget.
         labelText: "密碼",
+        labelStyle: TextStyle(color: Colors.black54),
+        focusedBorder: OutlineInputBorder(
+            borderSide: const BorderSide(color:Colors.grey)),
+        enabledBorder: OutlineInputBorder(
+            borderSide: const BorderSide(color:Colors.grey)),
         hintText: "請輸入密碼",
+        hintStyle: TextStyle(color: Colors.grey),
         contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         //上右下左
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
@@ -183,53 +197,53 @@ class _LoginPageState extends State<LoginPage> {
               new Container(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height / 3.0,
-                      // padding: const EdgeInsets.only(top: 80), ////
-                      child: Hero(
-                        tag: "main-logo", //
-                        child: SizedBox(
-                          width: MediaQuery.of(context).size.width,
-                          child: appLogo,
-                        ),
-                      ),
+                // padding: const EdgeInsets.only(top: 80), ////
+                child: Hero(
+                  tag: "main-logo", //
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    child: appLogo,
+                  ),
+                ),
 
               ),
 
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center, //
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              top: 70, left: 60, right: 60),
-                          child: Form(
-                            key: _formKey,
-                            autovalidate: false, //是否自動校驗輸入內容
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                email,
-                                const SizedBox(
-                                  height: 26,
-                                ),
-                                password,
-                                const SizedBox(
-                                  height: 35,
-                                ),
-                                loginButton,
-                              ],
-                            ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center, //
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        top: 70, left: 60, right: 60),
+                    child: Form(
+                      key: _formKey,
+                      autovalidate: false, //是否自動校驗輸入內容
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          email,
+                          const SizedBox(
+                            height: 26,
                           ),
-                        ),
-                      ],
+                          password,
+                          const SizedBox(
+                            height: 35,
+                          ),
+                          loginButton,
+                        ],
+                      ),
                     ),
+                  ),
+                ],
+              ),
 
 
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Expanded(child:RegisterButton ,),
-                        Expanded(child: LoginGoogleButton),
-                      ],
-                    ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Expanded(child:RegisterButton ,),
+                  Expanded(child: LoginGoogleButton),
+                ],
+              ),
 
             ],
           ),

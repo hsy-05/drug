@@ -1,8 +1,42 @@
 import 'dart:math';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter1/helpers/device_input.dart';
 
 // realtime
+final DatabaseReference timeCollection = FirebaseDatabase.instance.reference();
+
+class StaticInfo{
+  static String userid;
+
+  static Stream<Event> readUserDeviceID() {
+    Query timeItemCollection =
+    timeCollection.child("users").child(userid);
+    return timeItemCollection.onValue;
+  }
+
+  static Stream<Event> readItemsA() {
+    Query timeItemCollection =
+    timeCollection.child("device").child(GetDeviceID.getDeviceID).child("drugA");
+    return timeItemCollection.onValue;
+  }
+  static Stream<Event> readItemsB() {
+    Query timeItemCollection =
+    timeCollection.child("device").child(GetDeviceID.getDeviceID).child("drugB");
+    return timeItemCollection.onValue;
+  }
+  static Stream<Event> readItemsC() {
+    Query timeItemCollection =
+    timeCollection.child("device").child(GetDeviceID.getDeviceID).child("drugC");
+    return timeItemCollection.onValue;
+  }
+  static Stream<Event> readItemsD() {
+    Query timeItemCollection =
+    timeCollection.child("device").child(GetDeviceID.getDeviceID).child("drugD");
+    return timeItemCollection.onValue;
+  }
+}
 
 class DrugARealtime {
   String key;
@@ -23,18 +57,18 @@ class DrugARealtime {
         text = snapshot.value["DrugText"];
   // notificationId = snapshot.value["notificationId"];
   //var date = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
-        // note = snapshot.value["note"];
+  // note = snapshot.value["note"];
 
   Map<String, dynamic> toJson() =>
       {
-      "fromDate": fromDateTime,     //.millisecondsSinceEpoch
+        "fromDate": fromDateTime,     //.millisecondsSinceEpoch
         "toDate": toDateTime,
         "active": active,
         "text": text,
         "notificationId": notificationId,
-      // "note": note
+        // "note": note
 
-  };
+      };
 
 }
 

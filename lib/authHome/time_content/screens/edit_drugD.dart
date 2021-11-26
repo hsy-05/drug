@@ -1,45 +1,77 @@
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter1/authHome/model/time_firebase.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter1/authHome/time_content/screens/med_mode.dart';
-import 'package:flutter1/authHome/time_content/screens/edit_time.dart';
-import 'package:flutter1/authHome/time_content/screens/add_time.dart';
+import 'package:flutter1/authHome/model/database_compare.dart';
+import 'package:flutter1/authHome/model/time_entry.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter1/authHome/time_content/screens/search.dart';
+import 'package:flutter1/helpers/device_input.dart';
 
 class EditDrugD extends StatefulWidget {
-  final String currentTitle;
-  final String documentId;
-
-  const EditDrugD({
-    this.currentTitle,
-    this.documentId,
-  });
+  EditDrugD({Key key}) : super(key: key);
 
   @override
   _EditDrugDState createState() => _EditDrugDState();
 }
 
 class _EditDrugDState extends State<EditDrugD> {
-  final _editItemFormKey = GlobalKey<FormState>();
-
-  DateTime _fromDateTime = new DateTime.now();
-  DateTime _toDateTime = new DateTime.now();
-
-  bool _isProcessing = false;
+  List<DrugItem> Remedios = List();
+  DrugItem item;
+  DatabaseReference itemRef;
+  String _drugInfo;
   bool _isDeleting = false;
 
-  TextEditingController _titleController;
+  // String drugText;
 
-  DatabaseReference drugDdb =
-  FirebaseDatabase.instance.reference().child("drugD");
+  DatabaseReference drugDdb = FirebaseDatabase.instance
+      .reference()
+      .child("device")
+      .child(GetDeviceID.getDeviceID)
+      .child("drugD");
+
+  // readData()  {
+  //   var drugText;
+  //    FirebaseDatabase.instance.reference()
+  //       .child("device").child(GetDeviceID.getDeviceID).child("drugD").once().then((DataSnapshot snapshot) {
+  //   Map<dynamic, dynamic> values = snapshot.value;
+  //   values.forEach((key, values) {
+  //     drugText = values['drugText'];
+  //     print("名稱：");
+  //     print(drugText);
+  //   });
+  // });
+  // return drugText;
+  // }
 
   @override
   void initState() {
-    _titleController = TextEditingController(
-      text: widget.currentTitle,
-    );
-
     super.initState();
+    final FirebaseDatabase database = FirebaseDatabase.instance;
+    item = DrugItem("", "");
+    itemRef = database.reference().child('drugInfo');
+    itemRef.onChildAdded.listen(_onEntryAdded);
+    itemRef.onChildChanged.listen(_onEntryChanged);
+    DrugDText().readDrugDText();
+    print("readDrugDText");
+    print(DrugDText.drugDText);
+  }
+
+  _onEntryAdded(Event event) {
+    if (!mounted) return; ////
+    setState(() {
+      Remedios.add(DrugItem.fromSnapshot(event.snapshot));
+    });
+  }
+
+
+  _onEntryChanged(Event event) {
+    var old = Remedios.singleWhere((entry) {
+      return entry.key == event.snapshot.key;
+    });
+    if (!mounted) return; ////
+    setState(() {
+      Remedios[Remedios.indexOf(old)] = DrugItem.fromSnapshot(event.snapshot);
+    });
   }
 
   Widget _createAppBar(BuildContext context) {
@@ -65,7 +97,7 @@ class _EditDrugDState extends State<EditDrugD> {
           icon: Icon(
             Icons.delete,
             color: Colors.redAccent,
-            size: 32,
+            size: 36,
           ),
           onPressed: () async {
             setState(() {
@@ -87,54 +119,88 @@ class _EditDrugDState extends State<EditDrugD> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
+    return Scaffold(
       appBar: _createAppBar(context),
       body: new Padding(
-        padding: const EdgeInsets.all(15),
-        child: ListView(
-          children: ListTile.divideTiles(context: context, tiles: [
-            new ListTile(
-              horizontalTitleGap: 0,
-              contentPadding: EdgeInsets.only(left: 0.0, right: 0.0),
-              // title: new EditScreen(
-              //   fromDateTime: _fromDateTime,
-              //   toDateTime: _toDateTime,
-              //   onFromChanged: (fromDateTime) => setState(() => _fromDateTime = fromDateTime),
-              //   onToChanged: (toDateTime) => setState(() => _toDateTime = toDateTime),
-              // ),
-            ),
-            // new Form(
-            //     key: _addItemFormKey,
-            ListTile(
-              horizontalTitleGap: 10,
-              minLeadingWidth: 0,
-              leading: new Icon(Icons.search),
-              title: Text(
-                "藥品名稱",
-                style: TextStyle(fontSize: 18),
+          padding: const EdgeInsets.all(15),
+          child: Column(
+            children: [
+              Container(
+                height: 100,
+                child: StreamBuilder(
+                  stream: StaticInfo.readItemsA(),
+                  builder: (context, AsyncSnapshot<Event> snapshot) {
+                    if (snapshot.hasError) {
+                      return Text('Something went wrong');
+                    } else if (snapshot.hasData || snapshot.data != null) {
+                      return FirebaseAnimatedList(
+                        query: drugDdb,
+                        itemBuilder: (BuildContext context,
+                            DataSnapshot snapshot,
+                            Animation<double> animation,
+                            int index) {
+                          String drugName = snapshot.value['drugText'];
+                          return Ink(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                new Text(
+                                  "藥品名稱：",
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                    fontSize: 28,
+                                  ),
+                                ),
+                                new Text(
+                                  DrugDText.drugDText?? "",
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                    fontSize: 28,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      );
+                    }
+
+                    return Center(
+                        child: CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            Color.fromRGBO(204, 119, 34, 1.0),
+                          ),
+                        ));
+                  },
+                ),
               ),
-              trailing: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Text(
-                    "",
-                    style: TextStyle(fontSize: 20),
-                  ),
-                ],
+              Flexible(
+                fit: FlexFit.tight,
+                child: FirebaseAnimatedList(
+                  //使用FirebaseAnimatedList控制元件把訊息列表顯示出來
+                  query: itemRef,
+                  itemBuilder: (BuildContext context, DataSnapshot snapshot,
+                      Animation<double> animation, int index) {
+                    return Remedios[index]
+                        .CSname
+                        .contains(DrugDText.drugDText)
+                        ? ListTile(
+                      //顯示全部
+                      title:Text("適應症",style: TextStyle(
+                        fontSize: 28,
+                      ),),
+                      subtitle: Text(Remedios[index].use.toString(),
+                        style: TextStyle(
+                          fontSize: 24,
+                        ),),
+                    )
+                        : new Container();
+                  },
+                ),
               ),
-            ),
-            ListTile(
-              title: Text(
-                "服藥模式",
-                style: TextStyle(fontSize: 18),
-              ),
-              onTap: () {
-                // _returnValueOfTakedrugText(context);
-              },
-            ),
-          ]).toList(),
-        ),
-      ),
+            ],
+          )),
     );
   }
 //

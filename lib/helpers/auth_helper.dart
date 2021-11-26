@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';  //
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter1/authHome/model/time_entry.dart';
 import 'package:flutter1/authHome/model/time_firebase.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:device_info/device_info.dart';
@@ -23,11 +24,11 @@ abstract class AuthHelper {
     return null;
   }
 
-  static signInWithEmail({String name, String email, String password}) async {
+  static signInWithEmail({ String email, String password}) async {
     try {
-      final res = await _auth.signInWithEmailAndPassword(
+      UserCredential res = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
-      final User user = res.user;
+      User user = res.user;
       await user.reload();
 
       return user;
@@ -39,17 +40,15 @@ abstract class AuthHelper {
 
   static signupWithEmail({String name, String email, String password}) async {
     try {
-      final res = await _auth.createUserWithEmailAndPassword(
+      UserCredential res = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
-      final User user = res.user;
-      await FirebaseAuth.instance.currentUser.updateProfile(displayName: name);
+      User user = res.user;
+      res.user.updateDisplayName(name);
       await user.reload();
 
-      // usersRef.push().set({
-      //   'username': user,
-      //   'uid': user.uid,
-      //
-      // });
+      print("註冊的會員：");
+      print(user);
+
 
       return user;
     } catch (e) {
@@ -77,7 +76,7 @@ abstract class AuthHelper {
 
 class UserHelper {
   static FirebaseFirestore _db = FirebaseFirestore.instance;
-  static DatabaseReference usersRef = FirebaseDatabase.instance.reference().child("users");
+  static DatabaseReference usersRef = FirebaseDatabase.instance.reference().child("users");  //realTIme
 
   static saveUser(User user) async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
@@ -92,7 +91,7 @@ class UserHelper {
       "build_number": buildNumber,
       "uid": user.uid,
     };
-    Entry.userid = user.uid;
+    StaticInfo.userid = user.uid;
     final userRef = _db.collection("users").doc(user.uid);
     if ((await userRef.get()).exists)   {
       await userRef.update({
@@ -110,6 +109,7 @@ class UserHelper {
       await usersRef.reference().child(user.uid).set({
         'username': user.displayName,
         'uid': user.uid,
+        'device_id': "null",
       });
     }
     await _saveDevice(user);
@@ -153,6 +153,10 @@ class UserHelper {
         "updated_at": nowMS,
         "uninstalled": false,
       });
+      await usersRef.reference().child(user.uid).update({
+        'username': user.displayName,
+        'uid': user.uid,
+      });
     } else {
       await deviceRef.set({
         "updated_at": nowMS,
@@ -160,6 +164,11 @@ class UserHelper {
         "id": deviceId,
         "created_at": nowMS,
         "device_info": deviceData,
+      });
+      await usersRef.reference().child(user.uid).set({
+        'username': user.displayName,
+        'uid': user.uid,
+        'device_id': "null",
       });
     }
   }

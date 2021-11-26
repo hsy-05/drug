@@ -2,7 +2,8 @@
     package="com.example.flutter1">
    <application
         android:label="flutter1"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher1">
+        android:roundIcon="@mipmap/ic_launcher_round"> <!-- 添加對於圓形 Icon 支持 -->
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

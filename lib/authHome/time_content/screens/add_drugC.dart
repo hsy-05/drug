@@ -1,5 +1,7 @@
 import 'dart:math';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter1/authHome/model/time_entry.dart';
+import 'package:flutter1/helpers/device_input.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter1/authHome/model/time_firebase.dart';
 import 'package:flutter/material.dart';
@@ -19,13 +21,15 @@ class _AddDrugCState extends State<AddDrugC> {
   DateTime _fromDateTime = new DateTime.now();
   DateTime _toDateTime = new DateTime.now();
   TimeOfDay time = new TimeOfDay.now();
+  TimeOfDay time1 = new TimeOfDay.now();
+  TimeOfDay time2 = new TimeOfDay.now();
 
   DatabaseReference drugC;
 
   @override
   void initState() {
     super.initState();
-    drugC = FirebaseDatabase.instance.reference().child("drugC");
+    drugC = FirebaseDatabase.instance.reference().child("device").child(GetDeviceID.getDeviceID).child("drugC");
   }
 
 
@@ -42,7 +46,7 @@ class _AddDrugCState extends State<AddDrugC> {
           child: new Text('新增',
               style: Theme.of(context)
                   .textTheme
-                  .subhead
+                  .subtitle1
                   .copyWith(color: Colors.white, fontSize: 20.0)),
         ),
       ],
@@ -108,12 +112,24 @@ class _AddDrugCState extends State<AddDrugC> {
                 style: TextStyle(fontSize: 18),
               ),
               onTap: () {
-                _returnValueOfTakedrugText(context);
+                _returnValueOfDrugTime(context);
               },
             ),
             new ListTile(
               title: Text(
                 time.format(context),
+                style: TextStyle(fontSize: 18),
+              ),
+            ),
+            new ListTile(
+              title: Text(
+                time1.format(context),
+                style: TextStyle(fontSize: 18),
+              ),
+            ),
+            new ListTile(
+              title: Text(
+                time2.format(context),
                 style: TextStyle(fontSize: 18),
               ),
             ),
@@ -135,18 +151,21 @@ class _AddDrugCState extends State<AddDrugC> {
     });
   }
 
-  void _returnValueOfTakedrugText(BuildContext context) async {
+  void _returnValueOfDrugTime(BuildContext context) async {
     final result = await Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => MedicineMode(),
         ));
+    // final result1 = await Navigator.of(context).push();
     setState(() {
-      time = result;
+      time = result[0];
       _fromDateTime = new DateTime(_fromDateTime.year, _fromDateTime.month,
           _fromDateTime.day, time.hour, time.minute);
       _toDateTime = new DateTime(_toDateTime.year, _toDateTime.month,
           _toDateTime.day, time.hour, time.minute);
+      time1 = result[1];
+      time2 = result[2];
     });
   }
 
@@ -231,6 +250,11 @@ class _AddDrugCState extends State<AddDrugC> {
 
     int notificationId = Random().nextInt(1000);
 
+    var different = _toDateTime.difference(_fromDateTime).inDays;
+
+    print("計算天數");
+    print(different); // 19362
+
     Map<String, dynamic> toJson = {
 
       "fromDate": _fromDateTime.toString(), //.millisecondsSinceEpoch   //DateFormat('yyyy -MM -dd').format(_fromDateTime)
@@ -238,8 +262,11 @@ class _AddDrugCState extends State<AddDrugC> {
       "active": active,
       "drugText": drugText,
       "notificationId": notificationId,
-      "time": DateFormat().add_jm().format(_fromDateTime),
-
+      "startDate": DateFormat('yyyy/M/d').format(_fromDateTime),   //for裝置
+      "endDate": DateFormat('yyyy/M/d').format(_toDateTime),    //for裝置
+      "time": DateFormat('HH:mm:s').format(_fromDateTime),  //for裝置
+      "time1":"${time1.hour}:${time1.minute}",
+      "time2":"${time2.hour}:${time2.minute}",
     };
     drugC.reference().push().set(toJson);
   }

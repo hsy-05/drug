@@ -3,26 +3,6 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter1/authHome/model/time_entry.dart';
 import 'package:flutter1/helpers/device_input.dart';
 
-// class DrugItem {   //藥品資料庫
-//   String key;
-//   String CSname;
-//   String use;
-//
-//   DrugItem(this.CSname, this.use);
-//
-//   DrugItem.fromSnapshot(DataSnapshot snapshot)
-//       : key = snapshot.key,
-//         CSname = snapshot.value["中文品名"],
-//         use = snapshot.value["適應症"];
-//
-//   toJson() {
-//     return {
-//       "CSname": CSname,
-//       "use": use,
-//     };
-//   }
-// }
-
 class UserDrug {  //會員設定的藥品
   String key;
   String CSname;
@@ -33,7 +13,7 @@ class UserDrug {  //會員設定的藥品
   UserDrug.fromSnapshot(DataSnapshot snapshot)
       : key = snapshot.key,
         CSname = snapshot.value["drugText"];
-        // userDI = snapshot.value["適應症"];
+  // userDI = snapshot.value["適應症"];
 
   toJson() {
     return {
@@ -42,12 +22,13 @@ class UserDrug {  //會員設定的藥品
     };
   }
 }
+DatabaseReference mainReference = FirebaseDatabase.instance.reference();
 
 class DrugAText{
   static String drugAText;
 
   Future<String> readDrugAText()  async{
-    await FirebaseDatabase.instance.reference()
+    await mainReference
         .child("device").child(GetDeviceID.getDeviceID).child("drugA").once().then((DataSnapshot snapshot) {
       Map<dynamic, dynamic> values = snapshot.value;
       values.forEach((key, values) {
@@ -60,6 +41,105 @@ class DrugAText{
   }
 }
 
+class DrugBText{
+  static String drugBText;
+
+  Future<String> readDrugBText()  async{
+    await mainReference
+        .child("device").child(GetDeviceID.getDeviceID).child("drugA").once().then((DataSnapshot snapshot) {
+      Map<dynamic, dynamic> values = snapshot.value;
+      values.forEach((key, values) {
+        drugBText = values['drugText'];
+      });
+      print("名稱：");
+      print(drugBText);
+      return drugBText;
+    });
+  }
+}
+
+class DrugCText{
+  static String drugCText;
+
+  Future<String> readDrugCText()  async{
+    await mainReference
+        .child("device").child(GetDeviceID.getDeviceID).child("drugA").once().then((DataSnapshot snapshot) {
+      Map<dynamic, dynamic> values = snapshot.value;
+      values.forEach((key, values) {
+        drugCText = values['drugText'];
+      });
+      print("名稱：");
+      print(drugCText);
+      return drugCText;
+    });
+  }
+}
+
+class DrugDText{
+  static String drugDText;
+
+  Future<String> readDrugDText()  async{
+    await mainReference
+        .child("device").child(GetDeviceID.getDeviceID).child("drugA").once().then((DataSnapshot snapshot) {
+      Map<dynamic, dynamic> values = snapshot.value;
+      values.forEach((key, values) {
+        drugDText = values['drugText'];
+      });
+      print("名稱：");
+      print(drugDText);
+      return drugDText;
+    });
+  }
+}
+
+class CheckDeviceID{
+  // static Map devicesID;
+  //
+  //   getDevicesID() async {
+  //    String devicesID;
+  //    mainReference.child("devices").once().then((DataSnapshot snapshot) {
+  //     Map<dynamic, dynamic> values = snapshot.value;
+  //     values.forEach((key, values) {
+  //       devicesID = values['device_id'];
+  //       setState(() {
+  //         petrolPumpData = petrolPumpLocations;
+  //       });
+  //     });
+  //     print("所有裝置ID：");
+  //     print(devicesID);
+  //     return devicesID;
+  //   });
+  // }
+  //
+  //  String getUserDeviceID() {
+  //     String userDeviceID;
+  //    mainReference.child("users").once().then((DataSnapshot snapshot) {
+  //     Map<dynamic, dynamic> values = snapshot.value;
+  //     values.forEach((key, values) {
+  //       userDeviceID = values['device_id'];
+  //     });
+  //     print("會員的裝置ID：");
+  //     print(userDeviceID);
+  //     return userDeviceID;
+  //   });
+  // }
+
+  // void checkDeviceID() async {
+  //
+  //   devices.once().then((DataSnapshot snapshot) { //查詢devices裡所有的device_id
+  //     Map<dynamic, dynamic> values = snapshot.value;
+  //     values.forEach((key, values) {
+  //       userDeviceID = values["device_id"];
+  //       var childKey = key;
+  //       print(values["device_id"]);
+  //       print(
+  //           "childID名稱：");
+  //       print(childKey);
+  //     });
+  //   });
+  // }
+
+}
 //
 // List<DrugItem> drugItemList;
 // List<UserDrug> userDrugList;

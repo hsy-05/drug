@@ -10,9 +10,9 @@ final DatabaseReference timeCollection = FirebaseDatabase.instance.reference();
 class StaticInfo{
   static String userid;
 
-  static Stream<Event> readUserVal() {
+  static Stream<Event> readUserDeviceID() {
     Query timeItemCollection =
-    timeCollection.child("users").reference().child(userid);
+    timeCollection.child("users").child(userid);
     return timeItemCollection.onValue;
   }
 
@@ -57,18 +57,18 @@ class DrugARealtime {
         text = snapshot.value["DrugText"];
   // notificationId = snapshot.value["notificationId"];
   //var date = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
-        // note = snapshot.value["note"];
+  // note = snapshot.value["note"];
 
   Map<String, dynamic> toJson() =>
       {
-      "fromDate": fromDateTime,     //.millisecondsSinceEpoch
+        "fromDate": fromDateTime,     //.millisecondsSinceEpoch
         "toDate": toDateTime,
         "active": active,
         "text": text,
         "notificationId": notificationId,
-      // "note": note
+        // "note": note
 
-  };
+      };
 
 }
 

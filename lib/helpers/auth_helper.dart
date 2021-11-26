@@ -43,7 +43,7 @@ abstract class AuthHelper {
       UserCredential res = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       User user = res.user;
-      await res.user.updateDisplayName(name);
+      res.user.updateDisplayName(name);
       await user.reload();
 
       print("註冊的會員：");
@@ -109,6 +109,7 @@ class UserHelper {
       await usersRef.reference().child(user.uid).set({
         'username': user.displayName,
         'uid': user.uid,
+        'device_id': "null",
       });
     }
     await _saveDevice(user);
@@ -152,6 +153,10 @@ class UserHelper {
         "updated_at": nowMS,
         "uninstalled": false,
       });
+      await usersRef.reference().child(user.uid).update({
+        'username': user.displayName,
+        'uid': user.uid,
+      });
     } else {
       await deviceRef.set({
         "updated_at": nowMS,
@@ -159,6 +164,11 @@ class UserHelper {
         "id": deviceId,
         "created_at": nowMS,
         "device_info": deviceData,
+      });
+      await usersRef.reference().child(user.uid).set({
+        'username': user.displayName,
+        'uid': user.uid,
+        'device_id': "null",
       });
     }
   }

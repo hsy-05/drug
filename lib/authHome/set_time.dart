@@ -107,6 +107,7 @@ class _SetState extends State<SetTime> {
                       itemBuilder: (BuildContext context, DataSnapshot snapshot,
                           Animation<double> animation, int index) {
                         String drugName = snapshot.value['drugText'];
+                        String nickName = snapshot.value['nickName'];
                         print("藥品名稱："+drugName);
                         DateTime fromDate =
                         (DateTime.parse(snapshot.value['fromDate']));
@@ -125,11 +126,11 @@ class _SetState extends State<SetTime> {
                           child: Column(
                             children: [
                               new Text(
-                                "藥品名稱：",
+                                "藥品暱稱：",
                                 textAlign: TextAlign.left,
                               ),
                               new Text(
-                                snapshot.value['drugText'],
+                                snapshot.value['nickName'],
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
                                   fontSize: 15,
@@ -356,6 +357,7 @@ class _SetState extends State<SetTime> {
                       itemBuilder: (BuildContext context, DataSnapshot snapshot,
                           Animation<double> animation, int index) {
                         String drugName = snapshot.value['drugText'];
+                        String nickName = snapshot.value['nickName'];
                         DateTime fromDate =
                         (DateTime.parse(snapshot.value['fromDate']));
                         DateTime toDate =
@@ -377,7 +379,7 @@ class _SetState extends State<SetTime> {
                                 textAlign: TextAlign.left,
                               ),
                               new Text(
-                                snapshot.value['drugText'],
+                                snapshot.value['nickName'],
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
                                   fontSize: 15,
@@ -565,16 +567,14 @@ class _SetState extends State<SetTime> {
           padding: EdgeInsets.all(10.0),
           child: GridView(
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              mainAxisSpacing: 10,
+              crossAxisCount: 1,
+              mainAxisSpacing: 8,
               crossAxisSpacing: 8,
-              childAspectRatio: 0.65,
+              childAspectRatio: 1.34,
             ),
             children: [
               drugA,
               drugB,
-              drugC,
-              drugD,
             ],
           ),
         ),

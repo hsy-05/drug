@@ -2,8 +2,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter1/RegisterPage.dart';
+import 'package:flutter1/authHome/model/database_compare.dart';
 import 'package:flutter1/authHome/model/time_entry.dart';
 import 'package:flutter1/helpers/device_input.dart';
 import '../helpers/auth_helper.dart';
@@ -27,9 +29,26 @@ class _ProfileState extends State<Profile> {
   DatabaseReference devices;
 
   String _confirmsword = "";
+  List<DeviceID> deviceIDList = List();
+  String _userDeviceID;
 
-  // String inputData = "";
-  String checkID = "";
+
+  //
+  //  getUserDeviceID() async {
+  //   mainReference.child("users").once().then((DataSnapshot snapshot) {
+  //     Map<dynamic, dynamic> values = snapshot.value;
+  //     values.forEach((key, values) {
+  //       Map userDeviceID = values['device_id'];
+  //       setState(() {
+  //         _userDeviceID = userDeviceID;
+  //       });
+  //     });
+  //     print("會員的裝置ID：");
+  //     print(_userDeviceID);
+  //     return _userDeviceID;
+  //   });
+  // }
+
 
   @override
   void initState() {
@@ -37,6 +56,15 @@ class _ProfileState extends State<Profile> {
     initUser();
     users = FirebaseDatabase.instance.reference().child("users");
     devices = FirebaseDatabase.instance.reference().child("devices");
+    devices.onChildAdded.listen(_onEntryAdded);
+    // getUserDeviceID();
+  }
+
+  _onEntryAdded(Event event) {
+    if (!mounted) return; ////
+    setState(() {
+      deviceIDList.add(DeviceID.fromSnapshot(event.snapshot));
+    });
   }
 
   initUser() async {
@@ -123,6 +151,23 @@ class _ProfileState extends State<Profile> {
       },
     );
 
+    final addORupdateID = RaisedButton(
+      child: Text(
+        "修改",
+        style: TextStyle(fontSize: 20),
+      ),
+      color: Color.fromRGBO(210, 180, 140, 1.0),
+      onPressed: () async {
+        GetDeviceID.getDeviceID  = await inputDeviceID(context);
+        // checkDeviceID();
+        print("裝置ID：$GetDeviceID.getDeviceID ");
+        // changeStatus();
+        await saveDeviceID();
+
+      },
+    );
+
+
     return new Scaffold(
         appBar: new AppBar(
           backgroundColor: Color.fromRGBO(210, 180, 140, 1.0),
@@ -199,6 +244,52 @@ class _ProfileState extends State<Profile> {
                         ),
 
                         SizedBox(height: 20.0),
+
+                        Container(
+                          height: 30,
+                          child: StreamBuilder(
+                            stream: StaticInfo.readUserDeviceID(),
+                            builder: (context, AsyncSnapshot<Event> snapshot) {
+                              if (snapshot.hasError) {
+                                return Text('Something went wrong');
+                              } else if (snapshot.hasData || snapshot.data != null) {
+                                Map value = snapshot.data.snapshot.value;
+                                _userDeviceID = value['device_id'];
+                                return Ink(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      new Text(
+                                        '裝置ID：',
+                                        style: TextStyle(
+                                          fontSize: 18.0,
+                                          letterSpacing: 1,
+                                        ),
+                                      ),
+
+                                      new Text(
+                                        deviceIDNull(_userDeviceID),
+                                        style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.black),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              }
+
+                              return Center(
+                                  child: CircularProgressIndicator(
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                      Color.fromRGBO(204, 119, 34, 1.0),
+                                    ),
+                                  ));
+                            },
+                          ),
+                        ),
+
+
+
+                        SizedBox(height: 20.0),
                         //
                         Text(
                           '修改密碼',
@@ -235,24 +326,7 @@ class _ProfileState extends State<Profile> {
                             },
                           ),
                         ),
-
-                        Padding(
-                          padding: const EdgeInsets.only(left: 250),
-                          child: RaisedButton(
-                            child: Text(
-                              "新增裝置ID",
-                              style: TextStyle(fontSize: 20),
-                            ),
-                            color: Color.fromRGBO(210, 180, 140, 1.0),
-                            onPressed: () async {
-                              GetDeviceID.getDeviceID  = await inputDeviceID(context);
-                              // checkDeviceID();
-                              changeStatus();
-                              print("裝置ID：$GetDeviceID.getDeviceID ");
-                              await saveDeviceID();
-                            },
-                          ),
-                        ),
+                        addORupdateID
                       ]),
                 ),
               ],
@@ -267,31 +341,40 @@ class _ProfileState extends State<Profile> {
     });
   }
 
-  void changeStatus() async{
-    dynamic allDevice;
-    devices.once().then((DataSnapshot snapshot){
-      Map<dynamic, dynamic> values = snapshot.value;
-      values.forEach((key,values) {
-        allDevice = values["device_id"];
-        var childKey = key;
-        print(values["device_id"]);
-        print("childID名稱：");
-        print(childKey);
-      });
-    });
+  // void changeStatus() async{
+  //   dynamic allDevice;
+  //   devices.once().then((DataSnapshot snapshot){
+  //     Map<dynamic, dynamic> values = snapshot.value;
+  //     values.forEach((key,values) {
+  //       allDevice = values["device_id"];
+  //       var childKey = key;
+  //       print(values["device_id"]);
+  //       print("childID名稱：");
+  //       print(childKey);
+  //     });
+  //   });
+  //
+  //   DataSnapshot userSnap = await users.reference().child(StaticInfo.userid).once();
+  //   dynamic userDevice = userSnap.value['device_id'];
+  //   print("userDevice：");
+  //   print(userDevice);
+  //
+  //   if (allDevice == userDevice){
+  //     devices.reference().child('/AP7Kk').update({
+  //       "status": "T",
+  //     });
+  //     print("狀態已更改");
+  //   }
+  // }
 
-    DataSnapshot userSnap = await users.reference().child(StaticInfo.userid).once();
-    dynamic userDevice = userSnap.value['device_id'];
-    print("userDevice：");
-    print(userDevice);
-
-    if (allDevice == userDevice){
-      devices.reference().child('/AP7Kk').update({
-        "status": "T",
-      });
-      print("狀態已更改");
+  String deviceIDNull(String getDeviceID) {
+    if(getDeviceID == "null" || getDeviceID == ""){
+      return "新增裝置ID";
+    }else{
+      return GetDeviceID.getDeviceID;
     }
   }
+
 //
 // void checkDeviceID() async {
 //

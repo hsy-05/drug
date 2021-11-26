@@ -22,6 +22,7 @@ class _AddDrugAState extends State<AddDrugA> {
 
   int active=1;
   String drugText;
+  TextEditingController _drugnameController;
   DateTime _fromDateTime = new DateTime.now();
   DateTime _toDateTime = new DateTime.now();
   TimeOfDay time = new TimeOfDay.now();
@@ -38,6 +39,7 @@ class _AddDrugAState extends State<AddDrugA> {
     super.initState();
     print("GetDeviceID.getDeviceID：：");
     print(GetDeviceID.getDeviceID);
+    _drugnameController = TextEditingController(text: "");
     drugA = FirebaseDatabase.instance.reference().child("device").child(GetDeviceID.getDeviceID).child("drugA"); //
   }
 
@@ -70,6 +72,19 @@ class _AddDrugAState extends State<AddDrugA> {
         padding: const EdgeInsets.all(15),
         child: ListView(
           children: ListTile.divideTiles(context: context, tiles: [
+            new ListTile(
+            horizontalTitleGap: 10,
+            minLeadingWidth: 0,
+            leading: new Icon(Icons.drive_file_rename_outline, size: 22),
+            title: Text("藥品暱稱", style: TextStyle(fontSize: 18)),
+            subtitle: TextFormField(
+              cursorColor: Colors.black,
+              autofocus: false,
+              controller: _drugnameController,
+
+            ),
+          ),
+
             new ListTile(
               horizontalTitleGap: 10,
               minLeadingWidth: 0,
@@ -142,6 +157,19 @@ class _AddDrugAState extends State<AddDrugA> {
                 style: TextStyle(fontSize: 18),
               ),
             ),
+            //
+            // new ListTile(
+            //   title: Text(
+            //     time1.format(context),
+            //     style: TextStyle(fontSize: 18),
+            //   ),
+            // ),
+            // new ListTile(
+            //   title: Text(
+            //     time2.format(context),
+            //     style: TextStyle(fontSize: 18),
+            //   ),
+            // ),
           ]).toList(),
         ),
       ),
@@ -176,6 +204,8 @@ class _AddDrugAState extends State<AddDrugA> {
       time1 = result[1];
       time2 = result[2];
     });
+    print("RadioValue");
+    print(RadioValue.radiovalue);
   }
 
   Future _showFromDatePicker(BuildContext context) async {
@@ -263,22 +293,54 @@ class _AddDrugAState extends State<AddDrugA> {
 
     print("計算天數");
     print(different); // 19362
+    if(RadioValue.radiovalue == 0){
+      Map<String, dynamic> toJson = {
 
-    Map<String, dynamic> toJson = {
+        "fromDate": _fromDateTime.toString(), //.millisecondsSinceEpoch   //DateFormat('yyyy -MM -dd').format(_fromDateTime)
+        "toDate": _toDateTime.toString(),
+        "active": active,
+        "drugText": drugText,
+        "nickName": _drugnameController.text,
+        "notificationId": notificationId,
+        "startDate": DateFormat('yyyy/M/d').format(_fromDateTime),   //for裝置
+        "endDate": DateFormat('yyyy/M/d').format(_toDateTime),    //for裝置
+        "time": DateFormat('HH:mm:s').format(_fromDateTime),  //for裝置
+      };
+      drugA.reference().push().set(toJson);
+    }
+    if(RadioValue.radiovalue == 1){
+      Map<String, dynamic> toJson = {
 
-      "fromDate": _fromDateTime.toString(), //.millisecondsSinceEpoch   //DateFormat('yyyy -MM -dd').format(_fromDateTime)
-      "toDate": _toDateTime.toString(),
-      "active": active,
-      "drugText": drugText,
-      "notificationId": notificationId,
-      "startDate": DateFormat('yyyy/M/d').format(_fromDateTime),   //for裝置
-      "endDate": DateFormat('yyyy/M/d').format(_toDateTime),    //for裝置
-      "time": DateFormat('HH:mm:s').format(_fromDateTime),  //for裝置
-      "time1":"${time1.hour}:${time1.minute}",
-      "time2":"${time2.hour}:${time2.minute}",
-    };
-    drugA.reference().push().set(toJson);
-    // device1.reference().push().set(toJson);
+        "fromDate": _fromDateTime.toString(), //.millisecondsSinceEpoch   //DateFormat('yyyy -MM -dd').format(_fromDateTime)
+        "toDate": _toDateTime.toString(),
+        "active": active,
+        "drugText": drugText,
+        "nickName": _drugnameController.text,
+        "notificationId": notificationId,
+        "startDate": DateFormat('yyyy/M/d').format(_fromDateTime),   //for裝置
+        "endDate": DateFormat('yyyy/M/d').format(_toDateTime),    //for裝置
+        "time": DateFormat('HH:mm:s').format(_fromDateTime),  //for裝置
+        "time1":"${time1.hour}:${time1.minute}",
+      };
+      drugA.reference().push().set(toJson);
+    }
+    if(RadioValue.radiovalue == 2){
+      Map<String, dynamic> toJson = {
+
+        "fromDate": _fromDateTime.toString(), //.millisecondsSinceEpoch   //DateFormat('yyyy -MM -dd').format(_fromDateTime)
+        "toDate": _toDateTime.toString(),
+        "active": active,
+        "drugText": drugText,
+        "nickName": _drugnameController.text,
+        "notificationId": notificationId,
+        "startDate": DateFormat('yyyy/M/d').format(_fromDateTime),   //for裝置
+        "endDate": DateFormat('yyyy/M/d').format(_toDateTime),    //for裝置
+        "time": DateFormat('HH:mm:s').format(_fromDateTime),  //for裝置
+        "time1":"${time1.hour}:${time1.minute}",
+        "time2":"${time2.hour}:${time2.minute}",
+      };
+      drugA.reference().push().set(toJson);
+    }
   }
 
 }

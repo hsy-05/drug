@@ -52,8 +52,8 @@ class _EditDrugAState extends State<EditDrugA> {
     itemRef.onChildAdded.listen(_onEntryAdded);
     itemRef.onChildChanged.listen(_onEntryChanged);
     DrugAText().readDrugAText();
-   print("readDrugAText");
-   print(DrugAText.drugAText);
+    print("readDrugAText");
+    print(DrugAText.drugAText);
   }
 
   _onEntryAdded(Event event) {
@@ -62,7 +62,6 @@ class _EditDrugAState extends State<EditDrugA> {
       Remedios.add(DrugItem.fromSnapshot(event.snapshot));
     });
   }
-
 
   _onEntryChanged(Event event) {
     var old = Remedios.singleWhere((entry) {
@@ -125,7 +124,8 @@ class _EditDrugAState extends State<EditDrugA> {
           padding: const EdgeInsets.all(15),
           child: Column(
             children: [
-              Flexible(
+              Container(
+                height: 150,
                 child: StreamBuilder(
                   stream: StaticInfo.readItemsA(),
                   builder: (context, AsyncSnapshot<Event> snapshot) {
@@ -141,19 +141,21 @@ class _EditDrugAState extends State<EditDrugA> {
                           String drugName = snapshot.value['drugText'];
                           return Ink(
                             child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 new Text(
                                   "藥品名稱：",
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
-                                    fontSize: 20,
+                                    fontSize: 26,
                                   ),
                                 ),
                                 new Text(
-                                  DrugAText.drugAText?? "",
+                                  DrugAText.drugAText ?? "",
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
-                                    fontSize: 20,
+                                    fontSize: 26,
                                   ),
                                 ),
                               ],
@@ -173,18 +175,27 @@ class _EditDrugAState extends State<EditDrugA> {
                 ),
               ),
               Flexible(
+                fit: FlexFit.tight,
                 child: FirebaseAnimatedList(
                   //使用FirebaseAnimatedList控制元件把訊息列表顯示出來
                   query: itemRef,
                   itemBuilder: (BuildContext context, DataSnapshot snapshot,
                       Animation<double> animation, int index) {
-                    return Remedios[index]
-                                .CSname
-                                .contains(DrugAText.drugAText)
+                    return Remedios[index].CSname.contains(DrugAText.drugAText)
                         ? ListTile(
                             //顯示全部
-                            title:Text("適應症"),
-                            subtitle: Text(Remedios[index].use.toString()),
+                            title: Text(
+                              "適應症",
+                              style: TextStyle(
+                                fontSize: 26,
+                              ),
+                            ),
+                            subtitle: Text(
+                              Remedios[index].use.toString(),
+                              style: TextStyle(
+                                fontSize: 24,
+                              ),
+                            ),
                           )
                         : new Container();
                   },

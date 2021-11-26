@@ -6,7 +6,7 @@ class MedicineMode extends StatefulWidget {
 }
 
 class MedicineModeState extends State<MedicineMode> {
-  int radiovalue;
+
   bool selectedRadio0, selectedRadio1, selectedRadio2;
   // TimeOfDay time;
   TimeOfDay _time = new TimeOfDay.now();
@@ -17,7 +17,7 @@ class MedicineModeState extends State<MedicineMode> {
   @override
   void initState() {
     super.initState();
-    radiovalue = 0;
+    RadioValue.radiovalue = 0;
     selectedRadio0 = true;
     selectedRadio1 = false;
     selectedRadio2 = false;
@@ -42,7 +42,7 @@ class MedicineModeState extends State<MedicineMode> {
       print("3個設定時間");
     }
     setState(() {
-      radiovalue = val;
+      RadioValue.radiovalue = val;
     });
   }
 
@@ -75,21 +75,21 @@ class MedicineModeState extends State<MedicineMode> {
             RadioListTile(
               value: 0,
               onChanged: radiofunc,
-              groupValue: radiovalue,
+              groupValue: RadioValue.radiovalue,
               title: Text("一天1次"),
               // selected: this.selectedRadio0 == 0,
             ),
             RadioListTile(
               value: 1,
               onChanged: radiofunc,
-              groupValue: radiovalue,
+              groupValue: RadioValue.radiovalue,
               title: Text("一天2次"),
               // selected: this.selectedRadio1 == 1,
             ),
             RadioListTile(
               value: 2,
               onChanged: radiofunc,
-              groupValue: radiovalue,
+              groupValue: RadioValue.radiovalue,
               title: Text("一天3次"),
               // selected: this.selectedRadio2 == 2,
             ),
@@ -243,12 +243,18 @@ class MedicineModeState extends State<MedicineMode> {
 
   void _sendDataBack(BuildContext context) {
     List<dynamic> list = new List<dynamic>();
-    list.add(_time);
-    list.add(_time1);
-    list.add(_time2);
+
+      list.add(_time);
+      list.add(_time1);
+      list.add(_time2);
+
     print("時間");
     print(list);
     Navigator.pop(context, list);
   }
+}
+
+class RadioValue{
+  static int radiovalue;
 }
 

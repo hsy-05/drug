@@ -91,16 +91,26 @@ class SearchTextState extends State<SearchText> {
       body: Column(
         children: <Widget>[
           new TextField(
+            cursorColor: Colors.black,
             autocorrect: false,
+            autofocus: true,
             controller: _drugTextController,
             decoration: InputDecoration(
-              prefixIcon: const Icon(Icons.search),
+              // focusedBorder: UnderlineInputBorder(
+              //   borderSide: BorderSide(color: Colors.black),
+              // ),
+
+              prefixIcon: const Icon
+                (Icons.search,
+                color: Colors.black,
+              ),
               suffixIcon: IconButton(
                 onPressed: _drugTextController.clear,
                 icon: Icon(Icons.clear),
               ),
               border: InputBorder.none,
               labelText: "請輸入藥品名稱",
+              labelStyle: TextStyle(color: Colors.black),
               // hintText: '請輸入藥品名稱',
             ),
             // onChanged: (v) {
@@ -117,24 +127,24 @@ class SearchTextState extends State<SearchText> {
               itemBuilder: (BuildContext context, DataSnapshot snapshot,
                   Animation<double> animation, int index) {
                 return Remedios[index].use.contains(filter.toString()) ||
-                        Remedios[index].CSname.contains(filter.toString())
+                    Remedios[index].CSname.contains(filter.toString())
                     ? ListTile(
-                        //顯示全部
-                        leading: filter.isEmpty
-                            ? const Icon(null)
-                            : Icon(Icons.add_circle_outline),
-                        title: filter.isEmpty
-                            ? Text("")
-                            : Text(Remedios[index].CSname.toString()),
-                        subtitle: filter.isEmpty
-                            ? Container()
-                            : Text(Remedios[index].use.toString()),
-                        onTap: () {
-                          setState(() {
-                            _drugTextController.text = Remedios[index].CSname;
-                          });
-                        },
-                      )
+                  //顯示全部
+                  leading: filter.isEmpty
+                      ? const Icon(null)
+                      : Icon(Icons.add_circle_outline),
+                  title: filter.isEmpty
+                      ? Text("")
+                      : Text(Remedios[index].CSname.toString()),
+                  subtitle: filter.isEmpty
+                      ? Container()
+                      : Text(Remedios[index].use.toString()),
+                  onTap: () {
+                    setState(() {
+                      _drugTextController.text = Remedios[index].CSname;
+                    });
+                  },
+                )
                     : new Container();
               },
             ),

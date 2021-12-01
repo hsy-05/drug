@@ -1,11 +1,8 @@
 import 'dart:async';
 
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter1/authHome/model/time_entry.dart';
-import 'package:flutter1/authHome/set_time.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 
@@ -28,7 +25,7 @@ String inputData = '';
 List<DeviceID> DeviceIDList = List();
 DeviceID item = DeviceID("","");
 
-Future<String> inputDeviceID(BuildContext context) async {
+inputDeviceID(BuildContext context) async {
 
 
   return showDialog<String>(
@@ -54,7 +51,7 @@ Future<String> inputDeviceID(BuildContext context) async {
           FlatButton(
               child: Text('取消'),
               onPressed: () {
-                Navigator.of(context).pop("null");
+                Navigator.pop(context, "null");
               }),
           FlatButton(
             child: Text('送出'),
@@ -146,7 +143,6 @@ class DeviceID {
 class GetDeviceID{
   DatabaseReference mainReference = FirebaseDatabase.instance.reference();
   static String getDeviceID = "null";
-  String getID;
 
   Future<String> getd() async {
     await mainReference
@@ -175,58 +171,3 @@ class GetDeviceID{
 //     });
 //   });
 //
-//   DataSnapshot userSnap = await users.reference().child(StaticInfo.userid).once();   //查詢users裡的device_id
-//   dynamic userDevice = userSnap.value['device_id'];
-//   print("userDevice：");
-//   print(userDevice);
-//
-//   if (allDevice == userDevice){import 'dart:async';
-//
-// import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:flutter/material.dart';
-// import 'package:firebase_database/firebase_database.dart';
-// import 'package:flutter1/authHome/model/time_entry.dart';
-// import 'package:flutter1/authHome/set_time.dart';
-//
-//
-//
-// // Future<bool> _deviceIDDB (String code) async {
-// // /// return true if no room with given code has been found in db
-// // return await deviceIDDB.child('deviceID')
-// // .once()
-// //     .then((snapshot) => snapshot.value == null);
-// // }
-
-// // void checkDeviceID() async{
-// //   dynamic allDevice;
-// //   devices.once().then((DataSnapshot snapshot){         //查詢devices裡所有的device_id
-// //     Map<dynamic, dynamic> values = snapshot.value;
-// //     values.forEach((key,values) {
-// //       allDevice = values["device_id"];
-// //       var childKey = key;
-// //       print(values["device_id"]);
-// //       print("childID名稱：");
-// //       print(childKey);
-// //     });
-// //   });
-// //
-// //   DataSnapshot userSnap = await users.reference().child(StaticInfo.userid).once();   //查詢users裡的device_id
-// //   dynamic userDevice = userSnap.value['device_id'];
-// //   print("userDevice：");
-// //   print(userDevice);
-// //
-// //   if (allDevice == userDevice){
-// //     devices.reference().child("AP7Kk").update({
-// //       "status": "T",
-// //     });
-// //     print("狀態已更改");
-// //   }
-// // }
-//     devices.reference().child("AP7Kk").update({
-//       "status": "T",
-//     });
-//     print("狀態已更改");
-//   }
-// }
-
-

@@ -76,7 +76,7 @@ abstract class AuthHelper {
 
 class UserHelper {
   static FirebaseFirestore _db = FirebaseFirestore.instance;
-  static DatabaseReference usersRef = FirebaseDatabase.instance.reference().child("users");  //realTIme
+  static DatabaseReference usersRef = FirebaseDatabase.instance.reference().child("users");  //realTime
 
   static saveUser(User user) async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();

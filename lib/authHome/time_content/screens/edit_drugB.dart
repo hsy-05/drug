@@ -63,7 +63,6 @@ class _EditDrugBState extends State<EditDrugB> {
     });
   }
 
-
   _onEntryChanged(Event event) {
     var old = Remedios.singleWhere((entry) {
       return entry.key == event.snapshot.key;
@@ -81,38 +80,38 @@ class _EditDrugBState extends State<EditDrugB> {
       actions: [
         _isDeleting
             ? Padding(
-          padding: const EdgeInsets.only(
-            top: 10.0,
-            bottom: 10.0,
-            right: 16.0,
-          ),
-          child: CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation<Color>(
-              Colors.redAccent,
-            ),
-            strokeWidth: 3,
-          ),
-        )
+                padding: const EdgeInsets.only(
+                  top: 10.0,
+                  bottom: 10.0,
+                  right: 16.0,
+                ),
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    Colors.redAccent,
+                  ),
+                  strokeWidth: 3,
+                ),
+              )
             : IconButton(
-          icon: Icon(
-            Icons.delete,
-            color: Colors.redAccent,
-            size: 36,
-          ),
-          onPressed: () async {
-            setState(() {
-              _isDeleting = true;
-            });
+                icon: Icon(
+                  Icons.delete,
+                  color: Colors.redAccent,
+                  size: 36,
+                ),
+                onPressed: () async {
+                  setState(() {
+                    _isDeleting = true;
+                  });
 
-            await drugBdb.remove();
+                  await drugBdb.remove();
 
-            setState(() {
-              _isDeleting = false;
-            });
+                  setState(() {
+                    _isDeleting = false;
+                  });
 
-            Navigator.of(context).pop();
-          },
-        ),
+                  Navigator.of(context).pop();
+                },
+              ),
       ],
     );
   }
@@ -126,9 +125,9 @@ class _EditDrugBState extends State<EditDrugB> {
           child: Column(
             children: [
               Container(
-                height: 100,
+                height: 150,
                 child: StreamBuilder(
-                  stream: StaticInfo.readItemsA(),
+                  stream: StaticInfo.readItemsB(),
                   builder: (context, AsyncSnapshot<Event> snapshot) {
                     if (snapshot.hasError) {
                       return Text('Something went wrong');
@@ -149,14 +148,14 @@ class _EditDrugBState extends State<EditDrugB> {
                                   "藥品名稱：",
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
-                                    fontSize: 28,
+                                    fontSize: 26,
                                   ),
                                 ),
                                 new Text(
-                                  DrugBText.drugBText?? "",
+                                  DrugBText.drugBText ?? "",
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
-                                    fontSize: 28,
+                                    fontSize: 26,
                                   ),
                                 ),
                               ],
@@ -168,10 +167,10 @@ class _EditDrugBState extends State<EditDrugB> {
 
                     return Center(
                         child: CircularProgressIndicator(
-                          valueColor: AlwaysStoppedAnimation<Color>(
-                            Color.fromRGBO(204, 119, 34, 1.0),
-                          ),
-                        ));
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        Color.fromRGBO(204, 119, 34, 1.0),
+                      ),
+                    ));
                   },
                 ),
               ),
@@ -182,19 +181,22 @@ class _EditDrugBState extends State<EditDrugB> {
                   query: itemRef,
                   itemBuilder: (BuildContext context, DataSnapshot snapshot,
                       Animation<double> animation, int index) {
-                    return Remedios[index]
-                        .CSname
-                        .contains(DrugBText.drugBText)
+                    return Remedios[index].CSname.contains(DrugBText.drugBText)
                         ? ListTile(
-                      //顯示全部
-                      title:Text("適應症",style: TextStyle(
-                        fontSize: 28,
-                      ),),
-                      subtitle: Text(Remedios[index].use.toString(),
-                        style: TextStyle(
-                          fontSize: 24,
-                        ),),
-                    )
+                            //顯示全部
+                            title: Text(
+                              "適應症",
+                              style: TextStyle(
+                                fontSize: 26,
+                              ),
+                            ),
+                            subtitle: Text(
+                              Remedios[index].use.toString(),
+                              style: TextStyle(
+                                fontSize: 24,
+                              ),
+                            ),
+                          )
                         : new Container();
                   },
                 ),

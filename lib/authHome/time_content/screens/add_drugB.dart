@@ -16,19 +16,24 @@ class AddDrugB extends StatefulWidget {
 
 class _AddDrugBState extends State<AddDrugB> {
 
-  int active=1;
   String drugText;
-  DateTime _fromDateTime = new DateTime.now();
+  TextEditingController _drugnameController;
+  DateTime _fromDateTime1 = new DateTime.now();
+  DateTime _fromDateTime2 = new DateTime.now();
+  DateTime _fromDateTime3 = new DateTime.now();
   DateTime _toDateTime = new DateTime.now();
-  TimeOfDay time = new TimeOfDay.now();
   TimeOfDay time1 = new TimeOfDay.now();
   TimeOfDay time2 = new TimeOfDay.now();
+  TimeOfDay time3 = new TimeOfDay.now();
 
   DatabaseReference drugB;
 
   @override
   void initState() {
     super.initState();
+    print("GetDeviceID.getDeviceID：：");
+    print(GetDeviceID.getDeviceID);
+    _drugnameController = TextEditingController(text: "");
     drugB = FirebaseDatabase.instance.reference().child("device").child(GetDeviceID.getDeviceID).child("drugB");
   }
 
@@ -63,12 +68,38 @@ class _AddDrugBState extends State<AddDrugB> {
           children: ListTile.divideTiles(context: context, tiles: [
             new ListTile(
               horizontalTitleGap: 10,
+              minLeadingWidth: 5,
+              leading: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  new Icon(Icons.drive_file_rename_outline, size: 24),
+                  new Text("藥品暱稱 : ", style: TextStyle(fontSize: 20)),
+                ],
+              ),
+              title: TextFormField(
+                  style: TextStyle(
+                    fontWeight: FontWeight.normal,
+                    fontSize: 20,
+                  ),
+                  cursorColor: Colors.black,
+                  autofocus: false,
+                  controller: _drugnameController,
+                  decoration: InputDecoration(
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black),
+                    ),
+                  )
+
+              ),
+            ),
+            new ListTile(
+              horizontalTitleGap: 10,
               minLeadingWidth: 0,
               onTap: (() => _showFromDatePicker(context)),
               leading: new Icon(Icons.today, size: 22),
               title: Text("開始日期", style: TextStyle(fontSize: 18)),
               trailing: Text(
-                new DateFormat('yyyy年 MM月 dd日').format(_fromDateTime),//設定畫面的年月日
+                new DateFormat('yyyy年 MM月 dd日').format(_fromDateTime1),//設定畫面的年月日
                 style: TextStyle(fontSize: 18),
               ),
             ),
@@ -107,9 +138,12 @@ class _AddDrugBState extends State<AddDrugB> {
               ),
             ),
             new ListTile(
+              horizontalTitleGap: 10,
+              minLeadingWidth: 0,
+              leading: new Icon(Icons.format_list_bulleted_rounded),
               title: Text(
                 "服藥模式",
-                style: TextStyle(fontSize: 18),
+                style: TextStyle(fontSize: 20),
               ),
               onTap: () {
                 _returnValueOfDrugTime(context);
@@ -118,7 +152,7 @@ class _AddDrugBState extends State<AddDrugB> {
             ),
             // new ListTile(
             //   title: Text(
-            //     time.format(context),
+            //     time1.format(context),
             //     style: TextStyle(fontSize: 18),
             //   ),
             // ),
@@ -129,7 +163,7 @@ class _AddDrugBState extends State<AddDrugB> {
                 minLeadingWidth: 0,
                 title: Text("第1個時間:"),
                 trailing: Text(
-                  time.format(context),
+                  time1.format(context),
                   style: TextStyle(fontSize: 18),
                 ), //設定畫面的時間
               ),
@@ -141,7 +175,7 @@ class _AddDrugBState extends State<AddDrugB> {
                 minLeadingWidth: 0,
                 title: Text("第2個時間:"),
                 trailing: Text(
-                  time1.format(context),
+                  time2.format(context),
                   style: TextStyle(fontSize: 18),
                 ), //設定畫面的時間
               ),
@@ -153,36 +187,12 @@ class _AddDrugBState extends State<AddDrugB> {
                 minLeadingWidth: 0,
                 title: Text("第3個時間:"),
                 trailing: Text(
-                  time2.format(context),
+                  time3.format(context),
                   style: TextStyle(fontSize: 18),
                 ), //設定畫面的時間
               ),
             ),
-            // new ListTile(
-            //   title: Text(
-            //     time1.format(context),
-            //     style: TextStyle(fontSize: 18),
-            //   ),
-            // ),
-            // new ListTile(
-            //   title: Text(
-            //     time2.format(context),
-            //     style: TextStyle(fontSize: 18),
-            //   ),
-            // ),
-            //
-            // new ListTile(
-            //   title: Text(
-            //     time1.format(context),
-            //     style: TextStyle(fontSize: 18),
-            //   ),
-            // ),
-            // new ListTile(
-            //   title: Text(
-            //     time2.format(context),
-            //     style: TextStyle(fontSize: 18),
-            //   ),
-            // ),
+
           ]).toList(),
         ),
       ),
@@ -209,20 +219,24 @@ class _AddDrugBState extends State<AddDrugB> {
         ));
     // final result1 = await Navigator.of(context).push();
     setState(() {
-      time = result[0];
-      _fromDateTime = new DateTime(_fromDateTime.year, _fromDateTime.month,
-          _fromDateTime.day, time.hour, time.minute);
+      time1 = result[0];
+      _fromDateTime1 = new DateTime(_fromDateTime1.year, _fromDateTime1.month,
+          _fromDateTime1.day, time1.hour, time1.minute);
       _toDateTime = new DateTime(_toDateTime.year, _toDateTime.month,
-          _toDateTime.day, time.hour, time.minute);
-      time1 = result[1];
-      time2 = result[2];
+          _toDateTime.day, 23, 59);
+      time2 = result[1];
+      _fromDateTime2 = new DateTime(_fromDateTime2.year, _fromDateTime2.month,
+          _fromDateTime2.day, time2.hour, time2.minute);
+      time3 = result[2];
+      _fromDateTime3 = new DateTime(_fromDateTime3.year, _fromDateTime3.month,
+          _fromDateTime3.day, time3.hour, time3.minute);
     });
   }
 
   Future _showFromDatePicker(BuildContext context) async {
     DateTime dateTimePicked = await showDatePicker(
         context: context,
-        initialDate: _fromDateTime,
+        initialDate: _fromDateTime1,
         builder: (context, child) {
           return Theme(
             data: Theme.of(context).copyWith(
@@ -243,14 +257,18 @@ class _AddDrugBState extends State<AddDrugB> {
             child: child,
           );
         },
-        firstDate: _fromDateTime.subtract(const Duration(days: 20000)),
+        firstDate: _fromDateTime1.subtract(const Duration(days: 20000)),
         lastDate: new DateTime(2033, 12, 31));
 
     if (dateTimePicked != null) {
-      _fromDateTime = new DateTime(dateTimePicked.year, dateTimePicked.month,
-          dateTimePicked.day, time.hour, time.minute);
+      _fromDateTime1 = new DateTime(dateTimePicked.year, dateTimePicked.month,
+          dateTimePicked.day, time1.hour, time1.minute);
+      _fromDateTime2 = new DateTime(_fromDateTime2.year, _fromDateTime2.month,
+          _fromDateTime2.day, time2.hour, time2.minute);
+      _fromDateTime3 = new DateTime(_fromDateTime3.year, _fromDateTime3.month,
+          _fromDateTime3.day, time3.hour, time3.minute);
       setState(() {
-        _fromDateTime = dateTimePicked;
+        _fromDateTime1 = dateTimePicked;
         // fromDate = dateTimePicked;
         // return fromDate;
       });
@@ -260,7 +278,7 @@ class _AddDrugBState extends State<AddDrugB> {
   Future _showToDatePicker (BuildContext context) async {
     DateTime dateTimePicked = await showDatePicker(
         context: context,
-        initialDate: _toDateTime,
+        initialDate: _toDateTime.add(const Duration(days: 2)),
         builder: (context, child) {
           return Theme(
             data: Theme.of(context).copyWith(
@@ -281,12 +299,12 @@ class _AddDrugBState extends State<AddDrugB> {
             child: child,
           );
         },
-        firstDate: _toDateTime,
+        firstDate: DateTime.now(),
         lastDate: new DateTime(2033, 12, 31));
 
     if (dateTimePicked != null) {
       _toDateTime = new DateTime(dateTimePicked.year, dateTimePicked.month,
-          dateTimePicked.day, time.hour, time.minute);
+          dateTimePicked.day, 23, 59);
       setState(() {
         _toDateTime = dateTimePicked;
         // toDate = dateTimePicked;
@@ -298,27 +316,64 @@ class _AddDrugBState extends State<AddDrugB> {
 
   void saveContact(){
 
-    int notificationId = Random().nextInt(1000);
-
-    var different = _toDateTime.difference(_fromDateTime).inDays;
+    int notificationId1 = Random().nextInt(1000);
+    int notificationId2 = Random().nextInt(1000);
+    int notificationId3 = Random().nextInt(1000);
+    var different = _toDateTime.difference(_fromDateTime1).inDays;
 
     print("計算天數");
     print(different); // 19362
+    if(RadioValue.radiovalue == 0){
+      Map<String, dynamic> toJson = {
 
-    Map<String, dynamic> toJson = {
+        "fromDate1": _fromDateTime1.toString(), //.millisecondsSinceEpoch   //DateFormat('yyyy -MM -dd').format(_fromDateTime1)
+        "toDate": _toDateTime.toString(),
+        "drugText": drugText,
+        "nickName": _drugnameController.text,
+        "notificationId1": notificationId1,
+        "startDate": DateFormat('yyyy/M/d').format(_fromDateTime1),
+        "endDate": DateFormat('yyyy/M/d').format(_toDateTime),
+        "time1":"${time1.hour}:${time1.minute}",
+        // "time1":"${time1.hour}:${time1.minute}",
+      };
+      drugB.reference().push().set(toJson);
+    }
+    if(RadioValue.radiovalue == 1){
+      Map<String, dynamic> toJson = {
 
-      "fromDate": _fromDateTime.toString(), //.millisecondsSinceEpoch   //DateFormat('yyyy -MM -dd').format(_fromDateTime)
-      "toDate": _toDateTime.toString(),
-      "active": active,
-      "drugText": drugText,
-      "notificationId": notificationId,
-      "startDate": DateFormat('yyyy/M/d').format(_fromDateTime),   //for裝置
-      "endDate": DateFormat('yyyy/M/d').format(_toDateTime),    //for裝置
-      "time": DateFormat('HH:mm:s').format(_fromDateTime),  //for裝置
-      "time1":"${time1.hour}:${time1.minute}",
-      "time2":"${time2.hour}:${time2.minute}",
-    };
-    drugB.reference().push().set(toJson);
+        "fromDate1": _fromDateTime1.toString(), //.millisecondsSinceEpoch   //DateFormat('yyyy -MM -dd').format(_fromDateTime1)
+        "fromDate2": _fromDateTime2.toString(),
+        "toDate": _toDateTime.toString(),
+        "drugText": drugText,
+        "nickName": _drugnameController.text,
+        "notificationId1": notificationId1,
+        "notificationId2": notificationId2,
+        "startDate": DateFormat('yyyy/M/d').format(_fromDateTime1),
+        "endDate": DateFormat('yyyy/M/d').format(_toDateTime),
+        "time1":"${time1.hour}:${time1.minute}",
+        "time2":"${time2.hour}:${time2.minute}",
+      };
+      drugB.reference().push().set(toJson);
+    }
+    if(RadioValue.radiovalue == 2){
+      Map<String, dynamic> toJson = {
+
+        "fromDate1": _fromDateTime1.toString(), //.millisecondsSinceEpoch   //DateFormat('yyyy -MM -dd').format(_fromDateTime1)
+        "fromDate2": _fromDateTime2.toString(),
+        "fromDate3": _fromDateTime3.toString(),"toDate": _toDateTime.toString(),
+        "drugText": drugText,
+        "nickName": _drugnameController.text,
+        "notificationId1": notificationId1,
+        "notificationId2": notificationId2,
+        "notificationId3": notificationId3,
+        "startDate": DateFormat('yyyy/M/d').format(_fromDateTime1),
+        "endDate": DateFormat('yyyy/M/d').format(_toDateTime),
+        "time1":"${time1.hour}:${time1.minute}",
+        "time2":"${time2.hour}:${time2.minute}",
+        "time3": "${time3.hour}:${time3.minute}",
+      };
+      drugB.reference().push().set(toJson);
+    }
   }
 
 }

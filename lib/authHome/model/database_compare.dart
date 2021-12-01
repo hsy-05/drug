@@ -46,7 +46,7 @@ class DrugBText{
 
   Future<String> readDrugBText()  async{
     await mainReference
-        .child("device").child(GetDeviceID.getDeviceID).child("drugA").once().then((DataSnapshot snapshot) {
+        .child("device").child(GetDeviceID.getDeviceID).child("drugB").once().then((DataSnapshot snapshot) {
       Map<dynamic, dynamic> values = snapshot.value;
       values.forEach((key, values) {
         drugBText = values['drugText'];
@@ -63,7 +63,7 @@ class DrugCText{
 
   Future<String> readDrugCText()  async{
     await mainReference
-        .child("device").child(GetDeviceID.getDeviceID).child("drugA").once().then((DataSnapshot snapshot) {
+        .child("device").child(GetDeviceID.getDeviceID).child("drugC").once().then((DataSnapshot snapshot) {
       Map<dynamic, dynamic> values = snapshot.value;
       values.forEach((key, values) {
         drugCText = values['drugText'];
@@ -80,7 +80,7 @@ class DrugDText{
 
   Future<String> readDrugDText()  async{
     await mainReference
-        .child("device").child(GetDeviceID.getDeviceID).child("drugA").once().then((DataSnapshot snapshot) {
+        .child("device").child(GetDeviceID.getDeviceID).child("drugD").once().then((DataSnapshot snapshot) {
       Map<dynamic, dynamic> values = snapshot.value;
       values.forEach((key, values) {
         drugDText = values['drugText'];

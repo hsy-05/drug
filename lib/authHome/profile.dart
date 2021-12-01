@@ -32,24 +32,6 @@ class _ProfileState extends State<Profile> {
   List<DeviceID> deviceIDList = List();
   String _userDeviceID;
 
-
-  //
-  //  getUserDeviceID() async {
-  //   mainReference.child("users").once().then((DataSnapshot snapshot) {
-  //     Map<dynamic, dynamic> values = snapshot.value;
-  //     values.forEach((key, values) {
-  //       Map userDeviceID = values['device_id'];
-  //       setState(() {
-  //         _userDeviceID = userDeviceID;
-  //       });
-  //     });
-  //     print("會員的裝置ID：");
-  //     print(_userDeviceID);
-  //     return _userDeviceID;
-  //   });
-  // }
-
-
   @override
   void initState() {
     super.initState();
@@ -84,18 +66,6 @@ class _ProfileState extends State<Profile> {
     }
   }
 
-  // void readData() {
-  //   devices.once().then((DataSnapshot dataSnapshot) {
-  //     print("status: " + dataSnapshot.value.toString());
-  //     var status = dataSnapshot.value;
-  //     setState(() {
-  //       checkID = (status['status'].toString());
-  //       print("readData：");
-  //       print(checkID);
-  //     });
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
     final newPW = TextFormField(
@@ -104,7 +74,7 @@ class _ProfileState extends State<Profile> {
       controller: _newPWController,
       decoration: InputDecoration(
           labelText: "請輸入新密碼",
-          labelStyle: TextStyle(color: Colors.black),
+          labelStyle: TextStyle(fontSize:20, color: Colors.black),
           focusedBorder: UnderlineInputBorder(
             borderSide: BorderSide(color: Colors.black),
           ),
@@ -127,12 +97,12 @@ class _ProfileState extends State<Profile> {
       controller: _confirmPWController,
       decoration: InputDecoration(
           labelText: "確認新密碼",
-          labelStyle: TextStyle(color: Colors.black),
+          labelStyle: TextStyle(fontSize:20, color: Colors.black),
           focusedBorder: UnderlineInputBorder(
             borderSide: BorderSide(color: Colors.black),
           ),
           prefixIcon: Icon(
-            Icons.lock,
+            Icons.lock_outline,
             color: Colors.black,
           )),
       validator: (String value) {
@@ -150,22 +120,22 @@ class _ProfileState extends State<Profile> {
         return null;
       },
     );
-
-    final addORupdateID = RaisedButton(
-      child: Text(
-        "修改",
-        style: TextStyle(fontSize: 20),
-      ),
-      color: Color.fromRGBO(210, 180, 140, 1.0),
-      onPressed: () async {
-        GetDeviceID.getDeviceID  = await inputDeviceID(context);
-        // checkDeviceID();
-        print("裝置ID：$GetDeviceID.getDeviceID ");
-        // changeStatus();
-        await saveDeviceID();
-
-      },
-    );
+    //
+    // final addORupdateID = RaisedButton(
+    //   child: Text(
+    //     "修改",
+    //     style: TextStyle(fontSize: 20),
+    //   ),
+    //   color: Color.fromRGBO(210, 180, 140, 1.0),
+    //   onPressed: () async {
+    //     GetDeviceID.getDeviceID  = await inputDeviceID(context);
+    //     // checkDeviceID();
+    //     print("裝置ID：$GetDeviceID.getDeviceID ");
+    //     // changeStatus();
+    //     await saveDeviceID();
+    //
+    //   },
+    // );
 
 
     return new Scaffold(
@@ -180,13 +150,20 @@ class _ProfileState extends State<Profile> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 3.0),
-                Text(
-                  '會員帳號',
-                  style: TextStyle(
-                    backgroundColor: Color.fromRGBO(210, 180, 140, 1.0),
-                    fontSize: 20.0,
-                    letterSpacing: 1,
+                // SizedBox(height: 3.0),
+                Container(
+                  height: 35.0,
+                  width: 400.0,
+                  color: Color.fromRGBO(210, 180, 140, 1.0),
+                  child: Text(
+                    '會員帳號',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.normal,
+                      color: Colors.black,
+                      letterSpacing: 20,
+                    ),
                   ),
                 ),
                 SizedBox(height: 20.0),
@@ -196,7 +173,7 @@ class _ProfileState extends State<Profile> {
                       child: Text(
                         '信箱：',
                         style: TextStyle(
-                          fontSize: 18.0,
+                          fontSize: 20.0,
                           letterSpacing: 1,
                         ),
                       ),
@@ -205,7 +182,7 @@ class _ProfileState extends State<Profile> {
                       child: Text(
                         _user?.email ?? '',
                         style: TextStyle(
-                          fontSize: 18.0,
+                          fontSize: 20.0,
                           letterSpacing: 1,
                         ),
                       ),
@@ -226,7 +203,7 @@ class _ProfileState extends State<Profile> {
                               child: Text(
                                 '姓名：',
                                 style: TextStyle(
-                                  fontSize: 18.0,
+                                  fontSize: 20.0,
                                   letterSpacing: 1,
                                 ),
                               ),
@@ -235,7 +212,7 @@ class _ProfileState extends State<Profile> {
                               child: Text(
                                 _user?.displayName ?? '',
                                 style: TextStyle(
-                                  fontSize: 18.0,
+                                  fontSize: 20.0,
                                   letterSpacing: 1,
                                 ),
                               ),
@@ -263,14 +240,14 @@ class _ProfileState extends State<Profile> {
                                       new Text(
                                         '裝置ID：',
                                         style: TextStyle(
-                                          fontSize: 18.0,
+                                          fontSize: 20.0,
                                           letterSpacing: 1,
                                         ),
                                       ),
 
                                       new Text(
                                         deviceIDNull(_userDeviceID),
-                                        style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.black),
+                                        style: TextStyle(fontSize: 21, ),
                                       ),
                                     ],
                                   ),
@@ -290,15 +267,21 @@ class _ProfileState extends State<Profile> {
 
 
                         SizedBox(height: 20.0),
-                        //
-                        Text(
-                          '修改密碼',
-                          style: TextStyle(
-                            backgroundColor: Color.fromRGBO(210, 180, 140, 1.0),
-                            fontSize: 20.0,
-                            letterSpacing: 1,
+                        Container(
+                          height: 35.0,
+                          width: 400.0,
+                          color: Color.fromRGBO(210, 180, 140, 1.0),
+                          child: Text(
+                            '修改密碼',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.normal,
+                              color: Colors.black,
+                              letterSpacing: 20,
+                            ),
                           ),
-                        ),
+                        ),//
                         SizedBox(height: 10.0),
                         newPW,
                         SizedBox(height: 10.0),
@@ -309,9 +292,9 @@ class _ProfileState extends State<Profile> {
                           child: RaisedButton(
                             child: Text(
                               "修改",
-                              style: TextStyle(fontSize: 20),
+                              style: TextStyle(fontSize: 20,color: Colors.white,),
                             ),
-                            color: Color.fromRGBO(210, 180, 140, 1.0),
+                            color: Colors.black38,
                             onPressed: () async {
                               if (_formKey.currentState.validate()) {
                                 try {
@@ -326,7 +309,6 @@ class _ProfileState extends State<Profile> {
                             },
                           ),
                         ),
-                        addORupdateID
                       ]),
                 ),
               ],

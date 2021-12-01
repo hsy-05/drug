@@ -36,23 +36,23 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     final name = TextFormField(
-      cursorColor: Colors.grey,
+      cursorColor: Colors.black87,
       autofocus: false,
       controller: _nameController,
       decoration: InputDecoration(
         prefixIcon: Padding(
           padding: EdgeInsets.only(left: 5.0),
           child: Icon(
-            Icons.person,
-            color: Colors.grey,
+            Icons.person_outline,
+            color: Colors.black87,
           ), // icon is 48px widget.
         ),
         labelText: "名稱",
-        labelStyle: TextStyle(color: Colors.black54),
+        labelStyle: TextStyle(color: Colors.black87),
         focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color:Colors.grey)),
+            borderSide: const BorderSide(color:Colors.black87)),
         enabledBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color:Colors.grey)),
+            borderSide: const BorderSide(color:Colors.black87)),
         hintText: "請輸入名稱",
         contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
@@ -72,16 +72,16 @@ class _RegisterPageState extends State<RegisterPage> {
         prefixIcon: Padding(
           padding: EdgeInsets.only(left: 5.0),
           child: Icon(
-            Icons.email,
-            color: Colors.grey,
+            Icons.email_outlined,
+            color: Colors.black87,
           ), // icon is 48px widget.
         ),
         labelText: "信箱帳號",
-        labelStyle: TextStyle(color: Colors.black54),
+        labelStyle: TextStyle(color: Colors.black87),
         focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color:Colors.grey)),
+            borderSide: const BorderSide(color:Colors.black87)),
         enabledBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color:Colors.grey)),
+            borderSide: const BorderSide(color:Colors.black87)),
         hintText: "請輸入帳號",
         contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
@@ -103,17 +103,17 @@ class _RegisterPageState extends State<RegisterPage> {
         prefixIcon: Padding(
           padding: EdgeInsets.only(left: 5.0),
           child: Icon(
-            Icons.lock,
-            color: Colors.grey,
+            Icons.lock_outline,
+            color: Colors.black87,
           ), // icon is 48px widget.
         ),
         // icon is 48px widget.
         labelText: "密碼",
-        labelStyle: TextStyle(color: Colors.black54),
+        labelStyle: TextStyle(color: Colors.black87),
         focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color:Colors.grey)),
+            borderSide: const BorderSide(color:Colors.black87)),
         enabledBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color:Colors.grey)),
+            borderSide: const BorderSide(color:Colors.black87)),
         hintText: "請輸入密碼",
         contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         //上右下左
@@ -142,24 +142,24 @@ class _RegisterPageState extends State<RegisterPage> {
         prefixIcon: Padding(
           padding: EdgeInsets.only(left: 5.0),
           child: Icon(
-            Icons.lock,
-            color: Colors.grey,
+            Icons.lock_outline,
+            color: Colors.black87,
           ), // icon is 48px widget.
         ),
-        labelText: "再次輸入密碼",
-        labelStyle: TextStyle(color: Colors.black54),
+        labelText: "確認密碼",
+        labelStyle: TextStyle(color: Colors.black87),
         focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color:Colors.grey)),
+            borderSide: const BorderSide(color:Colors.black87)),
         enabledBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color:Colors.grey)),
-        hintText: "請再次輸入密碼",
+            borderSide: const BorderSide(color:Colors.black87)),
+        hintText: "再次輸入密碼",
       ),
       obscureText: true,
       // validator: (value) => value.isEmpty ? '請再填寫一次密碼！' : null,
 
       validator: (String value) {
         if (value.isEmpty) {
-          return '請填寫再次密碼！';
+          return '請填寫確認密碼！';
         }
 
         if (_passwordController.text != _confirmPasswordController.text) {
@@ -170,37 +170,64 @@ class _RegisterPageState extends State<RegisterPage> {
       },
     );
 
+    final deviceInput = new TextField(
+      cursorColor: Colors.black,
+      autofocus: false,
+      decoration: new InputDecoration(
+        contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
+        prefixIcon: Padding(
+          padding: EdgeInsets.only(left: 5.0),
+          child: Icon(
+            Icons.all_inbox_sharp,
+            color: Colors.black87,
+          ), // icon is 48px widget.
+        ),
+        labelText: "裝置ID",
+        labelStyle: TextStyle(color: Colors.black87),
+        focusedBorder: OutlineInputBorder(
+            borderSide: const BorderSide(color:Colors.black87)),
+        enabledBorder: OutlineInputBorder(
+            borderSide: const BorderSide(color:Colors.black87)),
+        hintText: "請輸入裝置ID",
+
+      ),
+      // onChanged: (value) {
+      //   inputData = value;
+      // },
+    );
+
     return new SafeArea(
       top: false,
       child: Scaffold(
+        appBar: new AppBar(
+          title:new Text("註冊會員",  style: TextStyle(
+            fontSize: 25,
+          ),),
+          centerTitle:true,
+          backgroundColor: Color.fromRGBO(210, 180, 140, 1.0),
+        ),
         // resizeToAvoidBottomInset: false,
         body: SingleChildScrollView(
           child: new Column(
             children: [
               new Container(
                 width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height / 3.0,
+                height: MediaQuery.of(context).size.height / 40.0,
                 // decoration: bg,
                 // padding: const EdgeInsets.only(top: 80), ////
-                child: Hero(
-                  tag: "main-logo", //
 
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    child: appLogo,
-                  ),
-                ),
               ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: const Icon(Icons.arrow_back_rounded),
-                  ),
+                  // IconButton(
+                  //   onPressed: () {
+                  //     Navigator.pop(context);
+                  //   },
+                  //   icon: const Icon(Icons.arrow_back_rounded),
+                  // ),
                   Padding(
                     padding: const EdgeInsets.only(left: 60, right: 60),
                     child: Form(
@@ -209,19 +236,21 @@ class _RegisterPageState extends State<RegisterPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          SizedBox(height: 5),
+                          SizedBox(height: 30),
                           name,
-                          SizedBox(height: 32),
+                          SizedBox(height: 40),
                           email,
-                          SizedBox(height: 32),
+                          SizedBox(height: 40),
                           password,
-                          SizedBox(height: 32),
+                          SizedBox(height: 40),
                           comfirmPassword,
+                          SizedBox(height: 40),
+                          deviceInput
                         ],
                       ),
                     ),
                   ),
-                  SizedBox(height: 32),
+                  SizedBox(height: 40),
                   Padding(
                     padding: const EdgeInsets.only(right: 60, left: 60),
                     child: SizedBox(
@@ -238,10 +267,10 @@ class _RegisterPageState extends State<RegisterPage> {
                                 maxWidth: 280.0, minHeight: 50.0),
                             alignment: Alignment.center,
                             child: Text(
-                              "提交",
+                              "註冊",
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                color: Colors.white,
+                                color: Colors.black,
                                 fontSize: 24,
                                 fontWeight: FontWeight.normal,
                               ),
@@ -257,6 +286,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           // }
                           if (_formKey.currentState.validate()) {
                             try {
+                              await checkDeviceID(inputData, context);
                               final user = await AuthHelper.signupWithEmail(
                                   name: _nameController.text,
                                   email: _emailController.text,
@@ -266,7 +296,6 @@ class _RegisterPageState extends State<RegisterPage> {
                                 GetDeviceID.getDeviceID  = await inputDeviceID(context);
                                 print("裝置ID：$GetDeviceID.getDeviceID ");
                                 await saveDeviceID();
-                                Navigator.pop(context);
                               }
                             } catch (e) {
                               print(e);
@@ -327,6 +356,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                     ),
                   ),
+
                 ],
               ),
               //     ],

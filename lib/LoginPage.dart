@@ -44,7 +44,7 @@ class _LoginPageState extends State<LoginPage> {
                 loginButtonText,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Colors.white,
+                  color: Colors.black87,
                   fontSize: 24,
                   // fontWeight: FontWeight.bold,
                 ),
@@ -71,7 +71,7 @@ class _LoginPageState extends State<LoginPage> {
     );
 
     final RegisterButton = Padding(
-      padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0), //上下邊距
+      padding: EdgeInsets.symmetric(vertical: 1.0, horizontal: 20.0), //上下邊距
       child: SizedBox(
         width: MediaQuery //MediaQuery.of(context) 來獲取資料
             .of(context)
@@ -88,7 +88,7 @@ class _LoginPageState extends State<LoginPage> {
                 RegisterButtonText,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Colors.black87,
+                  color: Colors.black54,
                   fontSize: 18,
                 ),
               ),
@@ -105,24 +105,7 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
 
-    final LoginGoogleButton = Padding(
-      padding: EdgeInsets.symmetric(vertical: 36.0),
-      child: SizedBox(
-        width: MediaQuery.of(context).size.width,
-        child: CupertinoButton(
-          onPressed: () async {
-            try {
-              await AuthHelper.signInWithGoogle();
-            } catch (e) {
-              print(e);
-            }
-          },
-          padding: EdgeInsets.all(0.0),
-          child: Text(LoginWithGoogle,style: TextStyle(color: Colors.black87, ),
-          ),
-        ),
-      ),
-    );
+
 
     final email = TextFormField(
       cursorColor: Colors.grey,
@@ -134,15 +117,15 @@ class _LoginPageState extends State<LoginPage> {
           padding: EdgeInsets.only(left: 5.0),
           child: Icon(
             Icons.email,
-            color: Colors.grey,
+            color: Colors.black87,
           ), // icon is 48px widget.
         ),
         labelText: "信箱帳號",
-        labelStyle: TextStyle(color: Colors.black54),
+        labelStyle: TextStyle(color: Colors.black87),
         focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color:Colors.grey)),
+            borderSide: const BorderSide(color:Colors.black87)),
         enabledBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color:Colors.grey)),
+            borderSide: const BorderSide(color:Colors.black87)),
         hintText: "請輸入帳號",
         hintStyle: TextStyle(color: Colors.grey),
         contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
@@ -166,16 +149,16 @@ class _LoginPageState extends State<LoginPage> {
           padding: EdgeInsets.only(left: 5.0),
           child: Icon(
             Icons.lock,
-            color: Colors.grey,
+            color: Colors.black87,
           ), // icon is 48px widget.
         ),
         // icon is 48px widget.
         labelText: "密碼",
-        labelStyle: TextStyle(color: Colors.black54),
+        labelStyle: TextStyle(color: Colors.black87),
         focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color:Colors.grey)),
+            borderSide: const BorderSide(color:Colors.black87)),
         enabledBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color:Colors.grey)),
+            borderSide: const BorderSide(color:Colors.black87)),
         hintText: "請輸入密碼",
         hintStyle: TextStyle(color: Colors.grey),
         contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
@@ -241,7 +224,7 @@ class _LoginPageState extends State<LoginPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   Expanded(child:RegisterButton ,),
-                  Expanded(child: LoginGoogleButton),
+
                 ],
               ),
 

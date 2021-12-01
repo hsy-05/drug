@@ -18,27 +18,27 @@ class MedicineModeState extends State<MedicineMode> {
   void initState() {
     super.initState();
     RadioValue.radiovalue = 0;
-    selectedRadio0 = true;
-    selectedRadio1 = false;
-    selectedRadio2 = false;
+    RadioValue.selectedRadio0 = true;
+    RadioValue.selectedRadio1 = false;
+    RadioValue.selectedRadio2 = false;
   }
 
   void radiofunc(val) {
     if (val == 0) {
-      selectedRadio0 = true;
-      selectedRadio1 = false;
-      selectedRadio2 = false;
+      RadioValue.selectedRadio0 = true;
+      RadioValue.selectedRadio1 = false;
+      RadioValue.selectedRadio2 = false;
 
       print("1個設定時間");
     } else if (val == 1) {
-      selectedRadio0 = true;
-      selectedRadio1 = true;
-      selectedRadio2 = false;
+      RadioValue.selectedRadio0 = true;
+      RadioValue.selectedRadio1 = true;
+      RadioValue.selectedRadio2 = false;
       print("2個設定時間");
     } else if(val == 2){
-      selectedRadio0 = true;
-      selectedRadio1 = true;
-      selectedRadio2 = true;
+      RadioValue.selectedRadio0 = true;
+      RadioValue.selectedRadio1 = true;
+      RadioValue.selectedRadio2 = true;
       print("3個設定時間");
     }
     setState(() {
@@ -77,26 +77,27 @@ class MedicineModeState extends State<MedicineMode> {
               onChanged: radiofunc,
               groupValue: RadioValue.radiovalue,
               title: Text("一天1次"),
-              // selected: this.selectedRadio0 == 0,
+              activeColor: Color.fromRGBO(204, 119, 34, 1.0),
             ),
             RadioListTile(
               value: 1,
               onChanged: radiofunc,
               groupValue: RadioValue.radiovalue,
               title: Text("一天2次"),
-              // selected: this.selectedRadio1 == 1,
+              activeColor: Color.fromRGBO(204, 119, 34, 1.0),
             ),
             RadioListTile(
               value: 2,
               onChanged: radiofunc,
               groupValue: RadioValue.radiovalue,
               title: Text("一天3次"),
+              activeColor: Color.fromRGBO(204, 119, 34, 1.0),
               // selected: this.selectedRadio2 == 2,
             ),
 
 
             Visibility(
-              visible: selectedRadio0,
+              visible: RadioValue.selectedRadio0,
               child: new ListTile(
                 horizontalTitleGap: 10,
                 minLeadingWidth: 0,
@@ -111,7 +112,7 @@ class MedicineModeState extends State<MedicineMode> {
             ),
 
             Visibility(
-              visible: selectedRadio1,
+              visible: RadioValue.selectedRadio1,
               child: new ListTile(
                 horizontalTitleGap: 10,
                 minLeadingWidth: 0,
@@ -126,7 +127,7 @@ class MedicineModeState extends State<MedicineMode> {
             ),
 
             Visibility(
-              visible: selectedRadio2,
+              visible: RadioValue.selectedRadio2,
               child: new ListTile(
                 horizontalTitleGap: 10,
                 minLeadingWidth: 0,
@@ -261,4 +262,3 @@ class RadioValue{
   static bool selectedRadio2=false;
 
 }
-

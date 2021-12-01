@@ -51,7 +51,7 @@ class DrugARealtime {
 
   DrugARealtime.fromSnapshot(DataSnapshot snapshot)
       : key = snapshot.key,
-        fromDateTime =snapshot.value["fromDate"],
+        fromDateTime =snapshot.value["fromDate1"],
         toDateTime =snapshot.value["toDate"],
         active = snapshot.value["active"],
         text = snapshot.value["DrugText"];
@@ -61,7 +61,7 @@ class DrugARealtime {
 
   Map<String, dynamic> toJson() =>
       {
-        "fromDate": fromDateTime,     //.millisecondsSinceEpoch
+        "fromDate1": fromDateTime,     //.millisecondsSinceEpoch
         "toDate": toDateTime,
         "active": active,
         "text": text,
@@ -85,7 +85,7 @@ class DrugBRealtime {
 
   DrugBRealtime.fromSnapshot(DataSnapshot snapshot)
       : key = snapshot.key,
-        fromDateTime =snapshot.value["fromDate"],
+        fromDateTime =snapshot.value["fromDate1"],
         toDateTime =snapshot.value["toDate"],
         active = snapshot.value["active"],
         text = snapshot.value["DrugText"];
@@ -95,7 +95,7 @@ class DrugBRealtime {
 
   Map<String, dynamic> toJson() =>
       {
-        "fromDate": fromDateTime,     //.millisecondsSinceEpoch
+        "fromDate1": fromDateTime,     //.millisecondsSinceEpoch
         "toDate": toDateTime,
         "active": active,
         "text": text,
@@ -119,7 +119,7 @@ class DrugCRealtime {
 
   DrugCRealtime.fromSnapshot(DataSnapshot snapshot)
       : key = snapshot.key,
-        fromDateTime =snapshot.value["fromDate"],
+        fromDateTime =snapshot.value["fromDate1"],
         toDateTime =snapshot.value["toDate"],
         active = snapshot.value["active"],
         text = snapshot.value["DrugText"];
@@ -129,7 +129,7 @@ class DrugCRealtime {
 
   Map<String, dynamic> toJson() =>
       {
-        "fromDate": fromDateTime,     //.millisecondsSinceEpoch
+        "fromDate1": fromDateTime,     //.millisecondsSinceEpoch
         "toDate": toDateTime,
         "active": active,
         "text": text,
@@ -153,7 +153,7 @@ class DrugDRealtime {
 
   DrugDRealtime.fromSnapshot(DataSnapshot snapshot)
       : key = snapshot.key,
-        fromDateTime =snapshot.value["fromDate"],
+        fromDateTime =snapshot.value["fromDate1"],
         toDateTime =snapshot.value["toDate"],
         active = snapshot.value["active"],
         text = snapshot.value["DrugText"];
@@ -163,7 +163,7 @@ class DrugDRealtime {
 
   Map<String, dynamic> toJson() =>
       {
-        "fromDate": fromDateTime,     //.millisecondsSinceEpoch
+        "fromDate1": fromDateTime,     //.millisecondsSinceEpoch
         "toDate": toDateTime,
         "active": active,
         "text": text,

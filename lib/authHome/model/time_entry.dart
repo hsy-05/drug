@@ -16,6 +16,12 @@ class StaticInfo{
     return timeItemCollection.onValue;
   }
 
+  static Stream<Event> readItemAll() {
+    Query timeItemCollection =
+    timeCollection.child("device").child(GetDeviceID.getDeviceID);
+    return timeItemCollection.onValue;
+  }
+
   static Stream<Event> readItemsA() {
     Query timeItemCollection =
     timeCollection.child("device").child(GetDeviceID.getDeviceID).child("drugA");

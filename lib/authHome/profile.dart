@@ -167,28 +167,7 @@ class _ProfileState extends State<Profile> {
                   ),
                 ),
                 SizedBox(height: 20.0),
-                Row(
-                  children: [
-                    SizedBox(
-                      child: Text(
-                        '信箱：',
-                        style: TextStyle(
-                          fontSize: 20.0,
-                          letterSpacing: 1,
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      child: Text(
-                        _user?.email ?? '',
-                        style: TextStyle(
-                          fontSize: 20.0,
-                          letterSpacing: 1,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+
                 new Form(
                   key: _formKey,
                   autovalidate: false, //是否自動校驗輸入內容
@@ -219,7 +198,29 @@ class _ProfileState extends State<Profile> {
                             ),
                           ],
                         ),
-
+                        SizedBox(height: 20.0),
+                        Row(
+                          children: [
+                            SizedBox(
+                              child: Text(
+                                '信箱：',
+                                style: TextStyle(
+                                  fontSize: 20.0,
+                                  letterSpacing: 1,
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              child: Text(
+                                _user?.email ?? '',
+                                style: TextStyle(
+                                  fontSize: 20.0,
+                                  letterSpacing: 1,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                         SizedBox(height: 20.0),
 
                         Container(

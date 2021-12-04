@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';  //
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter1/authHome/model/time_entry.dart';
 import 'package:flutter1/authHome/model/time_firebase.dart';
+import 'package:flutter1/helpers/device_input.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:device_info/device_info.dart';
 import 'package:package_info/package_info.dart';
@@ -48,7 +49,11 @@ abstract class AuthHelper {
 
       print("註冊的會員：");
       print(user);
-
+      FirebaseDatabase.instance.reference().child("users").reference().child(user.uid).set({
+        'username': user.displayName,
+        'uid': user.uid,
+        'device_id': GetDeviceID.getDeviceID,
+      });
 
       return user;
     } catch (e) {
@@ -109,7 +114,7 @@ class UserHelper {
       await usersRef.reference().child(user.uid).set({
         'username': user.displayName,
         'uid': user.uid,
-        'device_id': "null",
+        'device_id': GetDeviceID.getDeviceID,
       });
     }
     await _saveDevice(user);
@@ -126,7 +131,7 @@ class UserHelper {
         "os_version": deviceInfo.version.sdkInt.toString(),
         "platform": 'android',
         "model": deviceInfo.model,
-        "device": deviceInfo.device,
+        "device": GetDeviceID.getDeviceID,
       };
     }
     if (Platform.isIOS) {
@@ -168,7 +173,7 @@ class UserHelper {
       await usersRef.reference().child(user.uid).set({
         'username': user.displayName,
         'uid': user.uid,
-        'device_id': "null",
+        'device_id': GetDeviceID.getDeviceID,
       });
     }
   }

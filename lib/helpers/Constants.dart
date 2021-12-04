@@ -16,7 +16,7 @@ const appTitle = "Contactly";
 const pinCodeText = "帳號";
 const pinCodeHintText = "請輸入手機號";
 const loginButtonText = "登 入";
-const RegisterButtonText = "註 冊";
+const RegisterButtonText = "註冊帳號";
 const LoginWithGoogle = "Google 帳 戶 登 入"; //Login with Google
 
 // String Name = '';

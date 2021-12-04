@@ -18,8 +18,9 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController _emailController;
   TextEditingController _passwordController;
   TextEditingController _confirmPasswordController;
+  TextEditingController _deviceIDController;
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  String deviceid;
+  String deviceid = "";
 
   DatabaseReference deviceID;
 
@@ -30,6 +31,7 @@ class _RegisterPageState extends State<RegisterPage> {
     _emailController = TextEditingController(text: "");
     _passwordController = TextEditingController(text: "");
     _confirmPasswordController = TextEditingController(text: "");
+    _deviceIDController = TextEditingController(text: "");
     deviceID = FirebaseDatabase.instance.reference().child("users");
   }
 
@@ -43,12 +45,12 @@ class _RegisterPageState extends State<RegisterPage> {
         prefixIcon: Padding(
           padding: EdgeInsets.only(left: 5.0),
           child: Icon(
-            Icons.person_outline,
+            Icons.person,
             color: Colors.black87,
           ), // icon is 48px widget.
         ),
         labelText: "名稱",
-        labelStyle: TextStyle(color: Colors.black87),
+        labelStyle: TextStyle(color: Colors.black54),
         focusedBorder: OutlineInputBorder(
             borderSide: const BorderSide(color:Colors.black87)),
         enabledBorder: OutlineInputBorder(
@@ -64,7 +66,7 @@ class _RegisterPageState extends State<RegisterPage> {
     );
 
     final email = TextFormField(
-      cursorColor: Colors.grey,
+      cursorColor: Colors.black87,
       keyboardType: TextInputType.emailAddress,
       autofocus: false,
       controller: _emailController,
@@ -72,12 +74,12 @@ class _RegisterPageState extends State<RegisterPage> {
         prefixIcon: Padding(
           padding: EdgeInsets.only(left: 5.0),
           child: Icon(
-            Icons.email_outlined,
+            Icons.email,
             color: Colors.black87,
           ), // icon is 48px widget.
         ),
         labelText: "信箱帳號",
-        labelStyle: TextStyle(color: Colors.black87),
+        labelStyle: TextStyle(color: Colors.black54),
         focusedBorder: OutlineInputBorder(
             borderSide: const BorderSide(color:Colors.black87)),
         enabledBorder: OutlineInputBorder(
@@ -93,7 +95,7 @@ class _RegisterPageState extends State<RegisterPage> {
     );
 
     final password = TextFormField(
-      cursorColor: Colors.grey,
+      cursorColor: Colors.black87,
       autofocus: false,
       controller: _passwordController,
       obscureText: true,
@@ -103,13 +105,13 @@ class _RegisterPageState extends State<RegisterPage> {
         prefixIcon: Padding(
           padding: EdgeInsets.only(left: 5.0),
           child: Icon(
-            Icons.lock_outline,
+            Icons.lock,
             color: Colors.black87,
           ), // icon is 48px widget.
         ),
         // icon is 48px widget.
         labelText: "密碼",
-        labelStyle: TextStyle(color: Colors.black87),
+        labelStyle: TextStyle(color: Colors.black54),
         focusedBorder: OutlineInputBorder(
             borderSide: const BorderSide(color:Colors.black87)),
         enabledBorder: OutlineInputBorder(
@@ -134,7 +136,7 @@ class _RegisterPageState extends State<RegisterPage> {
     );
 
     final comfirmPassword = TextFormField(
-      cursorColor: Colors.grey,
+      cursorColor: Colors.black87,
       controller: _confirmPasswordController,
       decoration: InputDecoration(
         contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
@@ -142,24 +144,24 @@ class _RegisterPageState extends State<RegisterPage> {
         prefixIcon: Padding(
           padding: EdgeInsets.only(left: 5.0),
           child: Icon(
-            Icons.lock_outline,
+            Icons.lock,
             color: Colors.black87,
           ), // icon is 48px widget.
         ),
-        labelText: "確認密碼",
-        labelStyle: TextStyle(color: Colors.black87),
+        labelText: "再次輸入密碼",
+        labelStyle: TextStyle(color: Colors.black54),
         focusedBorder: OutlineInputBorder(
             borderSide: const BorderSide(color:Colors.black87)),
         enabledBorder: OutlineInputBorder(
             borderSide: const BorderSide(color:Colors.black87)),
-        hintText: "再次輸入密碼",
+        hintText: "請再次輸入密碼",
       ),
       obscureText: true,
       // validator: (value) => value.isEmpty ? '請再填寫一次密碼！' : null,
 
       validator: (String value) {
         if (value.isEmpty) {
-          return '請填寫確認密碼！';
+          return '請填寫再次密碼！';
         }
 
         if (_passwordController.text != _confirmPasswordController.text) {
@@ -170,12 +172,11 @@ class _RegisterPageState extends State<RegisterPage> {
       },
     );
 
-    final deviceInput = new TextField(
-      cursorColor: Colors.black,
+    final deviceID = TextFormField(
+      cursorColor: Colors.black87,
       autofocus: false,
-      decoration: new InputDecoration(
-        contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
+      controller: _deviceIDController,
+      decoration: InputDecoration(
         prefixIcon: Padding(
           padding: EdgeInsets.only(left: 5.0),
           child: Icon(
@@ -184,18 +185,21 @@ class _RegisterPageState extends State<RegisterPage> {
           ), // icon is 48px widget.
         ),
         labelText: "裝置ID",
-        labelStyle: TextStyle(color: Colors.black87),
+        labelStyle: TextStyle(color: Colors.black54),
         focusedBorder: OutlineInputBorder(
             borderSide: const BorderSide(color:Colors.black87)),
         enabledBorder: OutlineInputBorder(
             borderSide: const BorderSide(color:Colors.black87)),
         hintText: "請輸入裝置ID",
-
+        contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
       ),
+      validator: (value) => value.isEmpty ? '記得輸入裝置ID！' : null,
       // onChanged: (value) {
-      //   inputData = value;
+      //   setState(() => Name = value);
       // },
     );
+
 
     return new SafeArea(
       top: false,
@@ -222,12 +226,6 @@ class _RegisterPageState extends State<RegisterPage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  // IconButton(
-                  //   onPressed: () {
-                  //     Navigator.pop(context);
-                  //   },
-                  //   icon: const Icon(Icons.arrow_back_rounded),
-                  // ),
                   Padding(
                     padding: const EdgeInsets.only(left: 60, right: 60),
                     child: Form(
@@ -245,7 +243,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           SizedBox(height: 40),
                           comfirmPassword,
                           SizedBox(height: 40),
-                          deviceInput
+                          deviceID
                         ],
                       ),
                     ),
@@ -267,10 +265,10 @@ class _RegisterPageState extends State<RegisterPage> {
                                 maxWidth: 280.0, minHeight: 50.0),
                             alignment: Alignment.center,
                             child: Text(
-                              "註冊",
+                              "提交",
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                color: Colors.black,
+                                color: Colors.white,
                                 fontSize: 24,
                                 fontWeight: FontWeight.normal,
                               ),
@@ -286,16 +284,18 @@ class _RegisterPageState extends State<RegisterPage> {
                           // }
                           if (_formKey.currentState.validate()) {
                             try {
-                              await checkDeviceID(inputData, context);
                               final user = await AuthHelper.signupWithEmail(
                                   name: _nameController.text,
                                   email: _emailController.text,
                                   password: _passwordController.text);
+                              deviceid = _deviceIDController.text;
+                              GetDeviceID.getDeviceID = deviceid;
                               if (user != null) {
                                 print("註冊成功");
-                                GetDeviceID.getDeviceID  = await inputDeviceID(context);
-                                print("裝置ID：$GetDeviceID.getDeviceID ");
-                                await saveDeviceID();
+                                print("裝置ID： ");
+                                print(GetDeviceID.getDeviceID);
+                                saveDeviceID();
+                                Navigator.pop(context);
                               }
                             } catch (e) {
                               print(e);
@@ -356,7 +356,6 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                     ),
                   ),
-
                 ],
               ),
               //     ],
@@ -368,9 +367,9 @@ class _RegisterPageState extends State<RegisterPage> {
       ),
     );
   }
-  saveDeviceID() async{
-    deviceID.reference().child(StaticInfo.userid).update({
-      "device_id": GetDeviceID.getDeviceID = deviceid,
+  saveDeviceID() {
+    deviceID.reference().child(StaticInfo.userid).set({
+      "device_id": deviceid ,
     });
   }
 

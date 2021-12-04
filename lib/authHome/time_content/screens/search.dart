@@ -104,13 +104,22 @@ class SearchTextState extends State<SearchText> {
                 (Icons.search,
                 color: Colors.black,
               ),
+              enabledBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.black54),
+              ),
+              //获得焦点下划线设为蓝色
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.black54),
+              ),
               suffixIcon: IconButton(
                 onPressed: _drugTextController.clear,
-                icon: Icon(Icons.clear),
+                icon: Icon(Icons.clear,
+                  color: Colors.black,),
               ),
               border: InputBorder.none,
               labelText: "請輸入藥品名稱",
               labelStyle: TextStyle(color: Colors.black),
+
               // hintText: '請輸入藥品名稱',
             ),
             // onChanged: (v) {

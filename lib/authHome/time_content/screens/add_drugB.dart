@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter1/authHome/model/time_entry.dart';
 import 'package:flutter1/helpers/device_input.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter1/authHome/model/time_firebase.dart';
 import 'package:flutter/material.dart';
@@ -18,9 +19,9 @@ class _AddDrugBState extends State<AddDrugB> {
 
   String drugText;
   TextEditingController _drugnameController;
-  DateTime _fromDateTime1 = new DateTime.now();
-  DateTime _fromDateTime2 = new DateTime.now();
-  DateTime _fromDateTime3 = new DateTime.now();
+  DateTime _fromDateTimeB1 = new DateTime.now();
+  DateTime _fromDateTimeB2 = new DateTime.now();
+  DateTime _fromDateTimeB3 = new DateTime.now();
   DateTime _toDateTime = new DateTime.now();
   TimeOfDay time1 = new TimeOfDay.now();
   TimeOfDay time2 = new TimeOfDay.now();
@@ -44,9 +45,21 @@ class _AddDrugBState extends State<AddDrugB> {
       actions: [
         new FlatButton(
           onPressed: () async {
-            saveContact();
-            // drugB.reference().push().set(drugText);
-            Navigator.of(context).pop();
+            if(drugText.isEmpty||drugText==null){
+              Fluttertoast.showToast(msg: '尚未新增藥品名稱',
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.CENTER,
+                  timeInSecForIosWeb: 1,
+                  backgroundColor: Colors.black,
+                  textColor: Colors.white,
+                  fontSize: 22.0);
+              return;
+            }else{
+              saveContact();
+              // drugB.reference().push().set(drugText);
+              Navigator.of(context).pop();
+            }
+
           },
           child: new Text('新增',
               style: Theme.of(context)
@@ -99,7 +112,7 @@ class _AddDrugBState extends State<AddDrugB> {
               leading: new Icon(Icons.today, size: 22),
               title: Text("開始日期", style: TextStyle(fontSize: 18)),
               trailing: Text(
-                new DateFormat('yyyy年 MM月 dd日').format(_fromDateTime1),//設定畫面的年月日
+                new DateFormat('yyyy年 MM月 dd日').format(_fromDateTimeB1),//設定畫面的年月日
                 style: TextStyle(fontSize: 18),
               ),
             ),
@@ -220,23 +233,23 @@ class _AddDrugBState extends State<AddDrugB> {
     // final result1 = await Navigator.of(context).push();
     setState(() {
       time1 = result[0];
-      _fromDateTime1 = new DateTime(_fromDateTime1.year, _fromDateTime1.month,
-          _fromDateTime1.day, time1.hour, time1.minute);
+      _fromDateTimeB1 = new DateTime(_fromDateTimeB1.year, _fromDateTimeB1.month,
+          _fromDateTimeB1.day, time1.hour, time1.minute);
       _toDateTime = new DateTime(_toDateTime.year, _toDateTime.month,
           _toDateTime.day, 23, 59);
       time2 = result[1];
-      _fromDateTime2 = new DateTime(_fromDateTime2.year, _fromDateTime2.month,
-          _fromDateTime2.day, time2.hour, time2.minute);
+      _fromDateTimeB2 = new DateTime(_fromDateTimeB2.year, _fromDateTimeB2.month,
+          _fromDateTimeB2.day, time2.hour, time2.minute);
       time3 = result[2];
-      _fromDateTime3 = new DateTime(_fromDateTime3.year, _fromDateTime3.month,
-          _fromDateTime3.day, time3.hour, time3.minute);
+      _fromDateTimeB3 = new DateTime(_fromDateTimeB3.year, _fromDateTimeB3.month,
+          _fromDateTimeB3.day, time3.hour, time3.minute);
     });
   }
 
   Future _showFromDatePicker(BuildContext context) async {
     DateTime dateTimePicked = await showDatePicker(
         context: context,
-        initialDate: _fromDateTime1,
+        initialDate: _fromDateTimeB1,
         builder: (context, child) {
           return Theme(
             data: Theme.of(context).copyWith(
@@ -257,18 +270,18 @@ class _AddDrugBState extends State<AddDrugB> {
             child: child,
           );
         },
-        firstDate: _fromDateTime1.subtract(const Duration(days: 20000)),
+        firstDate: _fromDateTimeB1.subtract(const Duration(days: 20000)),
         lastDate: new DateTime(2033, 12, 31));
 
     if (dateTimePicked != null) {
-      _fromDateTime1 = new DateTime(dateTimePicked.year, dateTimePicked.month,
+      _fromDateTimeB1 = new DateTime(dateTimePicked.year, dateTimePicked.month,
           dateTimePicked.day, time1.hour, time1.minute);
-      _fromDateTime2 = new DateTime(_fromDateTime2.year, _fromDateTime2.month,
-          _fromDateTime2.day, time2.hour, time2.minute);
-      _fromDateTime3 = new DateTime(_fromDateTime3.year, _fromDateTime3.month,
-          _fromDateTime3.day, time3.hour, time3.minute);
+      _fromDateTimeB2 = new DateTime(_fromDateTimeB2.year, _fromDateTimeB2.month,
+          _fromDateTimeB2.day, time2.hour, time2.minute);
+      _fromDateTimeB3 = new DateTime(_fromDateTimeB3.year, _fromDateTimeB3.month,
+          _fromDateTimeB3.day, time3.hour, time3.minute);
       setState(() {
-        _fromDateTime1 = dateTimePicked;
+        _fromDateTimeB1 = dateTimePicked;
         // fromDate = dateTimePicked;
         // return fromDate;
       });
@@ -319,19 +332,19 @@ class _AddDrugBState extends State<AddDrugB> {
     int notificationId1 = Random().nextInt(1000);
     int notificationId2 = Random().nextInt(1000);
     int notificationId3 = Random().nextInt(1000);
-    var different = _toDateTime.difference(_fromDateTime1).inDays;
+    var different = _toDateTime.difference(_fromDateTimeB1).inDays;
 
     print("計算天數");
     print(different); // 19362
     if(RadioValue.radiovalue == 0){
       Map<String, dynamic> toJson = {
 
-        "fromDate1": _fromDateTime1.toString(), //.millisecondsSinceEpoch   //DateFormat('yyyy -MM -dd').format(_fromDateTime1)
+        "fromDate1": _fromDateTimeB1.toString(), //.millisecondsSinceEpoch   //DateFormat('yyyy -MM -dd').format(_fromDateTime1)
         "toDate": _toDateTime.toString(),
         "drugText": drugText,
         "nickName": _drugnameController.text,
         "notificationId1": notificationId1,
-        "startDate": DateFormat('yyyy/M/d').format(_fromDateTime1),
+        "startDate": DateFormat('yyyy/M/d').format(_fromDateTimeB1),
         "endDate": DateFormat('yyyy/M/d').format(_toDateTime),
         "time1":"${time1.hour}:${time1.minute}",
         // "time1":"${time1.hour}:${time1.minute}",
@@ -341,14 +354,14 @@ class _AddDrugBState extends State<AddDrugB> {
     if(RadioValue.radiovalue == 1){
       Map<String, dynamic> toJson = {
 
-        "fromDate1": _fromDateTime1.toString(), //.millisecondsSinceEpoch   //DateFormat('yyyy -MM -dd').format(_fromDateTime1)
-        "fromDate2": _fromDateTime2.toString(),
+        "fromDate1": _fromDateTimeB1.toString(), //.millisecondsSinceEpoch   //DateFormat('yyyy -MM -dd').format(_fromDateTime1)
+        "fromDate2": _fromDateTimeB2.toString(),
         "toDate": _toDateTime.toString(),
         "drugText": drugText,
         "nickName": _drugnameController.text,
         "notificationId1": notificationId1,
         "notificationId2": notificationId2,
-        "startDate": DateFormat('yyyy/M/d').format(_fromDateTime1),
+        "startDate": DateFormat('yyyy/M/d').format(_fromDateTimeB1),
         "endDate": DateFormat('yyyy/M/d').format(_toDateTime),
         "time1":"${time1.hour}:${time1.minute}",
         "time2":"${time2.hour}:${time2.minute}",
@@ -358,15 +371,15 @@ class _AddDrugBState extends State<AddDrugB> {
     if(RadioValue.radiovalue == 2){
       Map<String, dynamic> toJson = {
 
-        "fromDate1": _fromDateTime1.toString(), //.millisecondsSinceEpoch   //DateFormat('yyyy -MM -dd').format(_fromDateTime1)
-        "fromDate2": _fromDateTime2.toString(),
-        "fromDate3": _fromDateTime3.toString(),"toDate": _toDateTime.toString(),
+        "fromDate1": _fromDateTimeB1.toString(), //.millisecondsSinceEpoch   //DateFormat('yyyy -MM -dd').format(_fromDateTime1)
+        "fromDate2": _fromDateTimeB2.toString(),
+        "fromDate3": _fromDateTimeB3.toString(),"toDate": _toDateTime.toString(),
         "drugText": drugText,
         "nickName": _drugnameController.text,
         "notificationId1": notificationId1,
         "notificationId2": notificationId2,
         "notificationId3": notificationId3,
-        "startDate": DateFormat('yyyy/M/d').format(_fromDateTime1),
+        "startDate": DateFormat('yyyy/M/d').format(_fromDateTimeB1),
         "endDate": DateFormat('yyyy/M/d').format(_toDateTime),
         "time1":"${time1.hour}:${time1.minute}",
         "time2":"${time2.hour}:${time2.minute}",

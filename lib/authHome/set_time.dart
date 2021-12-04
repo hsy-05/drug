@@ -61,6 +61,7 @@ class _SetState extends State<SetTime> {
         .child(GetDeviceID.getDeviceID);
     drugAdb = mainReference.child("drugA");
     drugBdb = mainReference.child("drugB");
+    flutterLocalNotificationsPlugin.cancelAll();
   }
 
   _SetState() {
@@ -125,6 +126,11 @@ class _SetState extends State<SetTime> {
                           fromDate3 =
                           (DateTime.parse(snapshot.value['fromDate3']));
                         }
+                        List<DateTime> allDateTime = [];
+                        allDateTime.add(fromDate1);
+                        allDateTime.add(fromDate2);
+                        allDateTime.add(fromDate3);
+                        allDateTime.sort((a,b) => a.compareTo(b));
 
                         DateTime toDate =
                         (DateTime.parse(snapshot.value['toDate']));
@@ -206,14 +212,14 @@ class _SetState extends State<SetTime> {
                                     "藥品名稱  ：",
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                      fontSize: 20,
+                                      fontSize: 22,
                                     ),
                                   ),
                                   new Text(
                                     drugName,
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                      fontSize: 20,
+                                      fontSize: 22,
                                     ),
                                   ),
                                 ],
@@ -224,14 +230,14 @@ class _SetState extends State<SetTime> {
                                     "藥品暱稱  ：",
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                      fontSize: 22,
+                                      fontSize: 24,
                                     ),
                                   ),
                                   new Text(
                                     nickName,
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                      fontSize: 22,
+                                      fontSize: 24,
                                     ),
                                   ),
                                 ],
@@ -300,21 +306,23 @@ class _SetState extends State<SetTime> {
                                       Visibility(
                                         visible: CheckTime.time1aCheck,
                                         child: new Text(
-                                          timeOfDay1 ?? "",
+                                          DateFormat().add_jm().format(allDateTime[0])   ?? "",
                                           style: TextStyle(fontSize: 24),
                                         ), //設定畫面的時間
                                       ),
+                                      SizedBox(height: 10,),
                                       Visibility(
                                         visible: CheckTime.time2aCheck,
                                         child: new Text(
-                                          timeOfDay2 ?? "",
+                                          DateFormat().add_jm().format(allDateTime[1]) ?? "",
                                           style: TextStyle(fontSize: 24),
                                         ), //設定畫面的時間
                                       ),
+                                      SizedBox(height: 10,),
                                       Visibility(
                                         visible: CheckTime.time3aCheck,
                                         child: new Text(
-                                          timeOfDay3 ?? "",
+                                          DateFormat().add_jm().format(allDateTime[2]) ?? "",
                                           style: TextStyle(fontSize: 24),
                                         ), //設定畫面的時間
                                       ),
@@ -388,6 +396,12 @@ class _SetState extends State<SetTime> {
                         DateTime fromDate2;
                         DateTime fromDate3;
                         // DateTime time1 = new DateFormat('H:mm:s').parse(snapshot.value['fromDate1']);
+                        List<DateTime> allDateTime = [];
+                        allDateTime.add(fromDate1);
+                        allDateTime.add(fromDate2);
+                        allDateTime.add(fromDate3);
+                        allDateTime.sort((a,b) => a.compareTo(b));
+
                         if (snapshot.value['fromDate2'] != null) {
                           fromDate2 =
                           (DateTime.parse(snapshot.value['fromDate2']));
@@ -409,7 +423,7 @@ class _SetState extends State<SetTime> {
                         // if (active.isNotEmpty) {
                         //   print("已拿取");
                         // }
-                        if (timeOfDay1 == "null") {
+                        if (timeOfDay1 != "null") {
                           CheckTime.time1bCheck = true;
                         }
                         if (timeOfDay2 != "null"  || timeOfDay2 != null) {
@@ -419,7 +433,7 @@ class _SetState extends State<SetTime> {
                           CheckTime.time3bCheck = true;
                         }
                         if (toDate == DateTime.now()) {
-                           drugAdb.remove();
+                          drugAdb.remove();
                           print("結束日期已到");
                         }
                         if(notificationId1 != null){
@@ -468,14 +482,14 @@ class _SetState extends State<SetTime> {
                                     "藥品名稱  ：",
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                      fontSize: 20,
+                                      fontSize: 22,
                                     ),
                                   ),
                                   new Text(
                                     drugName,
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                      fontSize: 20,
+                                      fontSize: 22,
                                     ),
                                   ),
                                 ],
@@ -486,14 +500,14 @@ class _SetState extends State<SetTime> {
                                     "藥品暱稱  ：",
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                      fontSize: 18,
+                                      fontSize: 24,
                                     ),
                                   ),
                                   new Text(
                                     nickName,
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                      fontSize: 22,
+                                      fontSize: 24,
                                     ),
                                   ),
                                 ],
@@ -507,6 +521,7 @@ class _SetState extends State<SetTime> {
                               ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   new Text(
                                     "開始日期 ：",
@@ -525,6 +540,7 @@ class _SetState extends State<SetTime> {
                               ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   new Text(
                                     "結束日期 ：",
@@ -560,23 +576,25 @@ class _SetState extends State<SetTime> {
                                   Column(
                                     children: [
                                       Visibility(
-                                        visible: CheckTime.time1bCheck,
+                                        visible: CheckTime.time1aCheck,
                                         child: new Text(
-                                          timeOfDay1 ?? "",
+                                          DateFormat().add_jm().format(allDateTime[0])   ?? "",
                                           style: TextStyle(fontSize: 24),
                                         ), //設定畫面的時間
                                       ),
+                                      SizedBox(height: 10,),
                                       Visibility(
-                                        visible: CheckTime.time2bCheck,
+                                        visible: CheckTime.time2aCheck,
                                         child: new Text(
-                                          timeOfDay2 ?? "",
+                                          DateFormat().add_jm().format(allDateTime[1]) ?? "",
                                           style: TextStyle(fontSize: 24),
                                         ), //設定畫面的時間
                                       ),
+                                      SizedBox(height: 10,),
                                       Visibility(
-                                        visible: CheckTime.time3bCheck,
+                                        visible: CheckTime.time3aCheck,
                                         child: new Text(
-                                          timeOfDay3 ?? "",
+                                          DateFormat().add_jm().format(allDateTime[2]) ?? "",
                                           style: TextStyle(fontSize: 24),
                                         ), //設定畫面的時間
                                       ),

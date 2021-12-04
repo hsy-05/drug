@@ -28,7 +28,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   initState(){
-    _title = '智慧藥盒';
+    _title = '吃藥倒數';
     getd();
     print(" GetDeviceID().getd()");
     print(d);
@@ -88,7 +88,7 @@ class _HomePageState extends State<HomePage> {
         items: [
           new BottomNavigationBarItem(
             icon: Icon(Icons.access_alarms_rounded),
-            title: Text('吃藥時間'),
+            title: Text('時間設定'),
           ),
 
           new BottomNavigationBarItem(
@@ -125,7 +125,7 @@ class _HomePageState extends State<HomePage> {
       switch(index) {
         case 0: { _title = '吃藥時間'; }
         break;
-        case 1: { _title = '智慧藥盒'; }
+        case 1: { _title = '吃藥倒數'; }
         break;
         case 2: { _title = '吃藥紀錄'; }
         break;

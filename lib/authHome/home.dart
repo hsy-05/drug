@@ -32,17 +32,11 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
         CountdownTimerController(endTime: _endTime, onEnd: onEnd, vsync: this);
     GetDeviceID().getd();
     mainReference =
-        FirebaseDatabase.instance.reference().child("device").child(userid);
+        FirebaseDatabase.instance.reference().child("device").child(GetDeviceID.getDeviceID);
     drugAdb = mainReference.child("drugA");
     drugBdb = mainReference.child("drugB");
-    GetDrugATimes().drugATimes();
   }
 
-  @override
-  void dispose() {
-    // controller.dispose();
-    super.dispose();
-  }
 
   void onEnd() {
     print('時間到');
@@ -59,238 +53,320 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    // final drugA = Ink(
-    //     color: Color.fromRGBO(210, 180, 140, 1.0),
-    //     child: Column(
-    //       // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-    //       children: [
-    //         Flexible(
-    //           child: Padding(
-    //             padding: const EdgeInsets.all(10.0),
-    //             child: StreamBuilder(
-    //               stream: StaticInfo.readItemsA(),
-    //               builder: (context, AsyncSnapshot<Event> snapshot) {
-    //                 if (snapshot.hasError) {
-    //                   return Text('Something went wrong'); //若連不上realtime會顯示
-    //                 } else if (snapshot.hasData &&
-    //                     snapshot.data.snapshot.value != null) {
-    //                   return FirebaseAnimatedList(
-    //                     query: drugAdb,
-    //                     itemBuilder: (BuildContext context,
-    //                         DataSnapshot snapshot,
-    //                         Animation<double> animation,
-    //                         int index) {
-    //                       String drugName = snapshot.value['drugText'];
-    //                       print("藥品名稱：" + drugName);
-    //                       DateTime fromDate =
-    //                           (DateTime.parse(snapshot.value['fromDate']));
-    //                       DateTime toDate =
-    //                           (DateTime.parse(snapshot.value['toDate']));
-    //                       String timeString =snapshot.value['time'];
-    //                       TimeOfDay time = TimeOfDay(hour:int.parse(timeString.split(":")[0]),minute: int.parse(timeString.split(":")[1]));
-    //
-    //                       int difmin = Duration(hours: time.hour - n.hour).inMilliseconds;
-    //                       int difsec = Duration(minutes: time.minute - n.minute).inMilliseconds;
-    //                       print("時間倒數：");
-    //                       print(difmin);
-    //                       print(difsec);
-    //                       int endTime = _endTime + difmin + difsec;
-    //
-    //                       return new InkWell(
-    //                         child: Column(
-    //                           children: [
-    //                             new Text("下次吃藥時間",
-    //                                 style: TextStyle(fontSize: 18)),
-    //                             new Text(
-    //                               "藥品名稱：",
-    //                               textAlign: TextAlign.left,
-    //                             ),
-    //                             new Text(
-    //                               snapshot.value['drugText'],
-    //                               textAlign: TextAlign.left,
-    //                               style: TextStyle(
-    //                                 fontSize: 15,
-    //                               ),
-    //                             ),
-    //                             CountdownTimer(
-    //                               textStyle: TextStyle(
-    //                                 fontSize: 30,
-    //                                 color: Colors.red,
-    //                               ),
-    //                               onEnd: onEnd,
-    //                               endTime: endTime,
-    //                             ),
-    //                           ],
-    //                         ),
-    //                       );
-    //                     },
-    //                   );
-    //                 } else {
-    //                   return Text("尚未新增吃藥時間");
-    //                 }
-    //               },
-    //             ),
-    //           ),
-    //         ),
-    //       ],
-    //     ));
-    //
-    // final drugB = Ink(
-    //     color: Color.fromRGBO(210, 180, 140, 1.0),
-    //     child: Column(
-    //       // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-    //       children: [
-    //         Flexible(
-    //           child: Padding(
-    //             padding: const EdgeInsets.all(10.0),
-    //             child: StreamBuilder(
-    //               stream: StaticInfo.readItemsB(),
-    //               builder: (context, AsyncSnapshot<Event> snapshot) {
-    //                 if (snapshot.hasError) {
-    //                   return Text('Something went wrong'); //若連不上realtime會顯示
-    //                 } else if (snapshot.hasData &&
-    //                     snapshot.data.snapshot.value != null) {
-    //                   return FirebaseAnimatedList(
-    //                     query: drugBdb,
-    //                     itemBuilder: (BuildContext context,
-    //                         DataSnapshot snapshot,
-    //                         Animation<double> animation,
-    //                         int index) {
-    //                       String drugName = snapshot.value['drugText'];
-    //                       print("藥品名稱：" + drugName);
-    //                       DateTime fromDate =
-    //                       (DateTime.parse(snapshot.value['fromDate']));
-    //                       DateTime toDate =
-    //                       (DateTime.parse(snapshot.value['toDate']));
-    //                       String timeString =snapshot.value['time'];
-    //                       TimeOfDay time = TimeOfDay(hour:int.parse(timeString.split(":")[0]),minute: int.parse(timeString.split(":")[1]));
-    //
-    //                       int difmin = Duration(hours: time.hour - n.hour).inMilliseconds;
-    //                       int difsec = Duration(minutes: time.minute - n.minute).inMilliseconds;
-    //                       print("時間倒數：");
-    //                       print(difmin);
-    //                       print(difsec);
-    //                       int endTime1 = _endTime + difmin + difsec;
-    //
-    //                       return new InkWell(
-    //                         child: Column(
-    //                           children: [
-    //                             new Text("下次吃藥時間",
-    //                                 style: TextStyle(fontSize: 18)),
-    //                             new Text(
-    //                               "藥品名稱：",
-    //                               textAlign: TextAlign.left,
-    //                             ),
-    //                             new Text(
-    //                               snapshot.value['drugText'],
-    //                               textAlign: TextAlign.left,
-    //                               style: TextStyle(
-    //                                 fontSize: 15,
-    //                               ),
-    //                             ),
-    //                             CountdownTimer(
-    //                               textStyle: TextStyle(
-    //                                 fontSize: 30,
-    //                                 color: Colors.red,
-    //                               ),
-    //                               onEnd: onEnd,
-    //                               endTime: endTime1,
-    //                             ),
-    //                           ],
-    //                         ),
-    //                       );
-    //                     },
-    //                   );
-    //                 } else {
-    //                   return Text("尚未新增吃藥時間");
-    //                 }
-    //               },
-    //             ),
-    //           ),
-    //         ),
-    //       ],
-    //     ));
-    //
+    final drugA = Ink(
+
+        decoration: new BoxDecoration(
+          //背景
+          color: Color.fromRGBO(210, 180, 140, 1.0),
+          //设置四周圆角 角度
+          borderRadius: BorderRadius.all(Radius.circular(25.0)),
+          //设置四周边框
+          border:
+          new Border.all(width: 1, color: Color.fromRGBO(210, 180, 140, 1.0)),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Flexible(
+              flex: 1,
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: StreamBuilder(
+                  stream: StaticInfo.readItemsA(),
+                  builder: (context, AsyncSnapshot<Event> snapshot) {
+                    if (snapshot.hasError) {
+                      return Text('Something went wrong'); //若連不上realtime會顯示
+                    } else if (snapshot.hasData &&
+                        snapshot.data.snapshot.value != null) {
+                      return FirebaseAnimatedList(
+                        query: drugAdb,
+                        itemBuilder: (BuildContext context,
+                            DataSnapshot snapshot,
+                            Animation<double> animation,
+                            int index) {
+                          String drugName = snapshot.value['drugText'];
+                          String nickName = snapshot.value['nickName'];
+                          print("藥品名稱：" + drugName);
+                          DateTime fromDate =
+                          (DateTime.parse(snapshot.value['fromDate1']));
+                          DateTime toDate =
+                          (DateTime.parse(snapshot.value['toDate']));
+                          String timeString1 =snapshot.value['time1'];
+                          TimeOfDay time1 = TimeOfDay(hour:int.parse(timeString1.split(":")[0]),minute: int.parse(timeString1.split(":")[1]));
+                          String timeString2 =snapshot.value['time2'];
+                          TimeOfDay time2 = TimeOfDay(hour:int.parse(timeString2.split(":")[0]),minute: int.parse(timeString2.split(":")[1]));
+                          String timeString3 =snapshot.value['time3'];
+                          TimeOfDay time3 = TimeOfDay(hour:int.parse(timeString3.split(":")[0]),minute: int.parse(timeString3.split(":")[1]));
+
+                          int difmin1 = Duration(hours: time1.hour - n.hour).inMilliseconds;
+                          int difsec1 = Duration(minutes: time1.minute - n.minute).inMilliseconds;
+                          print("時間倒數：");
+                          print(difmin1);
+                          print(difsec1);
+                          int endTime1 = _endTime + difmin1 + difsec1;
+
+                          int difmin2 = Duration(hours: time2.hour - n.hour).inMilliseconds;
+                          int difsec2 = Duration(minutes: time2.minute - n.minute).inMilliseconds;
+                          print("時間倒數：");
+                          print(difmin2);
+                          print(difsec2);
+                          int endTime2 = _endTime + difmin2 + difsec2;
+
+                          int difmin3 = Duration(hours: time3.hour - n.hour).inMilliseconds;
+                          int difsec3 = Duration(minutes: time3.minute - n.minute).inMilliseconds;
+                          print("時間倒數：");
+                          print(difmin3);
+                          print(difsec3);
+                          int endTime3 = _endTime + difmin3 + difsec3;
+
+                          return new InkWell(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                SizedBox(height: 80),
+                                nickName.isEmpty ||
+                                    nickName == null ||
+                                    nickName == ""
+                                    ? Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    new Text(
+                                      "藥品名稱  ：",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                    new Text(
+                                      drugName,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                  ],
+                                ) : Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    new Text(
+                                      "藥品暱稱  ：",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 22,
+                                      ),
+                                    ),
+                                    new Text(
+                                      nickName,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 22,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                new Text("下次吃藥時間倒數",
+                                    style: TextStyle(fontSize: 25)),
+                                CountdownTimer(
+                                  onEnd: onEnd,
+                                  endTime: endTime1,
+                                  widgetBuilder: (_, CurrentRemainingTime time) {
+                                    if (time == null) {
+                                      return Text('結束');
+                                    }
+                                    if(time.hours == null){
+                                      return Text(
+                                          ' 00 ： ${time.min} ', style: TextStyle(
+                                        fontSize: 30,
+                                        color: Colors.red,
+                                      ));
+                                    }
+                                    return Text(
+                                        ' ${time.hours} ： ${time.min} ', style: TextStyle(
+                                      fontSize: 30,
+                                      color: Colors.red,
+                                    ));
+                                  },
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      );
+                    } else {
+                      return Text("尚未新增吃藥時間",style: TextStyle(
+                          fontSize: 30) );
+                    }
+                  },
+                ),
+              ),
+            ),
+          ],
+        ));
+
+    final drugB = Ink(
+        width: MediaQuery
+            .of(context)
+            .size
+            .width / 2.0,
+        height: MediaQuery
+            .of(context)
+            .size
+            .height / 2.0,
+        decoration: new BoxDecoration(
+          //背景
+          color: Color.fromRGBO(210, 180, 140, 1.0),
+          //设置四周圆角 角度
+          borderRadius: BorderRadius.all(Radius.circular(25.0)),
+          //设置四周边框
+          border:
+          new Border.all(width: 1, color: Color.fromRGBO(210, 180, 140, 1.0)),
+        ),
+        child: Column(
+          // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Flexible(
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: StreamBuilder(
+                  stream: StaticInfo.readItemsB(),
+                  builder: (context, AsyncSnapshot<Event> snapshot) {
+                    if (snapshot.hasError) {
+                      return Text('Something went wrong'); //若連不上realtime會顯示
+                    } else if (snapshot.hasData &&
+                        snapshot.data.snapshot.value != null) {
+                      return FirebaseAnimatedList(
+                        query: drugBdb,
+                        itemBuilder: (BuildContext context,
+                            DataSnapshot snapshot,
+                            Animation<double> animation,
+                            int index) {
+                          String drugName = snapshot.value['drugText'];
+                          String nickName = snapshot.value['nickName'];
+                          print("藥品名稱：" + drugName);
+                          DateTime fromDate =
+                          (DateTime.parse(snapshot.value['fromDate1']));
+                          DateTime toDate =
+                          (DateTime.parse(snapshot.value['toDate']));
+                          String timeString =snapshot.value['time1'];
+                          TimeOfDay time = TimeOfDay(hour:int.parse(timeString.split(":")[0]),minute: int.parse(timeString.split(":")[1]));
+
+                          int difmin = Duration(hours: time.hour - n.hour).inMilliseconds;
+                          int difsec = Duration(minutes: time.minute - n.minute).inMilliseconds;
+                          print("時間倒數：");
+                          print(difmin);
+                          print(difsec);
+                          int endTime1 = _endTime + difmin + difsec;
+
+                          return new InkWell(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                SizedBox(height: 80),
+                                nickName.isEmpty ||
+                                    nickName == null ||
+                                    nickName == ""
+                                    ? Column(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.center,
+                                  children: [
+                                    new Text(
+                                      "藥品名稱  ：",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                    new Text(
+                                      drugName,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                  ],
+                                ) : Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    new Text(
+                                      "藥品暱稱  ：",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 22,
+                                      ),
+                                    ),
+                                    new Text(
+                                      nickName,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 22,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                new Text("下次吃藥時間倒數",
+                                    style: TextStyle(fontSize: 25)),
+                                CountdownTimer(
+                                  onEnd: onEnd,
+                                  endTime: endTime1,
+                                  widgetBuilder: (_, CurrentRemainingTime time) {
+                                    if (time == null) {
+                                      return Text('結束');
+                                    }
+                                    if(time.hours == null){
+                                      return Text(
+                                          ' 00 ： ${time.min} ', style: TextStyle(
+                                        fontSize: 30,
+                                        color: Colors.red,
+                                      ));
+                                    }
+                                    return Text(
+                                        ' ${time.hours} ： ${time.min} ', style: TextStyle(
+                                      fontSize: 30,
+                                      color: Colors.red,
+                                    ));
+                                  },
+                                ),
+
+
+                              ],
+                            ),
+                          );
+                        },
+                      );
+                    } else {
+                      return Center(
+                          child: Text("尚未新增吃藥時間",style: TextStyle(
+                              fontSize: 30) )
+                      );
+                    }
+                  },
+                ),
+              ),
+            ),
+          ],
+        ));
 
     return Scaffold(
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(10.0),
-          child: Ink(
-              color: Color.fromRGBO(210, 180, 140, 1.0),
-              child: Column(
-                // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Flexible(
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: StreamBuilder(
-                        stream: StaticInfo.readItemsA(),
-                        builder: (context, AsyncSnapshot<Event> snapshot) {
-                          if (snapshot.hasError) {
-                            return Text('Something went wrong'); //若連不上realtime會顯示
-                          } else if (snapshot.hasData &&
-                              snapshot.data.snapshot.value != null) {
-                            return FirebaseAnimatedList(
-                              query: drugAdb,
-                              itemBuilder: (BuildContext context,
-                                  DataSnapshot snapshot,
-                                  Animation<double> animation,
-                                  int index) {
-                                String drugName = snapshot.value['drugText'];
-                                print("藥品名稱：" + drugName);
-                                DateTime fromDateTime1 =
-                                (DateTime.parse(snapshot.value['fromDate']));
-                                DateTime toDate =
-                                (DateTime.parse(snapshot.value['toDate']));
-                                String timeString =snapshot.value['time'];
-                                TimeOfDay time = TimeOfDay(hour:int.parse(timeString.split(":")[0]),minute: int.parse(timeString.split(":")[1]));
+          child: GridView(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 1,
+              mainAxisSpacing: 8,
+              crossAxisSpacing: 8,
+              childAspectRatio: 1.17,
+            ),
 
-                                int difmin = Duration(hours: time.hour - n.hour).inMilliseconds;
-                                int difsec = Duration(minutes: time.minute - n.minute).inMilliseconds;
-                                print("時間倒數：");
-                                print(difmin);
-                                print(difsec);
-                                int endTime = _endTime + difmin + difsec;
-
-                                return new InkWell(
-                                  child: Column(
-                                    children: [
-                                      new Text("下次吃藥時間",
-                                          style: TextStyle(fontSize: 18)),
-                                      new Text(
-                                        "藥品名稱：",
-                                        textAlign: TextAlign.left,
-                                      ),
-                                      new Text(
-                                        snapshot.value['drugText'],
-                                        textAlign: TextAlign.left,
-                                        style: TextStyle(
-                                          fontSize: 15,
-                                        ),
-                                      ),
-                                      CountdownTimer(
-                                        textStyle: TextStyle(
-                                          fontSize: 30,
-                                          color: Colors.red,
-                                        ),
-                                        onEnd: onEnd,
-                                        endTime: endTime,
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              },
-                            );
-                          } else {
-                            return Text("尚未新增吃藥時間");
-                          }
-                        },
-                      ),
-                    ),
-                  ),
-                ],
-              )),
+            children: [
+              drugA,
+              drugB,
+            ],
+          ),
           // child: centreSection()),
         ),
       ),
@@ -336,102 +412,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
           crossAxisSpacing: 8,
           childAspectRatio: 0.65,
         ),
-        children: [
-          Container(
-              color: Color.fromRGBO(210, 180, 140, 1.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Center(
-                    child: const Text(
-                      "下次吃藥時間",
-                      style: TextStyle(fontSize: 18),
-                    ),
-                  ),
-                  StreamBuilder(
-                    stream: StaticInfo.readItemsA(),
-                    builder: (context, AsyncSnapshot<Event> snapshot) {
-                      if (snapshot.hasError) {
-                        return Text('Something went wrong'); //若連不上realtime會顯示
-                      } else if (snapshot.hasData &&
-                          snapshot.data.snapshot.value != null) {
-                        return FirebaseAnimatedList(
-                          query: drugAdb,
-                          itemBuilder: (BuildContext context,
-                              DataSnapshot snapshot,
-                              Animation<double> animation,
-                              int index) {
-                            String drugName = snapshot.value['drugText'];
-                            print("藥品名稱：" + drugName);
-                            DateTime fromDate =
-                                (DateTime.parse(snapshot.value['fromDate']));
-                            DateTime toDate =
-                                (DateTime.parse(snapshot.value['toDate']));
-                            var timeInMilliSeconds =
-                                (snapshot.value['time'].seconds * 1000);
 
-                            return new InkWell(
-                              child: Column(
-                                children: [
-                                  new Text(
-                                    "藥品名稱：",
-                                    textAlign: TextAlign.left,
-                                  ),
-                                  new Text(
-                                    snapshot.value['drugText'],
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                  CountdownTimer(
-                                    textStyle: TextStyle(
-                                      fontSize: 30,
-                                      color: Colors.red,
-                                    ),
-                                    onEnd: onEnd,
-                                    endTime: timeInMilliSeconds,
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
-                        );
-                      } else {
-                        return Text("尚未新增吃藥時間");
-                      }
-                    },
-                  ),
-                ],
-              )),
-          Container(
-            color: Color.fromRGBO(210, 180, 140, 1.0),
-            child: Center(
-              child: const Text(
-                "下次吃藥時間",
-                style: TextStyle(fontSize: 18),
-              ),
-            ),
-          ),
-          Container(
-            color: Color.fromRGBO(210, 180, 140, 1.0),
-            child: Center(
-              child: const Text(
-                "下次吃藥時間",
-                style: TextStyle(fontSize: 18),
-              ),
-            ),
-          ),
-          Container(
-            color: Color.fromRGBO(210, 180, 140, 1.0),
-            child: Center(
-              child: const Text(
-                "下次吃藥時間",
-                style: TextStyle(fontSize: 18),
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }
@@ -440,7 +421,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     if (!mounted) return; ////
     setState(() {
       userid = FirebaseAuth.instance.currentUser.uid;
-       n = TimeOfDay.now();
+      n = TimeOfDay.now();
       drugASaves.add(new DrugARealtime.fromSnapshot(event.snapshot));
       drugASaves
           .sort((we1, we2) => we1.fromDateTime.compareTo(we2.fromDateTime));
@@ -457,4 +438,22 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
           .sort((we1, we2) => we1.fromDateTime.compareTo(we2.fromDateTime));
     });
   }
+
+// Widget buildItem(String title, Widget page) {
+//   return GestureDetector(
+//     onTap: () {
+//       Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+//         return page;
+//       }));
+//     },
+//     child: Container(
+//       margin: const EdgeInsets.all(5),
+//       color: Colors.blue,
+//       width: double.infinity,
+//       alignment: Alignment.center,
+//       height: 100,
+//       child: Text(title, style: TextStyle(fontSize: 36),),
+//     ),
+//   );
+// }
 }

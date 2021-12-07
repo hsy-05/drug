@@ -92,33 +92,67 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                           (DateTime.parse(snapshot.value['fromDate1']));
                           DateTime toDate =
                           (DateTime.parse(snapshot.value['toDate']));
-                          String timeString1 =snapshot.value['time1'];
-                          TimeOfDay time1 = TimeOfDay(hour:int.parse(timeString1.split(":")[0]),minute: int.parse(timeString1.split(":")[1]));
-                          String timeString2 =snapshot.value['time2'];
-                          TimeOfDay time2 = TimeOfDay(hour:int.parse(timeString2.split(":")[0]),minute: int.parse(timeString2.split(":")[1]));
-                          String timeString3 =snapshot.value['time3'];
-                          TimeOfDay time3 = TimeOfDay(hour:int.parse(timeString3.split(":")[0]),minute: int.parse(timeString3.split(":")[1]));
+                          TimeOfDay time1;
+                          TimeOfDay time2;
+                          TimeOfDay time3;
+                          int difhour1;
+                          int difmin1;
+                          int endTime1;
 
-                          int difmin1 = Duration(hours: time1.hour - n.hour).inMilliseconds;
-                          int difsec1 = Duration(minutes: time1.minute - n.minute).inMilliseconds;
-                          print("時間倒數：");
-                          print(difmin1);
-                          print(difsec1);
-                          int endTime1 = _endTime + difmin1 + difsec1;
+                          int difhour2;
+                          int difmin2;
+                          int endTime2;
 
-                          int difmin2 = Duration(hours: time2.hour - n.hour).inMilliseconds;
-                          int difsec2 = Duration(minutes: time2.minute - n.minute).inMilliseconds;
-                          print("時間倒數：");
-                          print(difmin2);
-                          print(difsec2);
-                          int endTime2 = _endTime + difmin2 + difsec2;
+                          int difhour3;
+                          int difmin3;
+                          int endTime3;
 
-                          int difmin3 = Duration(hours: time3.hour - n.hour).inMilliseconds;
-                          int difsec3 = Duration(minutes: time3.minute - n.minute).inMilliseconds;
-                          print("時間倒數：");
-                          print(difmin3);
-                          print(difsec3);
-                          int endTime3 = _endTime + difmin3 + difsec3;
+                          if (snapshot.value['time1'] != null) {
+                            String timeString1 = snapshot.value['time1'];
+                            time1 = TimeOfDay(
+                                hour: int.parse(timeString1.split(":")[0]),
+                                minute: int.parse(timeString1.split(":")[1]));
+                            difhour1 = Duration(hours: time1.hour - n.hour)
+                                .inMilliseconds;
+                            difmin1 =
+                                Duration(minutes: time1.minute - n.minute)
+                                    .inMilliseconds;
+                            print("時間倒數1：");
+                            print(difhour1);
+                            print(difmin1);
+                            endTime1 = _endTime + difhour1 + difmin1;
+                          }
+
+                          if (snapshot.value['time2'] != null) {
+                            String timeString2 = snapshot.value['time2'];
+                            time2 = TimeOfDay(
+                                hour: int.parse(timeString2.split(":")[0]),
+                                minute: int.parse(timeString2.split(":")[1]));
+                            difhour2 = Duration(hours: time2.hour - n.hour)
+                                .inMilliseconds;
+                            difmin2 =
+                                Duration(minutes: time2.minute - n.minute)
+                                    .inMilliseconds;
+                            print("時間倒數2：");
+                            print(difhour2);
+                            print(difmin2);
+                            endTime2 = _endTime + difhour2 + difmin2;
+                          }
+                          if(snapshot.value['time3'] != null){
+                            String timeString3 = snapshot.value['time3'];
+                            time3 = TimeOfDay(
+                                hour: int.parse(timeString3.split(":")[0]),
+                                minute: int.parse(timeString3.split(":")[1]));
+                            difhour3 = Duration(hours: time3.hour - n.hour)
+                                .inMilliseconds;
+                            difmin3 =
+                                Duration(minutes: time3.minute - n.minute)
+                                    .inMilliseconds;
+                            print("時間倒數3：");
+                            print(difhour3);
+                            print(difmin3);
+                            endTime3 = _endTime + difhour3 + difmin3;
+                          }
 
                           return new InkWell(
                             child: Column(
@@ -245,33 +279,68 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                           (DateTime.parse(snapshot.value['fromDate1']));
                           DateTime toDate =
                           (DateTime.parse(snapshot.value['toDate']));
-                          String timeString1 =snapshot.value['time1'];
-                          TimeOfDay time1 = TimeOfDay(hour:int.parse(timeString1.split(":")[0]),minute: int.parse(timeString1.split(":")[1]));
-                          String timeString2 =snapshot.value['time2'];
-                          TimeOfDay time2 = TimeOfDay(hour:int.parse(timeString2.split(":")[0]),minute: int.parse(timeString2.split(":")[1]));
-                          String timeString3 =snapshot.value['time3'];
-                          TimeOfDay time3 = TimeOfDay(hour:int.parse(timeString3.split(":")[0]),minute: int.parse(timeString3.split(":")[1]));
+                          TimeOfDay time1;
+                          TimeOfDay time2;
+                          TimeOfDay time3;
+                          int difhour1;
+                          int difmin1;
+                          int endTime1;
 
-                          int difmin1 = Duration(hours: time1.hour - n.hour).inMilliseconds;
-                          int difsec1 = Duration(minutes: time1.minute - n.minute).inMilliseconds;
-                          print("時間倒數：");
-                          print(difmin1);
-                          print(difsec1);
-                          int endTime1 = _endTime + difmin1 + difsec1;
+                          int difhour2;
+                          int difmin2;
+                          int endTime2;
 
-                          int difmin2 = Duration(hours: time2.hour - n.hour).inMilliseconds;
-                          int difsec2 = Duration(minutes: time2.minute - n.minute).inMilliseconds;
-                          print("時間倒數：");
-                          print(difmin2);
-                          print(difsec2);
-                          int endTime2 = _endTime + difmin2 + difsec2;
+                          int difhour3;
+                          int difmin3;
+                          int endTime3;
 
-                          int difmin3 = Duration(hours: time3.hour - n.hour).inMilliseconds;
-                          int difsec3 = Duration(minutes: time3.minute - n.minute).inMilliseconds;
-                          print("時間倒數：");
-                          print(difmin3);
-                          print(difsec3);
-                          int endTime3 = _endTime + difmin3 + difsec3;
+                          if (snapshot.value['time1'] != null) {
+                            String timeString1 = snapshot.value['time1'];
+                            time1 = TimeOfDay(
+                                hour: int.parse(timeString1.split(":")[0]),
+                                minute: int.parse(timeString1.split(":")[1]));
+                            difhour1 = Duration(hours: time1.hour - n.hour)
+                                .inMilliseconds;
+                            difmin1 =
+                                Duration(minutes: time1.minute - n.minute)
+                                    .inMilliseconds;
+                            print("時間倒數1：");
+                            print(difhour1);
+                            print(difmin1);
+                            endTime1 = _endTime + difhour1 + difmin1;
+                          }
+
+                          if (snapshot.value['time2'] != null) {
+                            String timeString2 = snapshot.value['time2'];
+                            time2 = TimeOfDay(
+                                hour: int.parse(timeString2.split(":")[0]),
+                                minute: int.parse(timeString2.split(":")[1]));
+                            difhour2 = Duration(hours: time2.hour - n.hour)
+                                .inMilliseconds;
+                            difmin2 =
+                                Duration(minutes: time2.minute - n.minute)
+                                    .inMilliseconds;
+                            print("時間倒數2：");
+                            print(difhour2);
+                            print(difmin2);
+                            endTime2 = _endTime + difhour2 + difmin2;
+                          }
+                          if(snapshot.value['time3'] != null){
+                            String timeString3 = snapshot.value['time3'];
+                            time3 = TimeOfDay(
+                                hour: int.parse(timeString3.split(":")[0]),
+                                minute: int.parse(timeString3.split(":")[1]));
+                            difhour3 = Duration(hours: time3.hour - n.hour)
+                                .inMilliseconds;
+                            difmin3 =
+                                Duration(minutes: time3.minute - n.minute)
+                                    .inMilliseconds;
+                            print("時間倒數3：");
+                            print(difhour3);
+                            print(difmin3);
+                            endTime3 = _endTime + difhour3 + difmin3;
+                          }
+
 
                           return new InkWell(
                             child: Column(

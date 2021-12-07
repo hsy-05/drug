@@ -32,7 +32,6 @@ DatabaseReference drugAdb;
 DatabaseReference drugBdb;
 String userid = FirebaseAuth.instance.currentUser.uid;
 
-
 DatabaseReference drugAdb1 = FirebaseDatabase.instance
     .reference()
     .child("device")
@@ -53,7 +52,7 @@ class _SetState extends State<SetTime> {
     var initSetttings = new InitializationSettings(android: android, iOS: iOS);
     flutterLocalNotificationsPlugin.initialize(initSetttings,
         onSelectNotification:
-        onSelectNotification); //此行負責當我們單擊通知時將要發生的操作。此方法必須返回Future，並且此方法必須具有將成爲有效負載的字符串參數。
+            onSelectNotification); //此行負責當我們單擊通知時將要發生的操作。此方法必須返回Future，並且此方法必須具有將成爲有效負載的字符串參數。
 
     mainReference = FirebaseDatabase.instance
         .reference()
@@ -80,11 +79,7 @@ class _SetState extends State<SetTime> {
 
   Widget build(BuildContext context) {
     final drugA = Ink(
-      width: MediaQuery
-          .of(context)
-          .size
-          .width / 2.0,
-
+      width: MediaQuery.of(context).size.width / 2.0,
       decoration: new BoxDecoration(
         //背景
         color: Color.fromRGBO(210, 180, 140, 1.0),
@@ -92,7 +87,7 @@ class _SetState extends State<SetTime> {
         borderRadius: BorderRadius.all(Radius.circular(25.0)),
         //设置四周边框
         border:
-        new Border.all(width: 1, color: Color.fromRGBO(210, 180, 140, 1.0)),
+            new Border.all(width: 1, color: Color.fromRGBO(210, 180, 140, 1.0)),
       ),
       child: Column(
         // mainAxisAlignment: MainAxisAlignment.start,
@@ -114,26 +109,46 @@ class _SetState extends State<SetTime> {
                         String nickName = snapshot.value['nickName'];
                         String drugName = snapshot.value['drugText'];
                         DateTime fromDate1 =
-                        (DateTime.parse(snapshot.value['fromDate1']));
+                            (DateTime.parse(snapshot.value['fromDate1']));
                         DateTime fromDate2;
                         DateTime fromDate3;
                         // DateTime time1 = new DateFormat('H:mm:s').parse(snapshot.value['fromDate1']);
                         if (snapshot.value['fromDate2'] != null) {
                           fromDate2 =
-                          (DateTime.parse(snapshot.value['fromDate2']));
+                              (DateTime.parse(snapshot.value['fromDate2']));
                         }
                         if (snapshot.value['fromDate3'] != null) {
                           fromDate3 =
-                          (DateTime.parse(snapshot.value['fromDate3']));
+                              (DateTime.parse(snapshot.value['fromDate3']));
                         }
                         List<DateTime> allDateTime = [];
-                        allDateTime.add(fromDate1);
-                        allDateTime.add(fromDate2);
-                        allDateTime.add(fromDate3);
-                        allDateTime.sort((a,b) => a.compareTo(b));
+                        if (fromDate1 != null &&
+                            fromDate2 == null &&
+                            fromDate2 == null) {
+                          allDateTime.add(fromDate1);
+                          allDateTime.removeWhere((value) => value == null);
+                          allDateTime.sort((a, b) => a.compareTo(b));
+                        }
+                        if (fromDate1 != null &&
+                            fromDate2 != null &&
+                            fromDate2 == null) {
+                          allDateTime.add(fromDate1);
+                          allDateTime.add(fromDate2);
+                          allDateTime.removeWhere((value) => value == null);
+                          allDateTime.sort((a, b) => a.compareTo(b));
+                        }
+                        if (fromDate1 != null &&
+                            fromDate2 != null &&
+                            fromDate2 != null) {
+                          allDateTime.add(fromDate1);
+                          allDateTime.add(fromDate2);
+                          allDateTime.add(fromDate3);
+                          allDateTime.removeWhere((value) => value == null);
+                          allDateTime.sort((a, b) => a.compareTo(b));
+                        }
 
                         DateTime toDate =
-                        (DateTime.parse(snapshot.value['toDate']));
+                            (DateTime.parse(snapshot.value['toDate']));
                         String timeOfDay1 = snapshot.value['time1'];
                         String timeOfDay2 = snapshot.value['time2'];
                         String timeOfDay3 = snapshot.value['time3'];
@@ -142,43 +157,46 @@ class _SetState extends State<SetTime> {
                         int notificationId3 = snapshot.value['notificationId3'];
                         String active = snapshot.value['active'].toString();
                         String showDrugName;
-                        if(nickName.isEmpty || nickName == null || nickName == ""){
+                        if (nickName.isEmpty ||
+                            nickName == null ||
+                            nickName == "") {
                           showDrugName = drugName;
-                        }else{
+                        } else {
                           showDrugName = nickName;
                         }
 
-                        if (active.isEmpty || active == null||active ==""||active =="null") {
-                          if(notificationId1 != null){
-                            displayNotificationA(
-                                notificationId1, showDrugName, "尚未取藥", fromDate1);
+                        if (active.isEmpty ||
+                            active == null ||
+                            active == "" ||
+                            active == "null") {
+                          if (notificationId1 != null) {
+                            displayNotificationA(notificationId1, showDrugName,
+                                "尚未取藥", fromDate1);
                           }
-                          if(notificationId1 != null && notificationId2 != null||active !="null"){
-                            displayNotificationA(
-                                notificationId1, showDrugName, "尚未取藥", fromDate1);
-                            displayNotificationA(
-                                notificationId2, showDrugName, "尚未取藥", fromDate2);
+                          if (notificationId1 != null &&
+                                  notificationId2 != null ||
+                              active != "null") {
+                            displayNotificationA(notificationId1, showDrugName,
+                                "尚未取藥", fromDate1);
+                            displayNotificationA(notificationId2, showDrugName,
+                                "尚未取藥", fromDate2);
                           }
-                          if(notificationId1 != null && notificationId2 != null && notificationId3 != null){
-                            displayNotificationA(
-                                notificationId1,showDrugName, "尚未取藥", fromDate1);
-                            displayNotificationA(
-                                notificationId2, showDrugName, "尚未取藥", fromDate2);
-                            displayNotificationA(
-                                notificationId3, showDrugName, "尚未取藥", fromDate3);
+                          if (notificationId1 != null &&
+                              notificationId2 != null &&
+                              notificationId3 != null) {
+                            displayNotificationA(notificationId1, showDrugName,
+                                "尚未取藥", fromDate1);
+                            displayNotificationA(notificationId2, showDrugName,
+                                "尚未取藥", fromDate2);
+                            displayNotificationA(notificationId3, showDrugName,
+                                "尚未取藥", fromDate3);
                           }
-                        }else if(active.isNotEmpty || active != null ||active !=""){
+                        } else if (active.isNotEmpty ||
+                            active != null ||
+                            active != "") {
                           print("已拿取");
                         }
-                        if (timeOfDay1 == "null") {
-                          CheckTime.time1aCheck = true;
-                        }
-                        if (timeOfDay2 != "null"  || timeOfDay2 != null) {
-                          CheckTime.time2aCheck = true;
-                        }
-                        if (timeOfDay3 != "null"  || timeOfDay3 != null) {
-                          CheckTime.time3aCheck = true;
-                        }
+
                         DateTime now = DateTime.now();
                         if (now.isAfter(toDate)) {
                           deleteData(drugAdb);
@@ -186,12 +204,11 @@ class _SetState extends State<SetTime> {
                         }
 
                         return new InkWell(
-                          onTap: () =>
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => EditDrugA(),
-                                ),
-                              ),
+                          onTap: () => Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => EditDrugA(),
+                            ),
+                          ),
                           child: Column(
                             children: [
                               new Text(
@@ -202,46 +219,48 @@ class _SetState extends State<SetTime> {
                                 ),
                               ),
                               nickName.isEmpty ||
-                                  nickName == null ||
-                                  nickName == ""
+                                      nickName == null ||
+                                      nickName == ""
                                   ? Column(
-                                mainAxisAlignment:
-                                MainAxisAlignment.center,
-                                children: [
-                                  new Text(
-                                    "藥品名稱  ：",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize: 22,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        new Text(
+                                          "藥品名稱  ：",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            fontSize: 22,
+                                          ),
+                                        ),
+                                        new Text(
+                                          drugName,
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            fontSize: 22,
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  : Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        new Text(
+                                          "藥品暱稱  ：",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            fontSize: 24,
+                                          ),
+                                        ),
+                                        new Text(
+                                          nickName,
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            fontSize: 24,
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ),
-                                  new Text(
-                                    drugName,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize: 22,
-                                    ),
-                                  ),
-                                ],
-                              ) : Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  new Text(
-                                    "藥品暱稱  ：",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize: 24,
-                                    ),
-                                  ),
-                                  new Text(
-                                    nickName,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize: 24,
-                                    ),
-                                  ),
-                                ],
-                              ),
                               new Text(
                                 "",
                                 textAlign: TextAlign.center,
@@ -303,29 +322,79 @@ class _SetState extends State<SetTime> {
                                   ),
                                   Column(
                                     children: [
-                                      Visibility(
-                                        visible: CheckTime.time1aCheck,
-                                        child: new Text(
-                                          DateFormat().add_jm().format(allDateTime[0])   ?? "",
-                                          style: TextStyle(fontSize: 24),
-                                        ), //設定畫面的時間
-                                      ),
-                                      SizedBox(height: 10,),
-                                      Visibility(
-                                        visible: CheckTime.time2aCheck,
-                                        child: new Text(
-                                          DateFormat().add_jm().format(allDateTime[1]) ?? "",
-                                          style: TextStyle(fontSize: 24),
-                                        ), //設定畫面的時間
-                                      ),
-                                      SizedBox(height: 10,),
-                                      Visibility(
-                                        visible: CheckTime.time3aCheck,
-                                        child: new Text(
-                                          DateFormat().add_jm().format(allDateTime[2]) ?? "",
-                                          style: TextStyle(fontSize: 24),
-                                        ), //設定畫面的時間
-                                      ),
+                                      if (allDateTime.length == 1) ...[
+                                        Container(
+                                          child: new Text(
+                                            DateFormat()
+                                                    .add_jm()
+                                                    .format(allDateTime[0]) ??
+                                                "",
+                                            style: TextStyle(fontSize: 24),
+                                          ), //設定畫面的時間
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                      ] else if (allDateTime.length == 2) ...[
+                                        Container(
+                                          child: new Text(
+                                            DateFormat()
+                                                .add_jm()
+                                                .format(allDateTime[0]) ??
+                                                "",
+                                            style: TextStyle(fontSize: 24),
+                                          ), //設定畫面的時間
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        Container(
+                                          child: new Text(
+                                            DateFormat()
+                                                    .add_jm()
+                                                    .format(allDateTime[1]) ??
+                                                "",
+                                            style: TextStyle(fontSize: 24),
+                                          ), //設定畫面的時間
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                      ] else if (allDateTime.length == 3) ...[
+                                        Container(
+                                          child: new Text(
+                                            DateFormat()
+                                                .add_jm()
+                                                .format(allDateTime[0]) ??
+                                                "",
+                                            style: TextStyle(fontSize: 24),
+                                          ), //設定畫面的時間
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        Container(
+                                          child: new Text(
+                                            DateFormat()
+                                                .add_jm()
+                                                .format(allDateTime[1]) ??
+                                                "",
+                                            style: TextStyle(fontSize: 24),
+                                          ), //設定畫面的時間
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                       Container(
+                                          child: new Text(
+                                            DateFormat()
+                                                    .add_jm()
+                                                    .format(allDateTime[2]) ??
+                                                "",
+                                            style: TextStyle(fontSize: 24),
+                                          ), //設定畫面的時間
+                                        ),
+                                      ]
                                     ],
                                   ),
                                 ],
@@ -354,14 +423,8 @@ class _SetState extends State<SetTime> {
     );
 
     final drugB = Ink(
-      width: MediaQuery
-          .of(context)
-          .size
-          .width / 2.0,
-      height: MediaQuery
-          .of(context)
-          .size
-          .height / 2.0,
+      width: MediaQuery.of(context).size.width / 2.0,
+      height: MediaQuery.of(context).size.height / 2.0,
       decoration: new BoxDecoration(
         //背景
         color: Color.fromRGBO(210, 180, 140, 1.0),
@@ -369,7 +432,7 @@ class _SetState extends State<SetTime> {
         borderRadius: BorderRadius.all(Radius.circular(25.0)),
         //设置四周边框
         border:
-        new Border.all(width: 1, color: Color.fromRGBO(210, 180, 140, 1.0)),
+            new Border.all(width: 1, color: Color.fromRGBO(210, 180, 140, 1.0)),
       ),
       child: Column(
         // mainAxisAlignment: MainAxisAlignment.start,
@@ -392,27 +455,47 @@ class _SetState extends State<SetTime> {
                         String nickName = snapshot.value['nickName'];
                         String drugName = snapshot.value['drugText'];
                         DateTime fromDate1 =
-                        (DateTime.parse(snapshot.value['fromDate1']));
+                            (DateTime.parse(snapshot.value['fromDate1']));
                         DateTime fromDate2;
                         DateTime fromDate3;
                         // DateTime time1 = new DateFormat('H:mm:s').parse(snapshot.value['fromDate1']);
-                        List<DateTime> allDateTime = [];
-                        allDateTime.add(fromDate1);
-                        allDateTime.add(fromDate2);
-                        allDateTime.add(fromDate3);
-                        allDateTime.sort((a,b) => a.compareTo(b));
-
                         if (snapshot.value['fromDate2'] != null) {
                           fromDate2 =
-                          (DateTime.parse(snapshot.value['fromDate2']));
+                              (DateTime.parse(snapshot.value['fromDate2']));
                         }
                         if (snapshot.value['fromDate3'] != null) {
                           fromDate3 =
-                          (DateTime.parse(snapshot.value['fromDate3']));
+                              (DateTime.parse(snapshot.value['fromDate3']));
+                        }
+                        List<DateTime> allDateTime = [];
+                        if (fromDate1 != null &&
+                            fromDate2 == null &&
+                            fromDate2 == null) {
+                          allDateTime.add(fromDate1);
+                          allDateTime.removeWhere((value) => value == null);
+                          allDateTime.sort((a, b) => a.compareTo(b));
+                        }
+                        if (fromDate1 != null &&
+                            fromDate2 != null &&
+                            fromDate2 == null) {
+                          allDateTime.add(fromDate1);
+                          allDateTime.add(fromDate2);
+                          allDateTime.removeWhere((value) => value == null);
+                          allDateTime.sort((a, b) => a.compareTo(b));
+                        }
+                        if (fromDate1 != null &&
+                            fromDate2 != null &&
+                            fromDate2 != null) {
+                          allDateTime.add(fromDate1);
+                          allDateTime.add(fromDate2);
+                          allDateTime.add(fromDate3);
+                          allDateTime.removeWhere((value) => value == null);
+                          allDateTime.sort((a, b) => a.compareTo(b));
                         }
 
+
                         DateTime toDate =
-                        (DateTime.parse(snapshot.value['toDate']));
+                            (DateTime.parse(snapshot.value['toDate']));
                         String timeOfDay1 = snapshot.value['time1'];
                         String timeOfDay2 = snapshot.value['time2'];
                         String timeOfDay3 = snapshot.value['time3'];
@@ -420,48 +503,67 @@ class _SetState extends State<SetTime> {
                         int notificationId2 = snapshot.value['notificationId2'];
                         int notificationId3 = snapshot.value['notificationId3'];
                         String active = snapshot.value['active'].toString();
-                        // if (active.isNotEmpty) {
-                        //   print("已拿取");
-                        // }
-                        if (timeOfDay1 != "null") {
+                        String showDrugName;
+                        if (nickName.isEmpty ||
+                            nickName == null ||
+                            nickName == "") {
+                          showDrugName = drugName;
+                        } else {
+                          showDrugName = nickName;
+                        }
+
+                        if (active.isEmpty ||
+                            active == null ||
+                            active == "" ||
+                            active == "null") {
+                          if (notificationId1 != null) {
+                            displayNotificationB(notificationId1, showDrugName,
+                                "尚未取藥", fromDate1);
+                          }
+                          if (notificationId1 != null &&
+                                  notificationId2 != null ||
+                              active != "null") {
+                            displayNotificationB(notificationId1, showDrugName,
+                                "尚未取藥", fromDate1);
+                            displayNotificationB(notificationId2, showDrugName,
+                                "尚未取藥", fromDate2);
+                          }
+                          if (notificationId1 != null &&
+                              notificationId2 != null &&
+                              notificationId3 != null) {
+                            displayNotificationB(notificationId1, showDrugName,
+                                "尚未取藥", fromDate1);
+                            displayNotificationB(notificationId2, showDrugName,
+                                "尚未取藥", fromDate2);
+                            displayNotificationB(notificationId3, showDrugName,
+                                "尚未取藥", fromDate3);
+                          }
+                        } else if (active.isNotEmpty ||
+                            active != null ||
+                            active != "") {
+                          print("已拿取");
+                        }
+                        if (timeOfDay1 == "null") {
                           CheckTime.time1bCheck = true;
                         }
-                        if (timeOfDay2 != "null"  || timeOfDay2 != null) {
+                        if (timeOfDay2 != "null" || timeOfDay2 != null) {
                           CheckTime.time2bCheck = true;
                         }
-                        if (timeOfDay3 != "null"  || timeOfDay3 != null) {
+                        if (timeOfDay3 != "null" || timeOfDay3 != null) {
                           CheckTime.time3bCheck = true;
                         }
-                        if (toDate == DateTime.now()) {
-                          drugAdb.remove();
+                        DateTime now = DateTime.now();
+                        if (now.isAfter(toDate)) {
+                          deleteData(drugBdb);
                           print("結束日期已到");
-                        }
-                        if(notificationId1 != null){
-                          displayNotificationA(
-                              notificationId1, nickName??drugName, "尚未取藥", fromDate1);
-                        }
-                        if(notificationId1 != null && notificationId2 != null){
-                          displayNotificationA(
-                              notificationId1, nickName??drugName, "尚未取藥", fromDate1);
-                          displayNotificationA(
-                              notificationId2, nickName??drugName, "尚未取藥", fromDate2);
-                        }
-                        if(notificationId1 != null && notificationId2 != null && notificationId3 != null){
-                          displayNotificationA(
-                              notificationId1, nickName??drugName, "尚未取藥", fromDate1);
-                          displayNotificationA(
-                              notificationId2, nickName??drugName, "尚未取藥", fromDate2);
-                          displayNotificationA(
-                              notificationId3, nickName??drugName, "尚未取藥", fromDate3);
                         }
 
                         return new InkWell(
-                          onTap: () =>
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => EditDrugB(),
-                                ),
-                              ),
+                          onTap: () => Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => EditDrugB(),
+                            ),
+                          ),
                           child: Column(
                             children: [
                               new Text(
@@ -472,46 +574,48 @@ class _SetState extends State<SetTime> {
                                 ),
                               ),
                               nickName.isEmpty ||
-                                  nickName == null ||
-                                  nickName == ""
+                                      nickName == null ||
+                                      nickName == ""
                                   ? Column(
-                                mainAxisAlignment:
-                                MainAxisAlignment.center,
-                                children: [
-                                  new Text(
-                                    "藥品名稱  ：",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize: 22,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        new Text(
+                                          "藥品名稱  ：",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            fontSize: 22,
+                                          ),
+                                        ),
+                                        new Text(
+                                          drugName,
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            fontSize: 22,
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  : Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        new Text(
+                                          "藥品暱稱  ：",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            fontSize: 24,
+                                          ),
+                                        ),
+                                        new Text(
+                                          nickName,
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            fontSize: 24,
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ),
-                                  new Text(
-                                    drugName,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize: 22,
-                                    ),
-                                  ),
-                                ],
-                              ) : Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  new Text(
-                                    "藥品暱稱  ：",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize: 24,
-                                    ),
-                                  ),
-                                  new Text(
-                                    nickName,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize: 24,
-                                    ),
-                                  ),
-                                ],
-                              ),
                               new Text(
                                 "",
                                 textAlign: TextAlign.center,
@@ -521,38 +625,36 @@ class _SetState extends State<SetTime> {
                               ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   new Text(
                                     "開始日期 ：",
                                     style: TextStyle(
-                                      fontSize: 24,
+                                      fontSize: 22,
                                     ),
                                   ),
                                   new Text(
                                     DateFormat('yyyy年MM月dd日').format(fromDate1),
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                      fontSize: 24,
+                                      fontSize: 22,
                                     ),
                                   ),
                                 ],
                               ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   new Text(
                                     "結束日期 ：",
                                     style: TextStyle(
-                                      fontSize: 24,
+                                      fontSize: 22,
                                     ),
                                   ),
                                   new Text(
                                     DateFormat('yyyy年MM月dd日').format(toDate),
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                      fontSize: 24,
+                                      fontSize: 22,
                                     ),
                                   ),
                                 ],
@@ -570,34 +672,84 @@ class _SetState extends State<SetTime> {
                                   new Text(
                                     "設定時間 ：",
                                     style: TextStyle(
-                                      fontSize: 24,
+                                      fontSize: 25,
                                     ),
                                   ),
                                   Column(
                                     children: [
-                                      Visibility(
-                                        visible: CheckTime.time1aCheck,
-                                        child: new Text(
-                                          DateFormat().add_jm().format(allDateTime[0])   ?? "",
-                                          style: TextStyle(fontSize: 24),
-                                        ), //設定畫面的時間
-                                      ),
-                                      SizedBox(height: 10,),
-                                      Visibility(
-                                        visible: CheckTime.time2aCheck,
-                                        child: new Text(
-                                          DateFormat().add_jm().format(allDateTime[1]) ?? "",
-                                          style: TextStyle(fontSize: 24),
-                                        ), //設定畫面的時間
-                                      ),
-                                      SizedBox(height: 10,),
-                                      Visibility(
-                                        visible: CheckTime.time3aCheck,
-                                        child: new Text(
-                                          DateFormat().add_jm().format(allDateTime[2]) ?? "",
-                                          style: TextStyle(fontSize: 24),
-                                        ), //設定畫面的時間
-                                      ),
+                                      if (allDateTime.length == 1) ...[
+                                        Container(
+                                          child: new Text(
+                                            DateFormat()
+                                                .add_jm()
+                                                .format(allDateTime[0]) ??
+                                                "",
+                                            style: TextStyle(fontSize: 24),
+                                          ), //設定畫面的時間
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                      ] else if (allDateTime.length == 2) ...[
+                                        Container(
+                                          child: new Text(
+                                            DateFormat()
+                                                .add_jm()
+                                                .format(allDateTime[0]) ??
+                                                "",
+                                            style: TextStyle(fontSize: 24),
+                                          ), //設定畫面的時間
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        Container(
+                                          child: new Text(
+                                            DateFormat()
+                                                .add_jm()
+                                                .format(allDateTime[1]) ??
+                                                "",
+                                            style: TextStyle(fontSize: 24),
+                                          ), //設定畫面的時間
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                      ] else if (allDateTime.length == 3) ...[
+                                        Container(
+                                          child: new Text(
+                                            DateFormat()
+                                                .add_jm()
+                                                .format(allDateTime[0]) ??
+                                                "",
+                                            style: TextStyle(fontSize: 24),
+                                          ), //設定畫面的時間
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        Container(
+                                          child: new Text(
+                                            DateFormat()
+                                                .add_jm()
+                                                .format(allDateTime[1]) ??
+                                                "",
+                                            style: TextStyle(fontSize: 24),
+                                          ), //設定畫面的時間
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        Container(
+                                          child: new Text(
+                                            DateFormat()
+                                                .add_jm()
+                                                .format(allDateTime[2]) ??
+                                                "",
+                                            style: TextStyle(fontSize: 24),
+                                          ), //設定畫面的時間
+                                        ),
+                                      ]
                                     ],
                                   ),
                                 ],
@@ -688,18 +840,18 @@ class _SetState extends State<SetTime> {
   _onEntryEdited(Event event) {
     if (!mounted) return; ////
     var oldAValue =
-    drugASaves.singleWhere((entry) => entry.key == event.snapshot.key);
+        drugASaves.singleWhere((entry) => entry.key == event.snapshot.key);
     var oldBValue =
-    drugBSaves.singleWhere((entry) => entry.key == event.snapshot.key);
+        drugBSaves.singleWhere((entry) => entry.key == event.snapshot.key);
     var oldCValue = setState(() {
       userid = FirebaseAuth.instance.currentUser.uid;
       drugASaves[drugASaves.indexOf(oldAValue)] =
-      new DrugARealtime.fromSnapshot(event.snapshot);
+          new DrugARealtime.fromSnapshot(event.snapshot);
       drugASaves
           .sort((we1, we2) => we1.fromDateTime.compareTo(we2.fromDateTime));
 
       drugBSaves[drugBSaves.indexOf(oldBValue)] =
-      new DrugBRealtime.fromSnapshot(event.snapshot);
+          new DrugBRealtime.fromSnapshot(event.snapshot);
       drugBSaves
           .sort((we1, we2) => we2.fromDateTime.compareTo(we1.fromDateTime));
     });
@@ -710,8 +862,8 @@ class _SetState extends State<SetTime> {
     tz.initializeTimeZones();
   }
 
-  Future<void> displayNotificationA(int notificationId, String title,
-      String body, DateTime dateTime) async {
+  Future<void> displayNotificationA(
+      int notificationId, String title, String body, DateTime dateTime) async {
     await initializetimezone();
 
     var iosDetail = IOSNotificationDetails();
@@ -721,19 +873,23 @@ class _SetState extends State<SetTime> {
         priority: Priority.high,
         importance: Importance.high);
 
-    var platFormDetails = NotificationDetails(
-        android: androidDetails, iOS: iosDetail);
+    var platFormDetails =
+        NotificationDetails(android: androidDetails, iOS: iosDetail);
 
-    flutterLocalNotificationsPlugin.zonedSchedule(notificationId, title, body,
-        tz.TZDateTime.from(dateTime.add(const Duration(minutes: 30)), tz.local), platFormDetails,
+    flutterLocalNotificationsPlugin.zonedSchedule(
+        notificationId,
+        title,
+        body,
+        tz.TZDateTime.from(dateTime.add(const Duration(minutes: 30)), tz.local),
+        platFormDetails,
         uiLocalNotificationDateInterpretation:
-        UILocalNotificationDateInterpretation.absoluteTime,
+            UILocalNotificationDateInterpretation.absoluteTime,
         androidAllowWhileIdle: true,
         matchDateTimeComponents: DateTimeComponents.dayOfWeekAndTime);
   }
 
-  Future<void> displayNotificationB(int notificationId, String title,
-      String body, DateTime dateTime) async {
+  Future<void> displayNotificationB(
+      int notificationId, String title, String body, DateTime dateTime) async {
     await initializetimezone();
 
     var iosDetail = IOSNotificationDetails();
@@ -743,13 +899,17 @@ class _SetState extends State<SetTime> {
         priority: Priority.high,
         importance: Importance.high);
 
-    var platFormDetails = NotificationDetails(
-        android: androidDetails, iOS: iosDetail);
+    var platFormDetails =
+        NotificationDetails(android: androidDetails, iOS: iosDetail);
 
-    flutterLocalNotificationsPlugin.zonedSchedule(notificationId, title, body,
-        tz.TZDateTime.from(dateTime.add(const Duration(minutes: 30)), tz.local), platFormDetails,
+    flutterLocalNotificationsPlugin.zonedSchedule(
+        notificationId,
+        title,
+        body,
+        tz.TZDateTime.from(dateTime.add(const Duration(minutes: 30)), tz.local),
+        platFormDetails,
         uiLocalNotificationDateInterpretation:
-        UILocalNotificationDateInterpretation.absoluteTime,
+            UILocalNotificationDateInterpretation.absoluteTime,
         androidAllowWhileIdle: true,
         matchDateTimeComponents: DateTimeComponents.dayOfWeekAndTime);
   }
@@ -776,6 +936,7 @@ class CheckTime {
   static bool time2bCheck = false;
   static bool time3bCheck = false;
 }
+
 Future<void> deleteData(DatabaseReference databaseReference) {
   databaseReference.remove();
 }

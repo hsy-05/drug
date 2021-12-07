@@ -333,6 +333,18 @@ class _AddDrugAState extends State<AddDrugA> {
     int notificationId2 = Random().nextInt(1000);
     int notificationId3 = Random().nextInt(1000);
     var different = _toDateTime.difference(_fromDateTimeA1).inDays;
+
+    List<DateTime>twoDateTimes = [];
+    twoDateTimes.add(_fromDateTimeA1);
+    twoDateTimes.add(_fromDateTimeA2);
+    twoDateTimes.sort((a,b) => a.compareTo(b));
+
+    List<DateTime>threeDateTimes = [];
+    threeDateTimes.add(_fromDateTimeA1);
+    threeDateTimes.add(_fromDateTimeA2);
+    threeDateTimes.add(_fromDateTimeA3);
+    threeDateTimes.sort((a,b) => a.compareTo(b));
+
     List<String> twoTimes = [];
     twoTimes.add("${time1.hour}:${time1.minute}");
     twoTimes.add("${time2.hour}:${time2.minute}");
@@ -364,8 +376,8 @@ class _AddDrugAState extends State<AddDrugA> {
     if(RadioValue.radiovalue == 1){
       Map<String, dynamic> toJson = {
 
-        "fromDate1": _fromDateTimeA1.toString(), //.millisecondsSinceEpoch   //DateFormat('yyyy -MM -dd').format(_fromDateTime1)
-        "fromDate2": _fromDateTimeA2.toString(),
+        "fromDate1": twoDateTimes[0].toString(), //.millisecondsSinceEpoch   //DateFormat('yyyy -MM -dd').format(_fromDateTime1)
+        "fromDate2": twoDateTimes[1].toString(),
         "toDate": _toDateTime.toString(),
         "drugText": drugText,
         "nickName": _drugnameController.text,
@@ -381,9 +393,10 @@ class _AddDrugAState extends State<AddDrugA> {
     if(RadioValue.radiovalue == 2){
       Map<String, dynamic> toJson = {
 
-        "fromDate1": _fromDateTimeA1.toString(), //.millisecondsSinceEpoch   //DateFormat('yyyy -MM -dd').format(_fromDateTime1)
-        "fromDate2": _fromDateTimeA2.toString(),
-        "fromDate3": _fromDateTimeA3.toString(),"toDate": _toDateTime.toString(),
+        "fromDate1": threeDateTimes[0].toString(), //.millisecondsSinceEpoch   //DateFormat('yyyy -MM -dd').format(_fromDateTime1)
+        "fromDate2": threeDateTimes[1].toString(),
+        "fromDate3": threeDateTimes[2].toString(),
+        "toDate": _toDateTime.toString(),
         "drugText": drugText,
         "nickName": _drugnameController.text,
         "notificationId1": notificationId1,

@@ -39,6 +39,7 @@ class _AddDrugBState extends State<AddDrugB> {
   }
 
 
+
   Widget _createAppBar(BuildContext context) {
     return new AppBar(
       backgroundColor: Color.fromRGBO(210, 180, 140, 1.0),
@@ -46,14 +47,14 @@ class _AddDrugBState extends State<AddDrugB> {
         new FlatButton(
           onPressed: () async {
             if(drugText.isEmpty||drugText==null){
-              Fluttertoast.showToast(msg: '尚未新增藥品名稱',
-                  toastLength: Toast.LENGTH_SHORT,
+              Fluttertoast.showToast(msg: '無法使用此裝置ID',
+                  toastLength: Toast.LENGTH_LONG,
                   gravity: ToastGravity.CENTER,
-                  timeInSecForIosWeb: 1,
-                  backgroundColor: Colors.black,
-                  textColor: Colors.white,
+                  backgroundColor: Colors.orange,
+                  textColor: Colors.black,
+                  webPosition: "center",
                   fontSize: 22.0);
-              return;
+
             }else{
               saveContact();
               // drugB.reference().push().set(drugText);
@@ -333,6 +334,16 @@ class _AddDrugBState extends State<AddDrugB> {
     int notificationId2 = Random().nextInt(1000);
     int notificationId3 = Random().nextInt(1000);
     var different = _toDateTime.difference(_fromDateTimeB1).inDays;
+    List<String> twoTimes = [];
+    twoTimes.add("${time1.hour}:${time1.minute}");
+    twoTimes.add("${time2.hour}:${time2.minute}");
+    twoTimes.sort((a,b) => a.compareTo(b));
+
+    List<String> threeTimes = [];
+    threeTimes.add("${time1.hour}:${time1.minute}");
+    threeTimes.add("${time2.hour}:${time2.minute}");
+    threeTimes.add("${time3.hour}:${time3.minute}");
+    threeTimes.sort((a,b) => a.compareTo(b));
 
     print("計算天數");
     print(different); // 19362
@@ -363,8 +374,8 @@ class _AddDrugBState extends State<AddDrugB> {
         "notificationId2": notificationId2,
         "startDate": DateFormat('yyyy/M/d').format(_fromDateTimeB1),
         "endDate": DateFormat('yyyy/M/d').format(_toDateTime),
-        "time1":"${time1.hour}:${time1.minute}",
-        "time2":"${time2.hour}:${time2.minute}",
+        "time1":twoTimes[0],
+        "time2":twoTimes[1],
       };
       drugB.reference().push().set(toJson);
     }
@@ -381,9 +392,9 @@ class _AddDrugBState extends State<AddDrugB> {
         "notificationId3": notificationId3,
         "startDate": DateFormat('yyyy/M/d').format(_fromDateTimeB1),
         "endDate": DateFormat('yyyy/M/d').format(_toDateTime),
-        "time1":"${time1.hour}:${time1.minute}",
-        "time2":"${time2.hour}:${time2.minute}",
-        "time3": "${time3.hour}:${time3.minute}",
+        "time1":threeTimes[0],
+        "time2":threeTimes[1],
+        "time3": threeTimes[2],
       };
       drugB.reference().push().set(toJson);
     }

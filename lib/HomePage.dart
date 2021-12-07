@@ -1,6 +1,7 @@
 //登入後Home顯示的介面
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter1/authHome/home2.dart';
 import 'package:flutter1/authHome/model/time_entry.dart';
 import 'package:flutter1/helpers/device_input.dart';
 //import 'authHome/set_time2.dart';

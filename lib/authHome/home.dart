@@ -207,14 +207,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
         ));
 
     final drugB = Ink(
-        width: MediaQuery
-            .of(context)
-            .size
-            .width / 2.0,
-        height: MediaQuery
-            .of(context)
-            .size
-            .height / 2.0,
+
         decoration: new BoxDecoration(
           //背景
           color: Color.fromRGBO(210, 180, 140, 1.0),
@@ -225,9 +218,11 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
           new Border.all(width: 1, color: Color.fromRGBO(210, 180, 140, 1.0)),
         ),
         child: Column(
-          // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
             Flexible(
+              flex: 1,
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: StreamBuilder(
@@ -250,15 +245,33 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                           (DateTime.parse(snapshot.value['fromDate1']));
                           DateTime toDate =
                           (DateTime.parse(snapshot.value['toDate']));
-                          String timeString =snapshot.value['time1'];
-                          TimeOfDay time = TimeOfDay(hour:int.parse(timeString.split(":")[0]),minute: int.parse(timeString.split(":")[1]));
+                          String timeString1 =snapshot.value['time1'];
+                          TimeOfDay time1 = TimeOfDay(hour:int.parse(timeString1.split(":")[0]),minute: int.parse(timeString1.split(":")[1]));
+                          String timeString2 =snapshot.value['time2'];
+                          TimeOfDay time2 = TimeOfDay(hour:int.parse(timeString2.split(":")[0]),minute: int.parse(timeString2.split(":")[1]));
+                          String timeString3 =snapshot.value['time3'];
+                          TimeOfDay time3 = TimeOfDay(hour:int.parse(timeString3.split(":")[0]),minute: int.parse(timeString3.split(":")[1]));
 
-                          int difmin = Duration(hours: time.hour - n.hour).inMilliseconds;
-                          int difsec = Duration(minutes: time.minute - n.minute).inMilliseconds;
+                          int difmin1 = Duration(hours: time1.hour - n.hour).inMilliseconds;
+                          int difsec1 = Duration(minutes: time1.minute - n.minute).inMilliseconds;
                           print("時間倒數：");
-                          print(difmin);
-                          print(difsec);
-                          int endTime1 = _endTime + difmin + difsec;
+                          print(difmin1);
+                          print(difsec1);
+                          int endTime1 = _endTime + difmin1 + difsec1;
+
+                          int difmin2 = Duration(hours: time2.hour - n.hour).inMilliseconds;
+                          int difsec2 = Duration(minutes: time2.minute - n.minute).inMilliseconds;
+                          print("時間倒數：");
+                          print(difmin2);
+                          print(difsec2);
+                          int endTime2 = _endTime + difmin2 + difsec2;
+
+                          int difmin3 = Duration(hours: time3.hour - n.hour).inMilliseconds;
+                          int difsec3 = Duration(minutes: time3.minute - n.minute).inMilliseconds;
+                          print("時間倒數：");
+                          print(difmin3);
+                          print(difsec3);
+                          int endTime3 = _endTime + difmin3 + difsec3;
 
                           return new InkWell(
                             child: Column(
@@ -270,8 +283,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                     nickName == null ||
                                     nickName == ""
                                     ? Column(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     new Text(
                                       "藥品名稱  ：",
@@ -330,18 +343,14 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                     ));
                                   },
                                 ),
-
-
                               ],
                             ),
                           );
                         },
                       );
                     } else {
-                      return Center(
-                          child: Text("尚未新增吃藥時間",style: TextStyle(
-                              fontSize: 30) )
-                      );
+                      return Text("尚未新增吃藥時間",style: TextStyle(
+                          fontSize: 30) );
                     }
                   },
                 ),

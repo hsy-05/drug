@@ -24,15 +24,15 @@ class _HomePageState extends State<HomePage> {
   int _currentIndex = 1;
   var _pageController = new PageController(initialPage: 1);
   String _title;
-  String d;
-  DatabaseReference databaseReference = FirebaseDatabase.instance.reference();
+
 
   @override
   initState(){
     _title = '吃藥倒數';
-    getd();
+    // getd();
+    GetDeviceID().getd();
     print(" GetDeviceID().getd()");
-    print(d);
+    print( GetDeviceID().getd());
   }
 
 
@@ -134,11 +134,11 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  Future<String> getd() async {
-    DataSnapshot snapshot = await databaseReference
-        .child('users').child(StaticInfo.userid)
-        .once();
-    d = snapshot.value['device_id'];
-    return d;
-  }
+  // Future<String> getd() async {
+  //   DataSnapshot snapshot = await databaseReference
+  //       .child('users').child(StaticInfo.userid)
+  //       .once();
+  //   d = snapshot.value['device_id'];
+  //   return d;
+  // }
 }

@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter1/HomePage.dart';
 import 'package:flutter1/authHome/model/time_entry.dart';
 import 'package:flutter1/authHome/set_time.dart';
 import 'package:flutter1/helpers/countDownTimer.dart';
@@ -11,48 +12,71 @@ import 'package:flutter_countdown_timer/index.dart';
 
 class Home extends StatefulWidget {
   Home({Key key}) : super(key: key);
+
   @override
   _HomeState createState() => _HomeState();
 }
 
+
 class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
+
   CountdownTimerController controller;
   TimeOfDay n = TimeOfDay.now();
-  int _endTime = new DateTime.now().millisecondsSinceEpoch ;
+  int _endTime = new DateTime.now().millisecondsSinceEpoch;
+  DatabaseReference mainReference = FirebaseDatabase.instance.reference();
+
+  DatabaseReference drugAdb;
+  DatabaseReference drugBdb;
+
   // int endTime = DateTime.now().millisecondsSinceEpoch +
   //     Duration(seconds: 30).inMilliseconds +
   //     Duration(minutes: 0).inMilliseconds;
 
-  DatabaseReference mainReference = FirebaseDatabase.instance.reference();
-
   @override
   void initState() {
     super.initState();
-    controller =
-        CountdownTimerController(endTime: _endTime, onEnd: onEnd, vsync: this);
+
     GetDeviceID().getd();
-    mainReference =
-        FirebaseDatabase.instance.reference().child("device").child(GetDeviceID.getDeviceID);
+    mainReference = FirebaseDatabase.instance
+        .reference()
+        .child("device")
+        .child(GetDeviceID.getDeviceID);
     drugAdb = mainReference.child("drugA");
     drugBdb = mainReference.child("drugB");
+
+    GetDrugTimes().drugTimes();
+
+    controller =
+        CountdownTimerController(endTime: _endTime, onEnd: onEnd, vsync: this);
+
+  }
+  _HomeState() {
+    mainReference.onChildAdded.listen(_onEntryAdded);
   }
 
+  _onEntryAdded(Event event) {
+    if (!mounted) return; ////
+    setState(() {
+      drugAdb = mainReference.child("drugA");
+      drugBdb = mainReference.child("drugB");
+
+    });
+    drugAdb1.onValue;
+  }
 
   void onEnd() {
     print('時間到');
   }
 
-  _HomeState() {
-    mainReference.onChildAdded.listen(_onEntryAdded);
-  }
-
   List<DrugARealtime> drugASaves = new List();
   List<DrugBRealtime> drugBSaves = new List();
-  List<DrugCRealtime> drugCSaves = new List();
-  List<DrugDRealtime> drugDSaves = new List();
+
+  List<int> timesA = [];
+  List<int> timesB = [];
 
   @override
   Widget build(BuildContext context) {
+    final referenceDB = FirebaseDatabase.instance.reference();
     final drugA = Ink(
 
         decoration: new BoxDecoration(
@@ -80,7 +104,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                     } else if (snapshot.hasData &&
                         snapshot.data.snapshot.value != null) {
                       return FirebaseAnimatedList(
-                        query: drugAdb,
+                        query: referenceDB.child("device")
+                            .child(GetDeviceID.getDeviceID).child("drugA"),
                         itemBuilder: (BuildContext context,
                             DataSnapshot snapshot,
                             Animation<double> animation,
@@ -267,7 +292,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                     } else if (snapshot.hasData &&
                         snapshot.data.snapshot.value != null) {
                       return FirebaseAnimatedList(
-                        query: drugBdb,
+                        query: referenceDB.child("device")
+                            .child(GetDeviceID.getDeviceID).child("drugB"),
                         itemBuilder: (BuildContext context,
                             DataSnapshot snapshot,
                             Animation<double> animation,
@@ -495,27 +521,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     );
   }
 
-  _onEntryAdded(Event event) {
-    if (!mounted) return; ////
-    setState(() {
-      userid = FirebaseAuth.instance.currentUser.uid;
-      n = TimeOfDay.now();
-      drugASaves.add(new DrugARealtime.fromSnapshot(event.snapshot));
-      drugASaves
-          .sort((we1, we2) => we1.fromDateTime.compareTo(we2.fromDateTime));
 
-      drugBSaves.add(new DrugBRealtime.fromSnapshot(event.snapshot));
-      drugBSaves
-          .sort((we1, we2) => we1.fromDateTime.compareTo(we2.fromDateTime));
-
-      drugCSaves.add(new DrugCRealtime.fromSnapshot(event.snapshot));
-      drugCSaves
-          .sort((we1, we2) => we1.fromDateTime.compareTo(we2.fromDateTime));
-      drugDSaves.add(new DrugDRealtime.fromSnapshot(event.snapshot));
-      drugDSaves
-          .sort((we1, we2) => we1.fromDateTime.compareTo(we2.fromDateTime));
-    });
-  }
 
 // Widget buildItem(String title, Widget page) {
 //   return GestureDetector(

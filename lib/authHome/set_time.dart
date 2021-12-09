@@ -3,6 +3,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter1/HomePage.dart';
 import 'package:flutter1/authHome/time_content/edit_time_form.dart';
 import 'package:flutter1/authHome/time_content/list_item.dart';
 import 'package:flutter1/authHome/time_content/add_time_form.dart';
@@ -27,9 +28,7 @@ class SetTime extends StatefulWidget {
   _SetState createState() => _SetState();
 }
 
-DatabaseReference mainReference = FirebaseDatabase.instance.reference();
-DatabaseReference drugAdb;
-DatabaseReference drugBdb;
+
 String userid = FirebaseAuth.instance.currentUser.uid;
 
 DatabaseReference drugAdb1 = FirebaseDatabase.instance
@@ -40,6 +39,10 @@ DatabaseReference drugAdb1 = FirebaseDatabase.instance
 
 class _SetState extends State<SetTime> {
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+  DatabaseReference mainReference = FirebaseDatabase.instance.reference();
+
+  DatabaseReference drugAdb;
+  DatabaseReference drugBdb;
 
   int count;
 

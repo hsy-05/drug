@@ -143,13 +143,12 @@ class DeviceID {
 class GetDeviceID{
   DatabaseReference mainReference = FirebaseDatabase.instance.reference();
   static String getDeviceID = "null";
-
-  Future<String> getd()  {
+  Stream<String> getd()  {
      mainReference
         .child('users').child(StaticInfo.userid)
         .once().then((DataSnapshot snapshot) {
       getDeviceID = snapshot.value['device_id'];
-      print("getDeviceID");
+      print("getDeviceID!!");
       print(getDeviceID);
       return getDeviceID;
     });

@@ -58,39 +58,6 @@ class DrugBText{
   }
 }
 
-class DrugCText{
-  static String drugCText;
-
-  Future<String> readDrugCText()  async{
-    await mainReference
-        .child("device").child(GetDeviceID.getDeviceID).child("drugC").once().then((DataSnapshot snapshot) {
-      Map<dynamic, dynamic> values = snapshot.value;
-      values.forEach((key, values) {
-        drugCText = values['drugText'];
-      });
-      print("名稱：");
-      print(drugCText);
-      return drugCText;
-    });
-  }
-}
-
-class DrugDText{
-  static String drugDText;
-
-  Future<String> readDrugDText()  async{
-    await mainReference
-        .child("device").child(GetDeviceID.getDeviceID).child("drugD").once().then((DataSnapshot snapshot) {
-      Map<dynamic, dynamic> values = snapshot.value;
-      values.forEach((key, values) {
-        drugDText = values['drugText'];
-      });
-      print("名稱：");
-      print(drugDText);
-      return drugDText;
-    });
-  }
-}
 
 class CheckDeviceID{
   // static Map devicesID;
